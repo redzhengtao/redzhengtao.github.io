@@ -71,6 +71,106 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-css-结构伪类选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-20T14:43:55.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"><a href="#结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素" class="headerlink" title="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"></a>结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素</h3><table>
+<thead>
+<tr>
+<th align="left">选择符</th>
+<th align="left">解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中的第一个子元素 E</td>
+</tr>
+<tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中最后一个E元素</td>
+</tr>
+<tr>
+<td align="left">E:nth-child(n)</td>
+<td align="left">匹配父元素中的第n个子元素E</td>
+</tr>
+<tr>
+<td align="left">E:first-of-type</td>
+<td align="left">指定类型E的第一个</td>
+</tr>
+<tr>
+<td align="left">E:last-of-type</td>
+<td align="left">指定类型E的最后一个</td>
+</tr>
+<tr>
+<td align="left">E:nth-of-type(n)</td>
+<td align="left">指定类型E的第n个</td>
+</tr>
+</tbody></table>
+<pre><code>        ul li:first-child&#123;
+        background: #66945e;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909431-66e24bea-9432-4b85-ba2d-669a3a601a71.JPG" alt="avater"></p>
+<pre><code>        ul li:last-child&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909599-6f1dd4b4-f237-44b4-9cf8-7f37b6c6952d.JPG" alt="avater"></p>
+<pre><code>         p:nth-child(2)&#123;
+        background: blue;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909650-14992b3c-d134-448d-a2a0-7fda8c1220ea.JPG" alt="avater"></p>
+<pre><code>         p:nth-of-type(1)&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909853-56c38ad5-b52d-4444-a7b9-ce96c081f439.JPG" alt="avater"></p>
+<pre><code>        同理也有
+            ul li:first-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        和
+            ul li:last-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        这里就不放图了
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claphwmcd0002kcuqc6037za5" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-css-层次选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
@@ -118,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clao67dj40001k4uqegljgfq9" data-title="css 层次选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claphwmcc0001kcuqcyfebvuf" data-title="css 层次选择器" class="article-share-link">Share</a>
       
       
       
@@ -158,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clao67dj00000k4uq2crz5xxe" data-title="css 基本选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claphwmc80000kcuq2k674pah" data-title="css 基本选择器" class="article-share-link">Share</a>
       
       
       
@@ -197,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clao67dja0003k4uqg5omfnum" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="claphwmcf0004kcuq7gdoampq" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
       
       
       
@@ -248,7 +348,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="clao67dj60002k4uqc26uf7vj" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="claphwmce0003kcuq6ckc1rw4" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -289,6 +389,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
+          </li>
         
           <li>
             <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
