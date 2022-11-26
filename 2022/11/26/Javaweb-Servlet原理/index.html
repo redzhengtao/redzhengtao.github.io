@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Javaweb Servlet原理 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Servlet原理  这里扩展一下写404网页先写ErrorServlet类    package com.red.servlet;      import javax.servlet.ServletException;     import javax.servlet.http.HttpServlet;     import javax.servlet.http.HttpServletReque">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javaweb Servlet原理">
+<meta property="og:url" content="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="Servlet原理  这里扩展一下写404网页先写ErrorServlet类    package com.red.servlet;      import javax.servlet.ServletException;     import javax.servlet.http.HttpServlet;     import javax.servlet.http.HttpServletReque">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/204077714-c2cbc677-d0bb-4ed4-808d-0e82565fd056.JPG">
+<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/204077563-2d48c0bc-3f16-494c-90df-5c8c9e0fb5ef.JPG">
+<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/204077622-87f3ed2d-2da4-4f74-8359-83b75a7f6a31.JPG">
+<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/204077662-1ac10368-6150-4ccb-883c-f48655917040.JPG">
+<meta property="article:published_time" content="2022-11-26T07:21:52.000Z">
+<meta property="article:modified_time" content="2022-11-26T07:37:39.743Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/118366174/204077714-c2cbc677-d0bb-4ed4-808d-0e82565fd056.JPG">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Javaweb-Servlet原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2022-11-26T07:21:52.000Z" itemprop="datePublished">2022-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Javaweb Servlet原理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Servlet原理"><a href="#Servlet原理" class="headerlink" title="Servlet原理"></a>Servlet原理</h1><p><img src="https://user-images.githubusercontent.com/118366174/204077714-c2cbc677-d0bb-4ed4-808d-0e82565fd056.JPG" alt="avater"></p>
+<hr>
+<h3 id="这里扩展一下写404网页"><a href="#这里扩展一下写404网页" class="headerlink" title="这里扩展一下写404网页"></a>这里扩展一下写404网页</h3><h1 id="先写ErrorServlet类"><a href="#先写ErrorServlet类" class="headerlink" title="先写ErrorServlet类"></a>先写ErrorServlet类</h1><pre><code>    package com.red.servlet;
+
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServlet;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    import java.io.PrintWriter;
+
+    public class ErrorServlet extends HttpServlet &#123;
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+            resp.setContentType(&quot;text/html&quot;);
+            resp.setCharacterEncoding(&quot;utf-8&quot;);
+
+            PrintWriter writer = resp.getWriter();
+            writer.print(&quot;&lt;h1&gt;404&lt;/h1&gt;&quot;);
+        &#125;
+
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+            super.doPost(req, resp);
+        &#125;
+    &#125;
+    
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/204077563-2d48c0bc-3f16-494c-90df-5c8c9e0fb5ef.JPG" alt="avater"></p>
+<h1 id="再编辑web-xml"><a href="#再编辑web-xml" class="headerlink" title="再编辑web.xml"></a>再编辑web.xml</h1><pre><code>    &lt;web-app&gt;
+      &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+      
+      &lt;!--编写Servlet的映射--&gt;
+      
+      
+      &lt;servlet&gt;
+        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.red.servlet.HelloServlet&lt;/servlet-class&gt;
+      &lt;/servlet&gt;
+      &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/hello&lt;/url-pattern&gt;
+      &lt;/servlet-mapping&gt;
+         &lt;!--映射到错误类--&gt;
+         
+         
+      &lt;servlet&gt;
+        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.red.servlet.ErrorServlet&lt;/servlet-class&gt;
+      &lt;/servlet&gt;
+      &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
+        &lt;!-- 这里是正则 *代表任意字符--&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+      &lt;/servlet-mapping&gt;
+
+
+    &lt;/web-app&gt;
+</code></pre>
+<h1 id="运行tomcat服务器，打开网页"><a href="#运行tomcat服务器，打开网页" class="headerlink" title="运行tomcat服务器，打开网页"></a>运行tomcat服务器，打开网页</h1><p><img src="https://user-images.githubusercontent.com/118366174/204077622-87f3ed2d-2da4-4f74-8359-83b75a7f6a31.JPG" alt="avater"></p>
+<h1 id="修改url路径到hello，还是会找到-HelloServlet-网页"><a href="#修改url路径到hello，还是会找到-HelloServlet-网页" class="headerlink" title="修改url路径到hello，还是会找到 HelloServlet 网页"></a>修改url路径到hello，还是会找到 HelloServlet 网页</h1><p><img src="https://user-images.githubusercontent.com/118366174/204077662-1ac10368-6150-4ccb-883c-f48655917040.JPG" alt="avater"></p>
+<h1 id="优先级问题"><a href="#优先级问题" class="headerlink" title="优先级问题"></a>优先级问题</h1><h2 id="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"><a href="#指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求" class="headerlink" title="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"></a>指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="claxmenz10000tsuqh72p9ely" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">spring 依赖注入之setter注入</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/">spring 依赖注入之setter注入</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/">css 属性选择器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
