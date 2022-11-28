@@ -71,6 +71,88 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Javaweb-Response下载文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2022-11-28T15:40:16.000Z" itemprop="datePublished">2022-11-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="https://user-images.githubusercontent.com/118366174/204320138-59c5dc0f-e8f3-4ae9-933d-85112b98e34e.JPG" alt="avater"></p>
+<p><img src="https://user-images.githubusercontent.com/118366174/204319356-bc0a2187-35a8-4310-a3d3-685f67037657.JPG" alt="avater"></p>
+<h1 id="自己的源码"><a href="#自己的源码" class="headerlink" title="自己的源码"></a>自己的源码</h1><pre><code>public class FileServlet extends HttpServlet &#123;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+        String realPath = &quot;D:\\work\\kuang\\servlet\\javaweb\\response\\src\\main\\resources\\小小红.jpg&quot;;
+        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;) + 1);
+        resp.setHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot;+ URLEncoder.encode(fileName,&quot;UTF-8&quot;));
+        FileInputStream in = new FileInputStream(realPath);
+        int len=0;
+        byte[] buffer=new byte[1024];
+        ServletOutputStream out = resp.getOutputStream();
+        while((len=in.read(buffer))&gt;0)&#123;
+            out.write(buffer,0,len);
+        &#125;
+        in.close();
+        out.close();
+
+    &#125;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+        super.doPost(req, resp);
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h1 id="mapping注册"><a href="#mapping注册" class="headerlink" title="mapping注册"></a>mapping注册</h1><pre><code>&lt;!DOCTYPE web-app PUBLIC
+ &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
+ &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
+
+&lt;web-app&gt;
+  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.kuang.servlet.FileServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/down&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</code></pre>
+<h1 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h1><p><img src="https://user-images.githubusercontent.com/118366174/204320404-69519b30-aa0a-4964-a945-f46f390eb0c3.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clb0yrais00019wuqc21mdqj3" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Javaweb-Servlet原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" class="article-date">
@@ -158,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="claxmenz10000tsuqh72p9ely" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clb0yraio00009wuqdloy8eyf" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
       
       
       
@@ -207,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="claxmenz90007tsuq8x3scs9i" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clb0yraiw00079wuqfj1ed7ed" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
       
       
       
@@ -307,7 +389,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claxmenz60002tsuq5km1b812" data-title="css 属性选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yraiu00039wuq6197d9g6" data-title="css 属性选择器" class="article-share-link">Share</a>
       
       
       
@@ -407,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claxmenz70003tsuqfin24t4f" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yraiv00059wuqc7dn4wi3" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
       
       
       
@@ -466,7 +548,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claxmenz80005tsuq2u974x1j" data-title="css 层次选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yraiu00049wuqduxxho7c" data-title="css 层次选择器" class="article-share-link">Share</a>
       
       
       
@@ -506,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="claxmenz50001tsuqe7d8a89e" data-title="css 基本选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yrait00029wuq2oj6cw62" data-title="css 基本选择器" class="article-share-link">Share</a>
       
       
       
@@ -545,7 +627,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="claxmenz90006tsuq2nyxd7hu" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clb0yraix00089wuq248h8ejc" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
       
       
       
@@ -596,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="claxmenz80004tsuqchh65ami" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="clb0yraiw00069wuqha0h16rp" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -639,6 +721,10 @@
       <ul>
         
           <li>
+            <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
+          </li>
+        
+          <li>
             <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
           </li>
         
@@ -652,10 +738,6 @@
         
           <li>
             <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
           </li>
         
       </ul>
