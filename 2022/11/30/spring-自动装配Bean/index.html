@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>spring 自动装配Bean | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="pojo下三个类，cat,dog,peoplepackage com.kuang.pojo; public class Cat &amp;#123;     public void shout() &amp;#123;         System.out.println(&quot;miao~&quot;);     &amp;#125;  &amp;#125;   package com.kuang.pojo; public">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring 自动装配Bean">
+<meta property="og:url" content="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="pojo下三个类，cat,dog,peoplepackage com.kuang.pojo; public class Cat &amp;#123;     public void shout() &amp;#123;         System.out.println(&quot;miao~&quot;);     &amp;#125;  &amp;#125;   package com.kuang.pojo; public">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG">
+<meta property="article:published_time" content="2022-11-30T02:14:59.000Z">
+<meta property="article:modified_time" content="2022-11-30T02:38:08.217Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-spring-自动装配Bean" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" class="article-date">
+  <time class="dt-published" datetime="2022-11-30T02:14:59.000Z" itemprop="datePublished">2022-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      spring 自动装配Bean
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="pojo下三个类，cat-dog-people"><a href="#pojo下三个类，cat-dog-people" class="headerlink" title="pojo下三个类，cat,dog,people"></a>pojo下三个类，cat,dog,people</h3><pre><code>package com.kuang.pojo;
+public class Cat &#123;
+    public void shout() &#123;
+        System.out.println(&quot;miao~&quot;);
+    &#125;
+
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class Dog &#123;
+    public void shout() &#123;
+        System.out.println(&quot;wang~&quot;);
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class People &#123;
+    private Cat cat;
+    private Dog dog;
+    private String name;
+</code></pre>
+<hr>
+<h3 id="beans配置文件"><a href="#beans配置文件" class="headerlink" title="beans配置文件"></a>beans配置文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+        &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+        &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+        &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot;&gt;
+            &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;cat&quot; ref=&quot;cat&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;dog&quot; ref=&quot;dog&quot;&gt;&lt;/property&gt;
+        &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<hr>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><pre><code>import com.kuang.pojo.People;
+import org.junit.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class t &#123;
+    @Test
+    public void ttt()&#123;
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+        People people = context.getBean(&quot;people&quot;, People.class);
+        people.getDog().shout();
+        people.getCat().shout();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><pre><code>wang~
+miao~
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p>如果能在bean里自动寻找cat和dog的话，自动装配，就能减少代码量</p>
+</blockquote>
+<h3 id="更改配置文件"><a href="#更改配置文件" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byName&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试成功！"><a href="#测试成功！" class="headerlink" title="测试成功！"></a>测试成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><h6 id="当一个bean节点带有-autowire-byName的属性时。"><a href="#当一个bean节点带有-autowire-byName的属性时。" class="headerlink" title="当一个bean节点带有 autowire byName的属性时。"></a>当一个bean节点带有 autowire byName的属性时。</h6><h6 id="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"><a href="#将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。" class="headerlink" title="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"></a>将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。</h6><h6 id="去spring容器中寻找是否有此字符串名称id的对象。"><a href="#去spring容器中寻找是否有此字符串名称id的对象。" class="headerlink" title="去spring容器中寻找是否有此字符串名称id的对象。"></a>去spring容器中寻找是否有此字符串名称id的对象。</h6><h6 id="如果有，就取出注入；如果没有，就报空指针异常。"><a href="#如果有，就取出注入；如果没有，就报空指针异常。" class="headerlink" title="如果有，就取出注入；如果没有，就报空指针异常。"></a>如果有，就取出注入；如果没有，就报空指针异常。</h6><hr>
+<h1 id="下面介绍-autowire-byType-按类型自动装配"><a href="#下面介绍-autowire-byType-按类型自动装配" class="headerlink" title="下面介绍 autowire byType (按类型自动装配)"></a>下面介绍 autowire byType (按类型自动装配)</h1><h3 id="更改配置文件-1"><a href="#更改配置文件-1" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byType&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试类此时只需要获取对象类型，甚至不用id"><a href="#测试类此时只需要获取对象类型，甚至不用id" class="headerlink" title="测试类此时只需要获取对象类型，甚至不用id"></a>测试类此时只需要获取对象类型，甚至不用id</h3><pre><code>    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+    People people = context.getBean(People.class);
+    people.getDog().shout();
+    people.getCat().shout();
+</code></pre>
+<h3 id="测试，运行成功！"><a href="#测试，运行成功！" class="headerlink" title="测试，运行成功！"></a>测试，运行成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p><img src="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clb31gwas0009vcuq4q103xcl" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Javaweb Response下载文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/">spring 依赖注入之setter注入</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/">css 属性选择器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

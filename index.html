@@ -71,6 +71,134 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-spring-自动装配Bean" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" class="article-date">
+  <time class="dt-published" datetime="2022-11-30T02:14:59.000Z" itemprop="datePublished">2022-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="pojo下三个类，cat-dog-people"><a href="#pojo下三个类，cat-dog-people" class="headerlink" title="pojo下三个类，cat,dog,people"></a>pojo下三个类，cat,dog,people</h3><pre><code>package com.kuang.pojo;
+public class Cat &#123;
+    public void shout() &#123;
+        System.out.println(&quot;miao~&quot;);
+    &#125;
+
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class Dog &#123;
+    public void shout() &#123;
+        System.out.println(&quot;wang~&quot;);
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class People &#123;
+    private Cat cat;
+    private Dog dog;
+    private String name;
+</code></pre>
+<hr>
+<h3 id="beans配置文件"><a href="#beans配置文件" class="headerlink" title="beans配置文件"></a>beans配置文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+        &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+        &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+        &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot;&gt;
+            &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;cat&quot; ref=&quot;cat&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;dog&quot; ref=&quot;dog&quot;&gt;&lt;/property&gt;
+        &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<hr>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><pre><code>import com.kuang.pojo.People;
+import org.junit.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class t &#123;
+    @Test
+    public void ttt()&#123;
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+        People people = context.getBean(&quot;people&quot;, People.class);
+        people.getDog().shout();
+        people.getCat().shout();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><pre><code>wang~
+miao~
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p>如果能在bean里自动寻找cat和dog的话，自动装配，就能减少代码量</p>
+</blockquote>
+<h3 id="更改配置文件"><a href="#更改配置文件" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byName&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试成功！"><a href="#测试成功！" class="headerlink" title="测试成功！"></a>测试成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><h6 id="当一个bean节点带有-autowire-byName的属性时。"><a href="#当一个bean节点带有-autowire-byName的属性时。" class="headerlink" title="当一个bean节点带有 autowire byName的属性时。"></a>当一个bean节点带有 autowire byName的属性时。</h6><h6 id="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"><a href="#将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。" class="headerlink" title="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"></a>将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。</h6><h6 id="去spring容器中寻找是否有此字符串名称id的对象。"><a href="#去spring容器中寻找是否有此字符串名称id的对象。" class="headerlink" title="去spring容器中寻找是否有此字符串名称id的对象。"></a>去spring容器中寻找是否有此字符串名称id的对象。</h6><h6 id="如果有，就取出注入；如果没有，就报空指针异常。"><a href="#如果有，就取出注入；如果没有，就报空指针异常。" class="headerlink" title="如果有，就取出注入；如果没有，就报空指针异常。"></a>如果有，就取出注入；如果没有，就报空指针异常。</h6><hr>
+<h1 id="下面介绍-autowire-byType-按类型自动装配"><a href="#下面介绍-autowire-byType-按类型自动装配" class="headerlink" title="下面介绍 autowire byType (按类型自动装配)"></a>下面介绍 autowire byType (按类型自动装配)</h1><h3 id="更改配置文件-1"><a href="#更改配置文件-1" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byType&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试类此时只需要获取对象类型，甚至不用id"><a href="#测试类此时只需要获取对象类型，甚至不用id" class="headerlink" title="测试类此时只需要获取对象类型，甚至不用id"></a>测试类此时只需要获取对象类型，甚至不用id</h3><pre><code>    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+    People people = context.getBean(People.class);
+    people.getDog().shout();
+    people.getCat().shout();
+</code></pre>
+<h3 id="测试，运行成功！"><a href="#测试，运行成功！" class="headerlink" title="测试，运行成功！"></a>测试，运行成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p><img src="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clb31gwas0009vcuq4q103xcl" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Javaweb-Response下载文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" class="article-date">
@@ -141,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clb0yxlpq0000fouq4rd596a7" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clb31gwaf0000vcuq2dv63kca" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
       
       
       
@@ -240,7 +368,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clb0yxlpv0002fouqdgub9ekv" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clb31gwaj0001vcuq0smy1htc" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
       
       
       
@@ -289,7 +417,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clb0yxlpy0007fouqewyga3xx" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clb31gwar0008vcuqgc2qcycg" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
       
       
       
@@ -389,7 +517,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yxlpx0004fouq3cshfxsy" data-title="css 属性选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwam0004vcuqe5m8aolo" data-title="css 属性选择器" class="article-share-link">Share</a>
       
       
       
@@ -489,7 +617,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yxlpx0005fouq1mpg3xry" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwam0005vcuqf3r2c5ja" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
       
       
       
@@ -548,7 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yxlpw0003fouq74k22vp9" data-title="css 层次选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwak0002vcuq4vbndrz0" data-title="css 层次选择器" class="article-share-link">Share</a>
       
       
       
@@ -588,7 +716,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb0yxlpu0001fouq0hcme9mn" data-title="css 基本选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwal0003vcuqeuqi01pc" data-title="css 基本选择器" class="article-share-link">Share</a>
       
       
       
@@ -627,7 +755,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clb0yxlpz0008fouq4yzr8mme" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clb31gwaq0006vcuq6bzy8cr5" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
       
       
       
@@ -678,7 +806,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="clb0yxlpy0006fouq5xgdf85k" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="clb31gwar0007vcuq5wqq27hr" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -721,6 +849,10 @@
       <ul>
         
           <li>
+            <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
+          </li>
+        
+          <li>
             <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
           </li>
         
@@ -734,10 +866,6 @@
         
           <li>
             <a href="/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/">css 属性选择器</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
           </li>
         
       </ul>
