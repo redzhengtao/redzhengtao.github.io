@@ -71,6 +71,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-reggie-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/25/reggie-day01/" class="article-date">
+  <time class="dt-published" datetime="2023-02-25T15:35:18.000Z" itemprop="datePublished">2023-02-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/02/25/reggie-day01/">reggie-day01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="首先先介绍下静态资源映射吧"><a href="#首先先介绍下静态资源映射吧" class="headerlink" title="首先先介绍下静态资源映射吧"></a>首先先介绍下静态资源映射吧</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Configuration</span><br><span class="line">public class WebMvcConfig extends WebMvcConfigurationSupport &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 设置静态资源映射</span><br><span class="line">     * @param registry</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    protected void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">        log.info(&quot;开始进行静态资源映射...&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;/backend/**&quot;).addResourceLocations(&quot;classpath:/backend/&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;/front/**&quot;).addResourceLocations(&quot;classpath:/front/&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry-好复杂，自己搜索吧……-呃呃"><a href="#上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry-好复杂，自己搜索吧……-呃呃" class="headerlink" title="上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry,好复杂，自己搜索吧……..呃呃"></a>上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry,好复杂，自己搜索吧……..呃呃</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/25/reggie-day01/" data-id="clek4q3t400000wuq2s212d0i" data-title="reggie-day01" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2-25" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/02/25/2-25/" class="article-date">
@@ -93,12 +133,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>�úú�</p>
-
+        <h1 id="好好好"><a href="#好好好" class="headerlink" title="好好好"></a>好好好</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/25/2-25/" data-id="clek00obm0000h0uqhjcicc3z" data-title="2.25" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/25/2-25/" data-id="clek0595h0000youq7r5lft69" data-title="2.25" class="article-share-link">Share</a>
       
       
       
@@ -226,7 +265,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clb31gwas0009vcuq4q103xcl" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clek0595r0009youqdfdm5dhk" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
       
       
       
@@ -308,7 +347,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clb31gwaf0000vcuq2dv63kca" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clek0595n0002youqe14tflw8" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
       
       
       
@@ -407,7 +446,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clb31gwaj0001vcuq0smy1htc" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clek0595o0003youq9htb08mm" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
       
       
       
@@ -456,7 +495,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clb31gwar0008vcuqgc2qcycg" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clek0595q0007youq9jebbdvz" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
       
       
       
@@ -556,7 +595,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwam0004vcuqe5m8aolo" data-title="css 属性选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595p0005youq89ioa481" data-title="css 属性选择器" class="article-share-link">Share</a>
       
       
       
@@ -656,7 +695,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwam0005vcuqf3r2c5ja" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595p0006youq61tr0mnu" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
       
       
       
@@ -715,7 +754,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwak0002vcuq4vbndrz0" data-title="css 层次选择器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595o0004youq4yqr1rqa" data-title="css 层次选择器" class="article-share-link">Share</a>
       
       
       
@@ -755,46 +794,7 @@ miao~
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clb31gwal0003vcuqeuqi01pc" data-title="css 基本选择器" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-我的第一篇博客文章" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="article-date">
-  <time class="dt-published" datetime="2022-11-16T13:51:51.000Z" itemprop="datePublished">2022-11-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br><img src="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg" alt="avater"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clb31gwaq0006vcuq6bzy8cr5" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595l0001youq95cegijz" data-title="css 基本选择器" class="article-share-link">Share</a>
       
       
       
@@ -842,6 +842,10 @@ miao~
       <ul>
         
           <li>
+            <a href="/2023/02/25/reggie-day01/">reggie-day01</a>
+          </li>
+        
+          <li>
             <a href="/2023/02/25/2-25/">2.25</a>
           </li>
         
@@ -855,10 +859,6 @@ miao~
         
           <li>
             <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/">spring 依赖注入之setter注入</a>
           </li>
         
       </ul>
