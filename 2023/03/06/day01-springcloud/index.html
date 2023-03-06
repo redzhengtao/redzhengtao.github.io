@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>day01-springcloud | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="注册RestTemplateRestTemplate 概述发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。 spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="day01-springcloud">
+<meta property="og:url" content="http://example.com/2023/03/06/day01-springcloud/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="注册RestTemplateRestTemplate 概述发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。 spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-06T13:05:05.000Z">
+<meta property="article:modified_time" content="2023-03-06T13:18:15.495Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-day01-springcloud" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/06/day01-springcloud/" class="article-date">
+  <time class="dt-published" datetime="2023-03-06T13:05:05.000Z" itemprop="datePublished">2023-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      day01-springcloud
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="注册RestTemplate"><a href="#注册RestTemplate" class="headerlink" title="注册RestTemplate"></a>注册RestTemplate</h1><h3 id="RestTemplate-概述"><a href="#RestTemplate-概述" class="headerlink" title="RestTemplate 概述"></a>RestTemplate 概述</h3><p>发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。</p>
+<p>spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与 http 服务的通信方式，统一了 RESTful 的标准，封装了 http 链接， 我们只需要传入 url 及返回值类型即可。相较于之前常用的 HttpClient，RestTemplate 是一种更优雅的调用 RESTful 服务的方式。</p>
+<p>在 Spring 应用程序中访问第三方 REST 服务与使用 Spring RestTemplate 类有关。RestTemplate 类的设计原则与许多其他 Spring 模板类(例如 JdbcTemplate、JmsTemplate)相同，为执行复杂任务提供了一种具有默认行为的简化方法。</p>
+<p>RestTemplate 默认依赖 JDK 提供 http 连接的能力（HttpURLConnection），如果有需要的话也可以通过 setRequestFactory 方法替换为例如 Apache HttpComponents、Netty 或 OkHttp 等其它 HTTP library。</p>
+<p>考虑到 RestTemplate 类是为调用 REST 服务而设计的，因此它的主要方法与 REST 的基础紧密相连就不足为奇了，后者是 HTTP 协议的方法:HEAD、GET、POST、PUT、DELETE 和 OPTIONS。例如，RestTemplate 类具有 headForHeaders()、getForObject()、postForObject()、put()和 delete()等方法。</p>
+<h2 id="首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例："><a href="#首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例：" class="headerlink" title="首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例："></a>首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现远程调用"><a href="#实现远程调用" class="headerlink" title="实现远程调用"></a>实现远程调用</h1><p>修改order-service服务中的cn.itcast.order.service包下的OrderService类中的queryOrderById方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderService</span> &#123;</span><br><span class="line">    <span class="comment">//原来就有的</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line">    <span class="comment">//添加RestTemplate </span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">queryOrderById</span><span class="params">(Long orderId)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.查询订单</span></span><br><span class="line">        <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> orderMapper.findById(orderId);</span><br><span class="line">        <span class="comment">//2.1 url地址</span></span><br><span class="line">        String url=<span class="string">&quot;http://localhost:8081/user/&quot;</span>+order.getUserId();</span><br><span class="line">        <span class="comment">//2.2 发起调用</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> restTemplate.getForObject(url, User.class);</span><br><span class="line">        <span class="comment">//存入order</span></span><br><span class="line">        order.setUser(user);</span><br><span class="line">        <span class="comment">// 4.返回</span></span><br><span class="line">        <span class="keyword">return</span> order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="json文件如下"><a href="#json文件如下" class="headerlink" title="json文件如下"></a>json文件如下</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">101</span><span class="punctuation">,</span><span class="attr">&quot;price&quot;</span><span class="punctuation">:</span><span class="number">699900</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;Apple 苹果 iPhone 12 &quot;</span><span class="punctuation">,</span><span class="attr">&quot;num&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;userId&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;user&quot;</span><span class="punctuation">:</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;柳岩&quot;</span><span class="punctuation">,</span><span class="attr">&quot;address&quot;</span><span class="punctuation">:</span><span class="string">&quot;湖南省衡阳市&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/06/day01-springcloud/" data-id="clewu6bmq0000xwuq5jf29i57" data-title="day01-springcloud" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/02/jvm-day1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">jvm-day1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/06/day01-springcloud/">day01-springcloud</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/02/jvm-day1/">jvm-day1</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/26/reggie-day02/">reggie-day02</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/25/reggie-day01/">reggie-day01</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/25/2-25/">2.25</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

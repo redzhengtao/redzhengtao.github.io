@@ -71,6 +71,146 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-day01-springcloud" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/06/day01-springcloud/" class="article-date">
+  <time class="dt-published" datetime="2023-03-06T13:05:05.000Z" itemprop="datePublished">2023-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/06/day01-springcloud/">day01-springcloud</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="注册RestTemplate"><a href="#注册RestTemplate" class="headerlink" title="注册RestTemplate"></a>注册RestTemplate</h1><h3 id="RestTemplate-概述"><a href="#RestTemplate-概述" class="headerlink" title="RestTemplate 概述"></a>RestTemplate 概述</h3><p>发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。</p>
+<p>spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与 http 服务的通信方式，统一了 RESTful 的标准，封装了 http 链接， 我们只需要传入 url 及返回值类型即可。相较于之前常用的 HttpClient，RestTemplate 是一种更优雅的调用 RESTful 服务的方式。</p>
+<p>在 Spring 应用程序中访问第三方 REST 服务与使用 Spring RestTemplate 类有关。RestTemplate 类的设计原则与许多其他 Spring 模板类(例如 JdbcTemplate、JmsTemplate)相同，为执行复杂任务提供了一种具有默认行为的简化方法。</p>
+<p>RestTemplate 默认依赖 JDK 提供 http 连接的能力（HttpURLConnection），如果有需要的话也可以通过 setRequestFactory 方法替换为例如 Apache HttpComponents、Netty 或 OkHttp 等其它 HTTP library。</p>
+<p>考虑到 RestTemplate 类是为调用 REST 服务而设计的，因此它的主要方法与 REST 的基础紧密相连就不足为奇了，后者是 HTTP 协议的方法:HEAD、GET、POST、PUT、DELETE 和 OPTIONS。例如，RestTemplate 类具有 headForHeaders()、getForObject()、postForObject()、put()和 delete()等方法。</p>
+<h2 id="首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例："><a href="#首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例：" class="headerlink" title="首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例："></a>首先，我们在order-service服务中的OrderApplication启动类中，注册RestTemplate实例：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现远程调用"><a href="#实现远程调用" class="headerlink" title="实现远程调用"></a>实现远程调用</h1><p>修改order-service服务中的cn.itcast.order.service包下的OrderService类中的queryOrderById方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderService</span> &#123;</span><br><span class="line">    <span class="comment">//原来就有的</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line">    <span class="comment">//添加RestTemplate </span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">queryOrderById</span><span class="params">(Long orderId)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.查询订单</span></span><br><span class="line">        <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> orderMapper.findById(orderId);</span><br><span class="line">        <span class="comment">//2.1 url地址</span></span><br><span class="line">        String url=<span class="string">&quot;http://localhost:8081/user/&quot;</span>+order.getUserId();</span><br><span class="line">        <span class="comment">//2.2 发起调用</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> restTemplate.getForObject(url, User.class);</span><br><span class="line">        <span class="comment">//存入order</span></span><br><span class="line">        order.setUser(user);</span><br><span class="line">        <span class="comment">// 4.返回</span></span><br><span class="line">        <span class="keyword">return</span> order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="json文件如下"><a href="#json文件如下" class="headerlink" title="json文件如下"></a>json文件如下</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">101</span><span class="punctuation">,</span><span class="attr">&quot;price&quot;</span><span class="punctuation">:</span><span class="number">699900</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;Apple 苹果 iPhone 12 &quot;</span><span class="punctuation">,</span><span class="attr">&quot;num&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;userId&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;user&quot;</span><span class="punctuation">:</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;柳岩&quot;</span><span class="punctuation">,</span><span class="attr">&quot;address&quot;</span><span class="punctuation">:</span><span class="string">&quot;湖南省衡阳市&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/06/day01-springcloud/" data-id="clewu6bmq0000xwuq5jf29i57" data-title="day01-springcloud" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-jvm-day1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/02/jvm-day1/" class="article-date">
+  <time class="dt-published" datetime="2023-03-02T04:01:33.000Z" itemprop="datePublished">2023-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/02/jvm-day1/">jvm-day1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是垃圾（Garbage）"><a href="#什么是垃圾（Garbage）" class="headerlink" title="什么是垃圾（Garbage）"></a>什么是垃圾（Garbage）</h1><p>###垃圾是指在运行程序中没有任何指针指向的对象，这个对象就是需要要被回收的垃圾</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/02/jvm-day1/" data-id="clewu6bmv0001xwuqcd0efrf8" data-title="jvm-day1" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-reggie-day02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/26/reggie-day02/" class="article-date">
+  <time class="dt-published" datetime="2023-02-26T02:11:34.000Z" itemprop="datePublished">2023-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/02/26/reggie-day02/">reggie-day02</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>前面我们已经完成了后台系统的员工登录功能开发，但是还存在一个问题:用户如果不登录，直接访问系统首页面，照样可以正常访问。</p>
+<p>这种设计并不合理，我们希望看到的效果应该是，<strong>只有登录成功后才可以访问系统中的页面</strong>，如果没有登录则跳转到登录页面。</p>
+<p>那么，具体应该怎么实现呢?</p>
+<p>答案就是使用<strong>过滤器或者拦截器</strong>，在过滤器或者拦截器中<strong>判断用户是否已经完成登录</strong>，如果没有登录则跳转到登录页面</p>
+<h1 id="在启动类上加入注解-ServletComponentScan"><a href="#在启动类上加入注解-ServletComponentScan" class="headerlink" title="在启动类上加入注解@ServletComponentScan"></a>在启动类上加入注解@ServletComponentScan</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@SpringBootApplication</span><br><span class="line">@ServletComponentScan</span><br><span class="line">public class ReggieApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ReggieApplication.class,args);</span><br><span class="line">        log.info(&quot;项目启动成功！！！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建自定义过滤器LoginCheckFilter"><a href="#创建自定义过滤器LoginCheckFilter" class="headerlink" title="创建自定义过滤器LoginCheckFilter"></a>创建自定义过滤器LoginCheckFilter</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @ClassName: LoginCheckFilter</span><br><span class="line"> * @Description: 检查用户是否已经完成登录</span><br><span class="line"> * @author: 名字</span><br><span class="line"> * @date: 2022/5/10  15:57</span><br><span class="line"> */</span><br><span class="line">@WebFilter(filterName = &quot;LoginCheckFilter&quot;,urlPatterns = &quot;/*&quot;)</span><br><span class="line">@Slf4j</span><br><span class="line">public class LoginCheckFilter implements Filter &#123;</span><br><span class="line">    //路径匹配器，支持通配符</span><br><span class="line">    public static final AntPathMatcher PATH_MATCHER=new AntPathMatcher();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line">        HttpServletRequest request=(HttpServletRequest) servletRequest;</span><br><span class="line">        HttpServletResponse response=(HttpServletResponse) servletResponse;</span><br><span class="line"></span><br><span class="line">//        1、获取本次请求的URI</span><br><span class="line">        String requestURI = request.getRequestURI();</span><br><span class="line"></span><br><span class="line">        log.info(&quot;拦截到请求：&#123;&#125;&quot;,requestURI);</span><br><span class="line"></span><br><span class="line">//        定义不需要处理的请求路径</span><br><span class="line">        String[] urls=new String[]&#123;</span><br><span class="line">                &quot;/employee/login&quot;,</span><br><span class="line">                &quot;/employee/logout&quot;,</span><br><span class="line">                &quot;/backend/**&quot;,</span><br><span class="line">                &quot;/front/**&quot;</span><br><span class="line">        &#125;;</span><br><span class="line">//        2、判断本次请求是否需要处理</span><br><span class="line">        boolean check = check(urls, requestURI);</span><br><span class="line">//        3、如果不需要处理，则直接放行</span><br><span class="line">        if(check)&#123;</span><br><span class="line">            log.info(&quot;本次请求&#123;&#125;不需要处理&quot;,requestURI);</span><br><span class="line">            filterChain.doFilter(request,response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">//        4、判断登录状态，如果已登录，则直接放行</span><br><span class="line">        if(request.getSession().getAttribute(&quot;employee&quot;)!=null)&#123;</span><br><span class="line">            log.info(&quot;用户已登录，用户id为：&#123;&#125;&quot;,request.getSession().getAttribute(&quot;employee&quot;));</span><br><span class="line">            filterChain.doFilter(request,response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(&quot;用户未登录&quot;);</span><br><span class="line">//        5、如果未登录则返回未登录结果,通过输出流向客户端页面响应数据</span><br><span class="line">        response.getWriter().write(JSON.toJSONString(R.error(&quot;NOTLOGIN&quot;)));</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    //路径匹配，检查本次请求是否需要放行</span><br><span class="line">    public boolean check(String[] urls,String requestURI)&#123;</span><br><span class="line">        for (String url : urls) &#123;</span><br><span class="line">            boolean match = PATH_MATCHER.match(url, requestURI);</span><br><span class="line">            if(match==true)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码开发"><a href="#代码开发" class="headerlink" title="代码开发"></a>代码开发</h3><p>在开发代码之前，需要梳理一下整个程序的执行过程:</p>
+<ul>
+<li>页面发送ajax请求，将新增员工页面中输入的数据以json的形式提交到服务端</li>
+<li>服务端Controller接收页面提交的数据并调用Service将数据进行保存</li>
+<li>Service调用Mapper操作数据库，保存数据</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/26/reggie-day02/" data-id="clekrjeja0000qguqf4rkcktj" data-title="reggie-day02" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-reggie-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/02/25/reggie-day01/" class="article-date">
@@ -622,205 +762,6 @@ miao~
 
 
   
-    <article id="post-css-结构伪类选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2022-11-20T14:43:55.000Z" itemprop="datePublished">2022-11-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"><a href="#结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素" class="headerlink" title="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"></a>结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素</h3><table>
-<thead>
-<tr>
-<th align="left">选择符</th>
-<th align="left">解析</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">E:first-child</td>
-<td align="left">匹配父元素中的第一个子元素 E</td>
-</tr>
-<tr>
-<td align="left">E:first-child</td>
-<td align="left">匹配父元素中最后一个E元素</td>
-</tr>
-<tr>
-<td align="left">E:nth-child(n)</td>
-<td align="left">匹配父元素中的第n个子元素E</td>
-</tr>
-<tr>
-<td align="left">E:first-of-type</td>
-<td align="left">指定类型E的第一个</td>
-</tr>
-<tr>
-<td align="left">E:last-of-type</td>
-<td align="left">指定类型E的最后一个</td>
-</tr>
-<tr>
-<td align="left">E:nth-of-type(n)</td>
-<td align="left">指定类型E的第n个</td>
-</tr>
-</tbody></table>
-<pre><code>        ul li:first-child&#123;
-        background: #66945e;
-    &#125;
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/202909431-66e24bea-9432-4b85-ba2d-669a3a601a71.JPG" alt="avater"></p>
-<pre><code>        ul li:last-child&#123;
-        background: #c75a5a;
-    &#125;
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/202909599-6f1dd4b4-f237-44b4-9cf8-7f37b6c6952d.JPG" alt="avater"></p>
-<pre><code>         p:nth-child(2)&#123;
-        background: blue;
-    &#125;
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/202909650-14992b3c-d134-448d-a2a0-7fda8c1220ea.JPG" alt="avater"></p>
-<pre><code>         p:nth-of-type(1)&#123;
-        background: #c75a5a;
-    &#125;
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/202909853-56c38ad5-b52d-4444-a7b9-ce96c081f439.JPG" alt="avater"></p>
-<pre><code>        同理也有
-            ul li:first-of-type&#123;
-        background: #e5e39d;
-    &#125;
-        和
-            ul li:last-of-type&#123;
-        background: #e5e39d;
-    &#125;
-        这里就不放图了
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595p0006youq61tr0mnu" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-css-层次选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2022-11-19T16:19:59.000Z" itemprop="datePublished">2022-11-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1、后代选择器"><a href="#1、后代选择器" class="headerlink" title="1、后代选择器"></a>1、后代选择器</h2><pre><code>        body p&#123;
-        background: #79c7c7;
-      &#125;
-      在某个元素的后面
-</code></pre>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861713-84d36687-f6a7-48e1-a5b7-873a0265b897.JPG" alt="avater"></h2><h2 id="2、子选择器"><a href="#2、子选择器" class="headerlink" title="2、子选择器"></a>2、子选择器</h2><pre><code>        body &gt;p&#123;
-        background: #79c7c7;
-      &#125;
-      一代 儿子
-</code></pre>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861854-d32ccd84-62d5-4c73-8cb0-5574df4d6a91.JPG" alt="avater"></h2><h2 id="3、相邻兄弟选择器"><a href="#3、相邻兄弟选择器" class="headerlink" title="3、相邻兄弟选择器"></a>3、相邻兄弟选择器</h2><pre><code>        .green + h1&#123;
-          background: #66945e;
-      &#125;
-        指下一个标签
-</code></pre>
-<h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861904-099a15d1-4aba-41f4-b0bd-cea7e41ada2d.JPG" alt="avater"></h2><h2 id="4、通用选择器"><a href="#4、通用选择器" class="headerlink" title="4、通用选择器"></a>4、通用选择器</h2><pre><code>         .green ~ h1&#123;
-          background: #66945e;
-      &#125;
-      它的功能是将后续所有的兄弟（相同等级的）标签背景全部改为green色：
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/202861933-ae8578e6-f581-4ce0-b977-f9473b2464e5.JPG" alt="avater"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595o0004youq4yqr1rqa" data-title="css 层次选择器" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-css-基本选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2022-11-19T07:10:46.000Z" itemprop="datePublished">2022-11-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/">css 基本选择器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1、标签选择器：选择一类标签-标签"><a href="#1、标签选择器：选择一类标签-标签" class="headerlink" title="1、标签选择器：选择一类标签 标签{}"></a>1、标签选择器：选择一类标签 标签{}</h2><p><img src="https://user-images.githubusercontent.com/118366174/202839577-67879494-4f7c-4e41-b087-5cbc05ec86cf.JPG" alt="avater"></p>
-<hr>
-<h2 id="2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名"><a href="#2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名" class="headerlink" title="2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}"></a>2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839648-883e4e8d-d4b9-42dd-b3f8-0a615ac0d717.JPG" alt="avater"></h2><h2 id="3、-id选择器：全局唯一！-id名"><a href="#3、-id选择器：全局唯一！-id名" class="headerlink" title="3、 id选择器：全局唯一！#id名{}"></a>3、 id选择器：全局唯一！#id名{}</h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839671-8530fed7-3751-4d8a-8060-21e4ad8c71f7.JPG" alt="avater"></h2><h1 id="优先级：-id-gt-class-gt-标签"><a href="#优先级：-id-gt-class-gt-标签" class="headerlink" title="优先级： id&gt;class&gt;标签"></a>优先级： id&gt;class&gt;标签</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clek0595l0001youq95cegijz" data-title="css 基本选择器" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -844,7 +785,7 @@ miao~
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
     </div>
   </div>
 
@@ -857,23 +798,23 @@ miao~
       <ul>
         
           <li>
+            <a href="/2023/03/06/day01-springcloud/">day01-springcloud</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/02/jvm-day1/">jvm-day1</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/26/reggie-day02/">reggie-day02</a>
+          </li>
+        
+          <li>
             <a href="/2023/02/25/reggie-day01/">reggie-day01</a>
           </li>
         
           <li>
             <a href="/2023/02/25/2-25/">2.25</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
           </li>
         
       </ul>
