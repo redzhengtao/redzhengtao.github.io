@@ -14,7 +14,7 @@
 <meta property="og:description" content="注册RestTemplateRestTemplate 概述发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。 spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-06T13:05:05.000Z">
-<meta property="article:modified_time" content="2023-03-06T13:18:15.495Z">
+<meta property="article:modified_time" content="2023-03-06T13:45:07.450Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -106,6 +106,37 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderService</span> &#123;</span><br><span class="line">    <span class="comment">//原来就有的</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> OrderMapper orderMapper;</span><br><span class="line">    <span class="comment">//添加RestTemplate </span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate; </span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">queryOrderById</span><span class="params">(Long orderId)</span> &#123;</span><br><span class="line">        <span class="comment">// 1.查询订单</span></span><br><span class="line">        <span class="type">Order</span> <span class="variable">order</span> <span class="operator">=</span> orderMapper.findById(orderId);</span><br><span class="line">        <span class="comment">//2.1 url地址</span></span><br><span class="line">        String url=<span class="string">&quot;http://localhost:8081/user/&quot;</span>+order.getUserId();</span><br><span class="line">        <span class="comment">//2.2 发起调用</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> restTemplate.getForObject(url, User.class);</span><br><span class="line">        <span class="comment">//存入order</span></span><br><span class="line">        order.setUser(user);</span><br><span class="line">        <span class="comment">// 4.返回</span></span><br><span class="line">        <span class="keyword">return</span> order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="json文件如下"><a href="#json文件如下" class="headerlink" title="json文件如下"></a>json文件如下</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">101</span><span class="punctuation">,</span><span class="attr">&quot;price&quot;</span><span class="punctuation">:</span><span class="number">699900</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;Apple 苹果 iPhone 12 &quot;</span><span class="punctuation">,</span><span class="attr">&quot;num&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;userId&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;user&quot;</span><span class="punctuation">:</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1</span><span class="punctuation">,</span><span class="attr">&quot;username&quot;</span><span class="punctuation">:</span><span class="string">&quot;柳岩&quot;</span><span class="punctuation">,</span><span class="attr">&quot;address&quot;</span><span class="punctuation">:</span><span class="string">&quot;湖南省衡阳市&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>问题1：order-service如何得知user-service实例地址？</p>
+<p>获取地址信息的流程如下：</p>
+<ul>
+<li>user-service服务实例启动后，将自己的信息注册到eureka-server（Eureka服务端）。这个叫服务注册</li>
+<li>eureka-server保存服务名称到服务实例地址列表的映射关系</li>
+<li>order-service根据服务名称，拉取实例地址列表。这个叫服务发现或服务拉取</li>
+</ul>
+<p>问题2：order-service如何从多个user-service实例中选择具体的实例？</p>
+<ul>
+<li>order-service从实例列表中利用负载均衡算法选中一个实例地址</li>
+<li>向该实例地址发起远程调用</li>
+</ul>
+<p>问题3：order-service如何得知某个user-service实例是否依然健康，是不是已经宕机？</p>
+<ul>
+<li>user-service会每隔一段时间（默认30秒）向eureka-server发起请求，报告自己状态，称为心跳</li>
+<li>当超过一定时间没有发送心跳时，eureka-server会认为微服务实例故障，将该实例从服务列表中剔除</li>
+<li>order-service拉取服务时，就能将故障实例排除了</li>
+</ul>
+<blockquote>
+<p>注意：一个微服务，既可以是服务提供者，又可以是服务消费者，因此eureka将服务注册、服务发现等功能统一封装到了eureka-client端</p>
+</blockquote>
+<h1 id="搭建eureka-server"><a href="#搭建eureka-server" class="headerlink" title="搭建eureka-server"></a>搭建eureka-server</h1><p>引入SpringCloud为eureka提供的starter依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="理想国卷二"><a href="#理想国卷二" class="headerlink" title="理想国卷二"></a>理想国卷二</h1><p>有一种财富，我们只想得到它们，而不看其后果，只要其本身？比如欢乐，无害的享受和任何一种能带给我们愉悦而无任何副作用的东西</p>
+<p>是不是还有一种，我们不仅爱它们本身，还爱它们的后果？比如才思敏捷、视力好和身体健康，这些我们两者都需要</p>
+<p>你还没有看到第三种：锻炼身体，为了严酷地训练身体的医术和任何一种有收入的职业吗？这是令人劳累的，但是对我们有益处，我们不需要它们本身，而是需要它们带来的利润和其他为我们提供的益处</p>
+<p>你认为这三者中哪种是正义的？</p>
+<p>我？当然我认为三者中最好的一种是，既要它们本身，也要它们的后果，只要期望的幸福。</p>
+<p>但是，一般人不这样认为。人们把劳累的第三种列为正义，只是为了利润和荣耀才需要它们，按理说，是应该远离这种财富本身的，但只是因为不可抗的。</p>
 
       
     </div>
