@@ -71,6 +71,315 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-spring-自动装配Bean" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" class="article-date">
+  <time class="dt-published" datetime="2022-11-30T02:14:59.000Z" itemprop="datePublished">2022-11-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="pojo下三个类，cat-dog-people"><a href="#pojo下三个类，cat-dog-people" class="headerlink" title="pojo下三个类，cat,dog,people"></a>pojo下三个类，cat,dog,people</h3><pre><code>package com.kuang.pojo;
+public class Cat &#123;
+    public void shout() &#123;
+        System.out.println(&quot;miao~&quot;);
+    &#125;
+
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class Dog &#123;
+    public void shout() &#123;
+        System.out.println(&quot;wang~&quot;);
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<pre><code>package com.kuang.pojo;
+public class People &#123;
+    private Cat cat;
+    private Dog dog;
+    private String name;
+</code></pre>
+<hr>
+<h3 id="beans配置文件"><a href="#beans配置文件" class="headerlink" title="beans配置文件"></a>beans配置文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+        &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+        &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+        &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot;&gt;
+            &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;cat&quot; ref=&quot;cat&quot;&gt;&lt;/property&gt;
+            &lt;property name=&quot;dog&quot; ref=&quot;dog&quot;&gt;&lt;/property&gt;
+        &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<hr>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><pre><code>import com.kuang.pojo.People;
+import org.junit.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class t &#123;
+    @Test
+    public void ttt()&#123;
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+        People people = context.getBean(&quot;people&quot;, People.class);
+        people.getDog().shout();
+        people.getCat().shout();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><pre><code>wang~
+miao~
+
+Process finished with exit code 0
+</code></pre>
+<blockquote>
+<p>如果能在bean里自动寻找cat和dog的话，自动装配，就能减少代码量</p>
+</blockquote>
+<h3 id="更改配置文件"><a href="#更改配置文件" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byName&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试成功！"><a href="#测试成功！" class="headerlink" title="测试成功！"></a>测试成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><h6 id="当一个bean节点带有-autowire-byName的属性时。"><a href="#当一个bean节点带有-autowire-byName的属性时。" class="headerlink" title="当一个bean节点带有 autowire byName的属性时。"></a>当一个bean节点带有 autowire byName的属性时。</h6><h6 id="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"><a href="#将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。" class="headerlink" title="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"></a>将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。</h6><h6 id="去spring容器中寻找是否有此字符串名称id的对象。"><a href="#去spring容器中寻找是否有此字符串名称id的对象。" class="headerlink" title="去spring容器中寻找是否有此字符串名称id的对象。"></a>去spring容器中寻找是否有此字符串名称id的对象。</h6><h6 id="如果有，就取出注入；如果没有，就报空指针异常。"><a href="#如果有，就取出注入；如果没有，就报空指针异常。" class="headerlink" title="如果有，就取出注入；如果没有，就报空指针异常。"></a>如果有，就取出注入；如果没有，就报空指针异常。</h6><hr>
+<h1 id="下面介绍-autowire-byType-按类型自动装配"><a href="#下面介绍-autowire-byType-按类型自动装配" class="headerlink" title="下面介绍 autowire byType (按类型自动装配)"></a>下面介绍 autowire byType (按类型自动装配)</h1><h3 id="更改配置文件-1"><a href="#更改配置文件-1" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
+    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byType&quot;&gt;
+        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+</code></pre>
+<h3 id="测试类此时只需要获取对象类型，甚至不用id"><a href="#测试类此时只需要获取对象类型，甚至不用id" class="headerlink" title="测试类此时只需要获取对象类型，甚至不用id"></a>测试类此时只需要获取对象类型，甚至不用id</h3><pre><code>    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+    People people = context.getBean(People.class);
+    people.getDog().shout();
+    people.getCat().shout();
+</code></pre>
+<h3 id="测试，运行成功！"><a href="#测试，运行成功！" class="headerlink" title="测试，运行成功！"></a>测试，运行成功！</h3><pre><code>wang~
+miao~
+</code></pre>
+<hr>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p><img src="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clewx2nou000dakuq3vtdhag9" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Javaweb-Response下载文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2022-11-28T15:40:16.000Z" itemprop="datePublished">2022-11-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="https://user-images.githubusercontent.com/118366174/204320138-59c5dc0f-e8f3-4ae9-933d-85112b98e34e.JPG" alt="avater"></p>
+<p><img src="https://user-images.githubusercontent.com/118366174/204319356-bc0a2187-35a8-4310-a3d3-685f67037657.JPG" alt="avater"></p>
+<h1 id="自己的源码"><a href="#自己的源码" class="headerlink" title="自己的源码"></a>自己的源码</h1><pre><code>public class FileServlet extends HttpServlet &#123;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+        String realPath = &quot;D:\\work\\kuang\\servlet\\javaweb\\response\\src\\main\\resources\\小小红.jpg&quot;;
+        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;) + 1);
+        resp.setHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot;+ URLEncoder.encode(fileName,&quot;UTF-8&quot;));
+        FileInputStream in = new FileInputStream(realPath);
+        int len=0;
+        byte[] buffer=new byte[1024];
+        ServletOutputStream out = resp.getOutputStream();
+        while((len=in.read(buffer))&gt;0)&#123;
+            out.write(buffer,0,len);
+        &#125;
+        in.close();
+        out.close();
+
+    &#125;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+        super.doPost(req, resp);
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h1 id="mapping注册"><a href="#mapping注册" class="headerlink" title="mapping注册"></a>mapping注册</h1><pre><code>&lt;!DOCTYPE web-app PUBLIC
+ &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
+ &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
+
+&lt;web-app&gt;
+  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.kuang.servlet.FileServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/down&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</code></pre>
+<h1 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h1><p><img src="https://user-images.githubusercontent.com/118366174/204320404-69519b30-aa0a-4964-a945-f46f390eb0c3.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clewx2noi0000akuq0nfb3sbz" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Javaweb-Servlet原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2022-11-26T07:21:52.000Z" itemprop="datePublished">2022-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Servlet原理"><a href="#Servlet原理" class="headerlink" title="Servlet原理"></a>Servlet原理</h1><p><img src="https://user-images.githubusercontent.com/118366174/204077714-c2cbc677-d0bb-4ed4-808d-0e82565fd056.JPG" alt="avater"></p>
+<hr>
+<h1 id="这里扩展一下写404网页"><a href="#这里扩展一下写404网页" class="headerlink" title="这里扩展一下写404网页"></a>这里扩展一下写404网页</h1><h4 id="先写ErrorServlet类"><a href="#先写ErrorServlet类" class="headerlink" title="先写ErrorServlet类"></a>先写ErrorServlet类</h4><pre><code>    package com.red.servlet;
+
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServlet;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    import java.io.PrintWriter;
+
+    public class ErrorServlet extends HttpServlet &#123;
+        @Override
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+            resp.setContentType(&quot;text/html&quot;);
+            resp.setCharacterEncoding(&quot;utf-8&quot;);
+
+            PrintWriter writer = resp.getWriter();
+            writer.print(&quot;&lt;h1&gt;404&lt;/h1&gt;&quot;);
+        &#125;
+
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+            super.doPost(req, resp);
+        &#125;
+    &#125;
+    
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/204077563-2d48c0bc-3f16-494c-90df-5c8c9e0fb5ef.JPG" alt="avater"></p>
+<h4 id="再编辑web-xml"><a href="#再编辑web-xml" class="headerlink" title="再编辑web.xml"></a>再编辑web.xml</h4><pre><code>    &lt;web-app&gt;
+      &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+      
+      &lt;!--编写Servlet的映射--&gt;
+      
+      
+      &lt;servlet&gt;
+        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.red.servlet.HelloServlet&lt;/servlet-class&gt;
+      &lt;/servlet&gt;
+      &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/hello&lt;/url-pattern&gt;
+      &lt;/servlet-mapping&gt;
+         &lt;!--映射到错误类--&gt;
+         
+         
+      &lt;servlet&gt;
+        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.red.servlet.ErrorServlet&lt;/servlet-class&gt;
+      &lt;/servlet&gt;
+      &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
+        &lt;!-- 这里是正则 *代表任意字符--&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+      &lt;/servlet-mapping&gt;
+
+
+    &lt;/web-app&gt;
+</code></pre>
+<h2 id="运行tomcat服务器，打开网页"><a href="#运行tomcat服务器，打开网页" class="headerlink" title="运行tomcat服务器，打开网页"></a>运行tomcat服务器，打开网页</h2><p><img src="https://user-images.githubusercontent.com/118366174/204077622-87f3ed2d-2da4-4f74-8359-83b75a7f6a31.JPG" alt="avater"></p>
+<h2 id="修改url路径到hello，还是会找到-HelloServlet-网页"><a href="#修改url路径到hello，还是会找到-HelloServlet-网页" class="headerlink" title="修改url路径到hello，还是会找到 HelloServlet 网页"></a>修改url路径到hello，还是会找到 HelloServlet 网页</h2><p><img src="https://user-images.githubusercontent.com/118366174/204077662-1ac10368-6150-4ccb-883c-f48655917040.JPG" alt="avater"></p>
+<h1 id="原因是优先级问题："><a href="#原因是优先级问题：" class="headerlink" title="原因是优先级问题："></a>原因是优先级问题：</h1><h4 id="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"><a href="#指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求" class="headerlink" title="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"></a>指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clewx2non0002akuqei7e3l8m" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-spring-依赖注入之setter注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" class="article-date">
@@ -545,23 +854,23 @@
       <ul>
         
           <li>
+            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">mybatisplus入门案例</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/10/MyBatis%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/">MyBatis第一个程序</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/06/day01-springcloud/">day01-springcloud</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/02/jvm-day1/">jvm-day1</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/26/reggie-day02/">reggie-day02</a>
           </li>
         
       </ul>

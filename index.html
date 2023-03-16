@@ -71,6 +71,310 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mybatisplus条件构造器和常用接口" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/" class="article-date">
+  <time class="dt-published" datetime="2023-03-16T04:48:25.000Z" itemprop="datePublished">2023-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1、wapper介绍"><a href="#1、wapper介绍" class="headerlink" title="1、wapper介绍"></a>1、wapper介绍</h1><ul>
+<li><p>Wrapper ： 条件构造抽象类，最顶端父类</p>
+</li>
+<li><p>AbstractWrapper ： 用于查询条件封装，生成 sql 的 where 条件</p>
+</li>
+<li><p>QueryWrapper ： 查询条件封装</p>
+</li>
+<li><p>UpdateWrapper ： Update 条件封装</p>
+</li>
+<li><p>AbstractLambdaWrapper ： 使用Lambda 语法</p>
+</li>
+<li><p>LambdaQueryWrapper ：用于Lambda语法使用的查询Wrapper</p>
+</li>
+<li><p>LambdaUpdateWrapper ： Lambda 更新封装Wrapper</p>
+</li>
+</ul>
+<h1 id="2、QueryWrapper"><a href="#2、QueryWrapper" class="headerlink" title="2、QueryWrapper"></a>2、QueryWrapper</h1><h3 id="a-gt-例1：组装查询条件"><a href="#a-gt-例1：组装查询条件" class="headerlink" title="a&gt;例1：组装查询条件"></a>a&gt;例1：组装查询条件</h3><p>SELECT id,name AS name,age,email,is_deleted FROM t_user WHERE</p>
+<p>is_deleted&#x3D;0 AND (name LIKE ? AND age BETWEEN ? AND ? AND email IS NOT NULL)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test01</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//查询用户名包含a，年龄在20到30之间，并且邮箱不为null的用户信息</span></span><br><span class="line">        QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.like(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;a&quot;</span>) .between(<span class="string">&quot;age&quot;</span>, <span class="number">20</span>, <span class="number">30</span>) .isNotNull(<span class="string">&quot;email&quot;</span>);</span><br><span class="line">        List&lt;User&gt; list = userMapper.selectList(queryWrapper); list.forEach(System.out::println);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@725873428 wrapping com.mysql.cj.jdbc.ConnectionImpl@3a4a5f3c] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE (name LIKE ? AND age BETWEEN ? AND ? AND email IS NOT NULL)<br>&#x3D;&#x3D;&gt; Parameters: %a%(String), 20(Integer), 30(Integer)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 2, Jack, 20, <a href="mailto:&#116;&#101;&#115;&#x74;&#50;&#64;&#x62;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#46;&#99;&#x6f;&#109;">&#116;&#101;&#115;&#x74;&#50;&#64;&#x62;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#46;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 4, Sandy, 21, <a href="mailto:&#116;&#x65;&#x73;&#x74;&#x34;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#x6f;&#x75;&#46;&#x63;&#111;&#109;">&#116;&#x65;&#x73;&#x74;&#x34;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#x6f;&#x75;&#46;&#x63;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 2</p>
+<hr>
+<h3 id="b-gt-例2：组装排序条件"><a href="#b-gt-例2：组装排序条件" class="headerlink" title="b&gt;例2：组装排序条件"></a>b&gt;例2：组装排序条件</h3><p>SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE</p>
+<p>is_deleted&#x3D;0 ORDER BY age DESC,id ASC</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test02</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//按年龄降序查询用户，如果年龄相同则按id升序排列</span></span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.orderByDesc(<span class="string">&quot;age&quot;</span>).orderByAsc(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">    List&lt;User&gt; users = userMapper.selectList(queryWrapper);</span><br><span class="line">    users.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@1796415927 wrapping com.mysql.cj.jdbc.ConnectionImpl@342ee097] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user ORDER BY age DESC,id ASC<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 6, 666, 66, @@@@@@@@@@@@@@@@@@@@@@@@<br>&lt;&#x3D;&#x3D;        Row: 3, Tom, 28, <a href="mailto:&#116;&#101;&#x73;&#x74;&#x33;&#x40;&#98;&#97;&#111;&#109;&#105;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;">&#116;&#101;&#x73;&#x74;&#x33;&#x40;&#98;&#97;&#111;&#109;&#105;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#x74;&#101;&#x73;&#x74;&#x35;&#64;&#98;&#x61;&#x6f;&#x6d;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#109;">&#x74;&#101;&#x73;&#x74;&#x35;&#64;&#98;&#x61;&#x6f;&#x6d;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 4, Sandy, 21, <a href="mailto:&#x74;&#x65;&#115;&#116;&#x34;&#x40;&#x62;&#97;&#111;&#109;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#111;&#109;">&#x74;&#x65;&#115;&#116;&#x34;&#x40;&#x62;&#97;&#111;&#109;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 2, Jack, 20, <a href="mailto:&#116;&#101;&#x73;&#116;&#50;&#64;&#98;&#97;&#111;&#109;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#x63;&#111;&#109;">&#116;&#101;&#x73;&#116;&#50;&#64;&#98;&#97;&#111;&#109;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#x63;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 1, Jone, 18, <a href="mailto:&#x74;&#101;&#x73;&#116;&#x31;&#64;&#x62;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#117;&#x2e;&#x63;&#x6f;&#109;">&#x74;&#101;&#x73;&#116;&#x31;&#64;&#x62;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#117;&#x2e;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 6</p>
+<h3 id="c-gt-例3：组装删除条件"><a href="#c-gt-例3：组装删除条件" class="headerlink" title="c&gt;例3：组装删除条件"></a>c&gt;例3：组装删除条件</h3><p>DELETE FROM t_user WHERE (email IS NULL)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test03</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//删除email为空的用户</span></span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.isNull(<span class="string">&quot;email&quot;</span>);</span><br><span class="line">    <span class="comment">//条件构造器也可以构建删除语句的条件</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> userMapper.delete(queryWrapper);</span><br><span class="line">    System.out.println(<span class="string">&quot;受影响的行数：&quot;</span> + result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@889398176 wrapping com.mysql.cj.jdbc.ConnectionImpl@2506b881] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: DELETE FROM user WHERE (email IS NULL)<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@71b6172c]<br>受影响的行数：1</p>
+<h3 id="d-gt-例4：条件的优先级"><a href="#d-gt-例4：条件的优先级" class="headerlink" title="d&gt;例4：条件的优先级"></a>d&gt;例4：条件的优先级</h3><p>UPDATE t_user SET age&#x3D;?, email&#x3D;? WHERE (username LIKE ? AND age &gt; ? OR</p>
+<p>email IS NULL)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test04</span><span class="params">()</span>&#123;</span><br><span class="line">    QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">QueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//将（年龄大于20并且用户名中包含有a）或邮箱为null的用户信息修改</span></span><br><span class="line">    queryWrapper.like(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;a&quot;</span>)</span><br><span class="line">            .gt(<span class="string">&quot;age&quot;</span>,<span class="number">20</span>)</span><br><span class="line">            .or()</span><br><span class="line">            .isNull(<span class="string">&quot;email&quot;</span>);</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setAge(<span class="number">18</span>);</span><br><span class="line">    user.setEmail(<span class="string">&quot;user@atguigu.com&quot;</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> userMapper.update(user, queryWrapper);</span><br><span class="line">    System.out.println(<span class="string">&quot;受影响的行数：&quot;</span> + result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@1512759723 wrapping com.mysql.cj.jdbc.ConnectionImpl@2bec068b] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: UPDATE user SET age&#x3D;?, email&#x3D;? WHERE (name LIKE ? AND age &gt; ? OR email IS NULL)<br>&#x3D;&#x3D;&gt; Parameters: 18(Integer), <a href="mailto:&#x75;&#115;&#x65;&#x72;&#x40;&#x61;&#116;&#x67;&#117;&#x69;&#x67;&#117;&#46;&#x63;&#x6f;&#109;">&#x75;&#115;&#x65;&#x72;&#x40;&#x61;&#116;&#x67;&#117;&#x69;&#x67;&#117;&#46;&#x63;&#x6f;&#109;</a>(String), %a%(String), 20(Integer)<br>&lt;&#x3D;&#x3D;    Updates: 2<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@38ee7a9d]<br>受影响的行数：2</p>
+<h3 id="e-gt-例5：组装select子句"><a href="#e-gt-例5：组装select子句" class="headerlink" title="e&gt;例5：组装select子句"></a>e&gt;例5：组装select子句</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/" data-id="clfamscqf000088uq3vlec53r" data-title="mybatisplus条件构造器和常用接口" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mybatisplus常用注解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2023-03-16T04:33:12.000Z" itemprop="datePublished">2023-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<h1 id="1、-TableName"><a href="#1、-TableName" class="headerlink" title="1、@TableName"></a>1、@TableName</h1><p>经过以上的测试，在使用MyBatis-Plus实现基本的CRUD时，我们并没有指定要操作的表，只是在</p>
+<p>Mapper接口继承BaseMapper时，设置了泛型User，而操作的表为user表</p>
+<p>由此得出结论，MyBatis-Plus在确定操作的表时，由BaseMapper的泛型决定，即实体类型决</p>
+<p>定，且默认操作的表名和实体类型的类名一致</p>
+<h3 id="a-gt-问题"><a href="#a-gt-问题" class="headerlink" title="a&gt;问题"></a>a&gt;问题</h3><p>若实体类类型的类名和要操作的表的表名不一致，会出现什么问题？</p>
+<p>我们将表user更名为t_user，测试查询功能</p>
+<p>程序抛出异常，Table ‘mybatis_plus.user’ doesn’t exist，因为现在的表名为t_user，而默认操作</p>
+<p>的表名和实体类型的类名一致，即user表</p>
+<h3 id="b-gt-通过-TableName解决问题"><a href="#b-gt-通过-TableName解决问题" class="headerlink" title="b&gt;通过@TableName解决问题"></a>b&gt;通过@TableName解决问题</h3><p>在实体类类型上添加@TableName(“t_user”)，标识实体类对应的表，即可成功执行SQL语句</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableName(&quot;t_user&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="c-gt-通过全局配置解决问题"><a href="#c-gt-通过全局配置解决问题" class="headerlink" title="c&gt;通过全局配置解决问题"></a>c&gt;通过全局配置解决问题</h3><p>在开发的过程中，我们经常遇到以上的问题，即实体类所对应的表都有固定的前缀，例如t_或tbl_</p>
+<p>此时，可以使用MyBatis-Plus提供的全局配置，为实体类所对应的表名设置默认的前缀，那么就</p>
+<p>不需要在每个实体类上通过@TableName标识实体类对应的表</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="comment"># 配置MyBatis日志</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">    <span class="comment"># 配置MyBatis-Plus操作表的默认前缀</span></span><br><span class="line">      <span class="attr">table-prefix:</span> <span class="string">t_</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="2、-TableId"><a href="#2、-TableId" class="headerlink" title="2、@TableId"></a>2、@TableId</h1><p>经过以上的测试，MyBatis-Plus在实现CRUD时，会默认将id作为主键列，并在插入数据时，默认</p>
+<p>基于雪花算法的策略生成id</p>
+<h3 id="a-gt-问题-1"><a href="#a-gt-问题-1" class="headerlink" title="a&gt;问题"></a>a&gt;问题</h3><p>若实体类和表中表示主键的不是id，而是其他字段，例如uid，MyBatis-Plus会自动识别uid为主</p>
+<p>键列吗？</p>
+<p>我们实体类中的属性id改为uid，将表中的字段id也改为uid，测试添加功能</p>
+<h2 id="程序抛出异常，Field-‘uid’-doesn’t-have-a-default-value，说明MyBatis-Plus没有将uid作为主键赋值"><a href="#程序抛出异常，Field-‘uid’-doesn’t-have-a-default-value，说明MyBatis-Plus没有将uid作为主键赋值" class="headerlink" title="程序抛出异常，Field ‘uid’ doesn’t have a default value，说明MyBatis-Plus没有将uid作为主键赋值"></a>程序抛出异常，Field ‘uid’ doesn’t have a default value，说明MyBatis-Plus没有将uid作为主键赋值</h2><h3 id="b-gt-通过-TableId解决问题"><a href="#b-gt-通过-TableId解决问题" class="headerlink" title="b&gt;通过@TableId解决问题"></a>b&gt;通过@TableId解决问题</h3><p>在实体类中uid属性上通过@TableId将其标识为主键，即可成功执行SQL语句</p>
+<p>JDBC Connection [HikariProxyConnection@301084728 wrapping com.mysql.cj.jdbc.ConnectionImpl@de77146] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO t_user ( uid, name, age, email ) VALUES ( ?, ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1635986769228611586(Long), Kuangshen(String), 23(Integer), <a href="mailto:&#107;&#x75;&#x61;&#110;&#x67;&#x73;&#x68;&#x65;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#x63;&#x6f;&#x6d;">&#107;&#x75;&#x61;&#110;&#x67;&#x73;&#x68;&#x65;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#x63;&#x6f;&#x6d;</a>(String)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f1266c6]<br>受影响行数：1</p>
+<hr>
+<h3 id="c-gt-TableId的value属性"><a href="#c-gt-TableId的value属性" class="headerlink" title="c&gt;@TableId的value属性"></a>c&gt;@TableId的value属性</h3><p>若实体类中主键对应的属性为id，而表中表示主键的字段为uid，此时若只在属性id上添加注解</p>
+<p>@TableId，则抛出异常Unknown column ‘id’ in ‘field list’，即MyBatis-Plus仍然会将id作为表的</p>
+<p>主键操作，而表中表示主键的是字段uid</p>
+<p>此时需要通过@TableId注解的value属性，指定表中的主键字段，@TableId(“uid”)或@TableId(value&#x3D;”uid”)</p>
+<hr>
+<h3 id="d-gt-TableId的type属性"><a href="#d-gt-TableId的type属性" class="headerlink" title="d&gt;@TableId的type属性"></a>d&gt;@TableId的type属性</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" data-id="clfam8lc10000couq855taaey" data-title="mybatisplus常用注解" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Redis命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2023-03-13T05:39:13.000Z" itemprop="datePublished">2023-03-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>贴心小建议：命令不要死记，学会查询就好啦</strong> </p>
+<h2 id="4-2-Redis-通用命令"><a href="#4-2-Redis-通用命令" class="headerlink" title="4.2 Redis 通用命令"></a>4.2 Redis 通用命令</h2><p>通用指令是部分数据类型的，都可以使用的指令，常见的有：</p>
+<ul>
+<li>KEYS：查看符合模板的所有key</li>
+<li>DEL：删除一个指定的key</li>
+<li>EXISTS：判断key是否存在</li>
+<li>EXPIRE：给一个key设置有效期，有效期到期时该key会被自动删除</li>
+<li>TTL：查看一个KEY的剩余有效期</li>
+</ul>
+<p>通过help [command] 可以查看一个命令的具体用法，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">192.168.206.133:6379&gt; help keys</span><br><span class="line"></span><br><span class="line">  KEYS pattern</span><br><span class="line">  summary: Find all keys matching the given pattern</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: generic</span><br></pre></td></tr></table></figure>
+<h3 id="keys命令"><a href="#keys命令" class="headerlink" title="keys命令"></a>keys命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line">2) &quot;name&quot;</span><br><span class="line">3) &quot;haha&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询以a开头的key</span></span><br><span class="line">127.0.0.1:6379&gt; keys a*</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>贴心小提示：在生产环境下，不推荐使用keys 命令，因为这个命令在key过多的情况下，效率不高</strong></p>
+<hr>
+<h3 id="DEL命令"><a href="#DEL命令" class="headerlink" title="DEL命令"></a>DEL命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; help del</span><br><span class="line"></span><br><span class="line">  DEL key [key ...]</span><br><span class="line">  summary: Delete a key</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: generic</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; del name #删除单个</span><br><span class="line">(integer) 1  #成功删除1个</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; MSET k1 v1 k2 v2 k3 v3 #批量添加数据</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;k3&quot;</span><br><span class="line">2) &quot;k2&quot;</span><br><span class="line">3) &quot;k1&quot;</span><br><span class="line">4) &quot;age&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; del k1 k2 k3 k4</span><br><span class="line">(integer) 3   #此处返回的是成功删除的key，由于redis中只有k1,k2,k3 所以只成功删除3个，最终返回</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys * #再查询全部的key</span><br><span class="line">1) &quot;age&quot;    #只剩下一个了</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="EXISTS命令"><a href="#EXISTS命令" class="headerlink" title="EXISTS命令"></a>EXISTS命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; expire age 10</span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 6</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2  #当这个key过期了，那么此时查询出来就是-2 </span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set age 10 #如果没有设置过期时间</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -1  # ttl的返回值就是-1</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="4-3-Redis命令-String命令"><a href="#4-3-Redis命令-String命令" class="headerlink" title="4.3 Redis命令-String命令"></a>4.3 Redis命令-String命令</h3><p>String类型，也就是字符串类型，是Redis中最简单的存储类型。</p>
+<p>其value是字符串，不过根据字符串的格式不同，又可以分为3类：</p>
+<ul>
+<li>string：普通字符串</li>
+<li>int：整数类型，可以做自增.自减操作</li>
+<li>float：浮点类型，可以做自增.自减操作</li>
+</ul>
+<p>String的常见命令有：</p>
+<ul>
+<li>SET：添加或者修改已经存在的一个String类型的键值对</li>
+<li>GET：根据key获取String类型的value</li>
+<li>MSET：批量添加多个String类型的键值对</li>
+<li>MGET：根据多个key获取多个String类型的value</li>
+<li>INCR：让一个整型的key自增1</li>
+<li>INCRBY:让一个整型的key自增并指定步长，例如：incrby num 2 让num值自增2</li>
+<li>INCRBYFLOAT：让一个浮点类型的数字自增并指定步长</li>
+<li>SETNX：添加一个String类型的键值对，前提是这个key不存在，否则不执行</li>
+<li>SETEX：添加一个String类型的键值对，并且指定有效期</li>
+</ul>
+<p><strong>贴心小提示</strong>：以上命令除了INCRBYFLOAT 都是常用命令</p>
+<ul>
+<li>SET 和GET: 如果key不存在则是新增，如果存在则是修改<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set name Rose  //原来不存在</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get name </span><br><span class="line">&quot;Rose&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set name Jack //原来存在，就是修改</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;Jack&quot;</span><br></pre></td></tr></table></figure></li>
+<li>MSET和MGET<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; MSET k1 v1 k2 v2 k3 v3</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; MGET name age k1 k2 k3</span><br><span class="line">1) &quot;Jack&quot; //之前存在的name</span><br><span class="line">2) &quot;10&quot;   //之前存在的age</span><br><span class="line">3) &quot;v1&quot;</span><br><span class="line">4) &quot;v2&quot;</span><br><span class="line">5) &quot;v3&quot;</span><br></pre></td></tr></table></figure></li>
+<li>INCR和INCRBY和DECY<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; get age </span><br><span class="line">&quot;10&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incr age //增加1</span><br><span class="line">(integer) 11</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get age //获得age</span><br><span class="line">&quot;11&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age 2 //一次增加2</span><br><span class="line">(integer) 13 //返回目前的age的值</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age 2</span><br><span class="line">(integer) 15</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age -1 //也可以增加负数，相当于减</span><br><span class="line">(integer) 14</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age -2 //一次减少2个</span><br><span class="line">(integer) 12</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; DECR age //相当于 incr 负数，减少正常用法</span><br><span class="line">(integer) 11</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get age </span><br><span class="line">&quot;11&quot;</span><br></pre></td></tr></table></figure></li>
+<li>SETNX<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; help setnx</span><br><span class="line"></span><br><span class="line">  SETNX key value</span><br><span class="line">  summary: Set the value of a key, only if the key does not exist</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: string</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set name Jack  //设置名称</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; setnx name lisi //如果key不存在，则添加成功</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; get name //由于name已经存在，所以lisi的操作失败</span><br><span class="line">&quot;Jack&quot;</span><br><span class="line">127.0.0.1:6379&gt; setnx name2 lisi //name2 不存在，所以操作成功</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get name2 </span><br><span class="line">&quot;lisi&quot;</span><br></pre></td></tr></table></figure></li>
+<li>SETEX<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; setex name 10 jack</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 7</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 5</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="4-4-Redis命令-Key的层级结构"><a href="#4-4-Redis命令-Key的层级结构" class="headerlink" title="4.4 Redis命令-Key的层级结构"></a>4.4 Redis命令-Key的层级结构</h1><p>Redis没有类似MySQL中的Table的概念，我们该如何区分不同类型的key呢？</p>
+<p>例如，需要存储用户.商品信息到redis，有一个用户id是1，有一个商品id恰好也是1，此时如果使用id作为key，那就会冲突了，该怎么办？</p>
+<p>我们可以通过给key添加前缀加以区分，不过这个前缀不是随便加的，有一定的规范：</p>
+<p>Redis的key允许有多个单词形成层级结构，多个单词之间用’:’隔开，格式如下：</p>
+<h3 id="项目名-业务名-类型id"><a href="#项目名-业务名-类型id" class="headerlink" title="项目名:业务名:类型id"></a>项目名:业务名:类型id</h3><p>这个格式并非固定，也可以根据自己的需求来删除或添加词条。</p>
+<p>例如我们的项目名称叫 heima，有user和product两种不同类型的数据，我们可以这样定义key：</p>
+<ul>
+<li><p>user相关的key：<strong>heima:user:1</strong></p>
+</li>
+<li><p>product相关的key：<strong>heima:product:1</strong></p>
+</li>
+</ul>
+<p>如果Value是一个Java对象，例如一个User对象，则可以将对象序列化为JSON字符串后存储：</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/13/Redis%E5%91%BD%E4%BB%A4/" data-id="clf6e9zn10000vsuq2ra6eh9q" data-title="Redis命令" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mybatis-crud操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2023-03-12T16:31:43.000Z" itemprop="datePublished">2023-03-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="select"><a href="#select" class="headerlink" title="select"></a>select</h1><ul>
+<li>select标签是mybatis中最常用的标签之一</li>
+<li>select语句有很多属性可以详细配置每一条SQL语句<ul>
+<li>id<ul>
+<li>命名空间中唯一的标识符</li>
+<li>接口中的方法名与映射文件中的SQL语句ID 一一对应</li>
+</ul>
+</li>
+<li>parameterType<ul>
+<li>传入SQL语句的参数类型 。【万能的Map，可以多尝试使用】</li>
+</ul>
+</li>
+<li>resultType<ul>
+<li>SQL语句返回值类型。【完整的类名或者别名】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>需求：根据id查询用户</strong></p>
+<p>在UserMapper中添加对应方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="comment">//根据id查询用户</span></span><br><span class="line">    User <span class="title function_">selectUserById</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在UserMapper.xml中添加Select语句</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.kuang.pojo.User&quot;</span>&gt;</span></span><br><span class="line">  select * from user where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试类中测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/" data-id="clf6e9zn40001vsuqcinbgo4s" data-title="mybatis-crud操作" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-mybatisplus入门案例" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/" class="article-date">
@@ -107,12 +411,12 @@
 
 <h1 id="e-gt-测试"><a href="#e-gt-测试" class="headerlink" title="e&gt;测试"></a>e&gt;测试</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MybatisplusApplicationTests</span> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired()</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUserMapper</span><span class="params">()</span>&#123;</span><br><span class="line">        userMapper.selectList(<span class="literal">null</span>).forEach(System.out::println);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h1><p>2023-03-10 23:05:29.364  INFO 6208 — [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting…<br>2023-03-10 23:05:29.669  INFO 6208 — [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.<br>JDBC Connection [HikariProxyConnection@1492276401 wrapping com.mysql.cj.jdbc.ConnectionImpl@46b2dcc5] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 1, Jone, 18, <a href="mailto:&#x74;&#101;&#x73;&#x74;&#x31;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;">&#x74;&#101;&#x73;&#x74;&#x31;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 2, Jack, 20, <a href="mailto:&#116;&#x65;&#115;&#x74;&#x32;&#64;&#98;&#x61;&#111;&#x6d;&#105;&#100;&#111;&#117;&#46;&#99;&#x6f;&#109;">&#116;&#x65;&#115;&#x74;&#x32;&#64;&#98;&#x61;&#111;&#x6d;&#105;&#100;&#111;&#117;&#46;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 3, Tom, 28, <a href="mailto:&#x74;&#101;&#x73;&#x74;&#51;&#64;&#98;&#x61;&#111;&#109;&#x69;&#100;&#x6f;&#x75;&#x2e;&#x63;&#111;&#x6d;">&#x74;&#101;&#x73;&#x74;&#51;&#64;&#98;&#x61;&#111;&#109;&#x69;&#100;&#x6f;&#x75;&#x2e;&#x63;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 4, Sandy, 21, <a href="mailto:&#x74;&#x65;&#x73;&#x74;&#x34;&#64;&#98;&#97;&#x6f;&#109;&#105;&#100;&#111;&#117;&#x2e;&#99;&#111;&#x6d;">&#x74;&#x65;&#x73;&#x74;&#x34;&#64;&#98;&#97;&#x6f;&#109;&#105;&#100;&#111;&#117;&#x2e;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#x74;&#x65;&#115;&#116;&#53;&#x40;&#x62;&#x61;&#111;&#x6d;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#109;">&#x74;&#x65;&#115;&#116;&#53;&#x40;&#x62;&#x61;&#111;&#x6d;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 5<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32ec9c90]<br>User(id&#x3D;1, name&#x3D;Jone, age&#x3D;18, email&#x3D;<a href="mailto:&#116;&#x65;&#115;&#116;&#x31;&#64;&#98;&#x61;&#111;&#109;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#109;">&#116;&#x65;&#115;&#116;&#x31;&#64;&#98;&#x61;&#111;&#109;&#x69;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#109;</a>)<br>User(id&#x3D;2, name&#x3D;Jack, age&#x3D;20, email&#x3D;<a href="mailto:&#x74;&#x65;&#x73;&#116;&#x32;&#64;&#x62;&#97;&#x6f;&#x6d;&#105;&#100;&#111;&#117;&#46;&#x63;&#x6f;&#109;">&#x74;&#x65;&#x73;&#116;&#x32;&#64;&#x62;&#97;&#x6f;&#x6d;&#105;&#100;&#111;&#117;&#46;&#x63;&#x6f;&#109;</a>)<br>User(id&#x3D;3, name&#x3D;Tom, age&#x3D;28, email&#x3D;<a href="mailto:&#116;&#101;&#x73;&#116;&#51;&#64;&#98;&#x61;&#111;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#x6d;">&#116;&#101;&#x73;&#116;&#51;&#64;&#98;&#x61;&#111;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#x6d;</a>)<br>User(id&#x3D;4, name&#x3D;Sandy, age&#x3D;21, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#x74;&#52;&#64;&#98;&#97;&#111;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#99;&#x6f;&#x6d;">&#x74;&#101;&#x73;&#x74;&#52;&#64;&#98;&#97;&#111;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#99;&#x6f;&#x6d;</a>)<br>User(id&#x3D;5, name&#x3D;Billie, age&#x3D;24, email&#x3D;<a href="mailto:&#116;&#x65;&#x73;&#116;&#x35;&#64;&#98;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#46;&#x63;&#111;&#x6d;">&#116;&#x65;&#x73;&#116;&#x35;&#64;&#98;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#46;&#x63;&#111;&#x6d;</a>)<br>2023-03-10 23:05:29.750  INFO 6208 — [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated…<br>2023-03-10 23:05:29.753  INFO 6208 — [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.</p>
+<h1 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h1><p>2023-03-10 23:05:29.364  INFO 6208 — [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting…<br>2023-03-10 23:05:29.669  INFO 6208 — [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.<br>JDBC Connection [HikariProxyConnection@1492276401 wrapping com.mysql.cj.jdbc.ConnectionImpl@46b2dcc5] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 1, Jone, 18, <a href="mailto:&#116;&#101;&#x73;&#x74;&#x31;&#x40;&#x62;&#97;&#x6f;&#109;&#105;&#100;&#111;&#x75;&#46;&#x63;&#111;&#109;">&#116;&#101;&#x73;&#x74;&#x31;&#x40;&#x62;&#97;&#x6f;&#109;&#105;&#100;&#111;&#x75;&#46;&#x63;&#111;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 2, Jack, 20, <a href="mailto:&#x74;&#x65;&#x73;&#x74;&#50;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#100;&#111;&#117;&#46;&#99;&#x6f;&#109;">&#x74;&#x65;&#x73;&#x74;&#50;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#100;&#111;&#117;&#46;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 3, Tom, 28, <a href="mailto:&#116;&#x65;&#115;&#x74;&#51;&#x40;&#98;&#x61;&#x6f;&#109;&#x69;&#100;&#x6f;&#117;&#46;&#x63;&#x6f;&#109;">&#116;&#x65;&#115;&#x74;&#51;&#x40;&#98;&#x61;&#x6f;&#109;&#x69;&#100;&#x6f;&#117;&#46;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 4, Sandy, 21, <a href="mailto:&#116;&#101;&#115;&#116;&#52;&#64;&#x62;&#x61;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#x2e;&#x63;&#x6f;&#109;">&#116;&#101;&#115;&#116;&#52;&#64;&#x62;&#x61;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#x2e;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#116;&#101;&#115;&#116;&#x35;&#x40;&#98;&#x61;&#x6f;&#109;&#105;&#100;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#x6d;">&#116;&#101;&#115;&#116;&#x35;&#x40;&#98;&#x61;&#x6f;&#109;&#105;&#100;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 5<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@32ec9c90]<br>User(id&#x3D;1, name&#x3D;Jone, age&#x3D;18, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#x74;&#x31;&#x40;&#98;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#x2e;&#99;&#x6f;&#x6d;">&#x74;&#101;&#x73;&#x74;&#x31;&#x40;&#98;&#x61;&#x6f;&#x6d;&#x69;&#x64;&#111;&#x75;&#x2e;&#99;&#x6f;&#x6d;</a>)<br>User(id&#x3D;2, name&#x3D;Jack, age&#x3D;20, email&#x3D;<a href="mailto:&#116;&#x65;&#115;&#x74;&#50;&#64;&#x62;&#x61;&#111;&#x6d;&#105;&#x64;&#x6f;&#x75;&#x2e;&#x63;&#111;&#x6d;">&#116;&#x65;&#115;&#x74;&#50;&#64;&#x62;&#x61;&#111;&#x6d;&#105;&#x64;&#x6f;&#x75;&#x2e;&#x63;&#111;&#x6d;</a>)<br>User(id&#x3D;3, name&#x3D;Tom, age&#x3D;28, email&#x3D;<a href="mailto:&#x74;&#x65;&#115;&#116;&#x33;&#64;&#x62;&#97;&#x6f;&#x6d;&#x69;&#x64;&#111;&#117;&#46;&#x63;&#x6f;&#109;">&#x74;&#x65;&#115;&#116;&#x33;&#64;&#x62;&#97;&#x6f;&#x6d;&#x69;&#x64;&#111;&#117;&#46;&#x63;&#x6f;&#109;</a>)<br>User(id&#x3D;4, name&#x3D;Sandy, age&#x3D;21, email&#x3D;<a href="mailto:&#116;&#101;&#115;&#116;&#x34;&#64;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#x6f;&#x75;&#46;&#99;&#111;&#109;">&#116;&#101;&#115;&#116;&#x34;&#64;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#x6f;&#x75;&#46;&#99;&#111;&#109;</a>)<br>User(id&#x3D;5, name&#x3D;Billie, age&#x3D;24, email&#x3D;<a href="mailto:&#x74;&#x65;&#x73;&#x74;&#x35;&#x40;&#98;&#x61;&#111;&#109;&#x69;&#100;&#111;&#x75;&#46;&#x63;&#x6f;&#109;">&#x74;&#x65;&#x73;&#x74;&#x35;&#x40;&#98;&#x61;&#111;&#109;&#x69;&#100;&#111;&#x75;&#46;&#x63;&#x6f;&#109;</a>)<br>2023-03-10 23:05:29.750  INFO 6208 — [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated…<br>2023-03-10 23:05:29.753  INFO 6208 — [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.</p>
 <p>Process finished with exit code 0</p>
 <hr>
 <h1 id="基本CRUD"><a href="#基本CRUD" class="headerlink" title="基本CRUD"></a>基本CRUD</h1><h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testInsert</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">        user.setName(<span class="string">&quot;狂神&quot;</span>);</span><br><span class="line">        user.setAge(<span class="number">23</span>);</span><br><span class="line">        user.setEmail(<span class="string">&quot;kuangshen@atguigu.com&quot;</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> userMapper.insert(user);</span><br><span class="line">        System.out.println(<span class="string">&quot;受影响行数：&quot;</span>+result);</span><br><span class="line">        <span class="comment">//1475754982694199298</span></span><br><span class="line">        System.out.println(<span class="string">&quot;id自动获取：&quot;</span>+user.getId()); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@1656143941 wrapping com.mysql.cj.jdbc.ConnectionImpl@58f254b1] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1634411039222972418(Long), 狂神(String), 23(Integer), <a href="mailto:&#107;&#x75;&#97;&#x6e;&#103;&#115;&#104;&#101;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#103;&#117;&#46;&#99;&#x6f;&#109;">&#107;&#x75;&#97;&#x6e;&#103;&#115;&#104;&#101;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#103;&#117;&#46;&#99;&#x6f;&#109;</a>(String)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12c0c0b3]<br>受影响行数：1<br>id自动获取：1634411039222972418</p>
+<p>JDBC Connection [HikariProxyConnection@1656143941 wrapping com.mysql.cj.jdbc.ConnectionImpl@58f254b1] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO user ( id, name, age, email ) VALUES ( ?, ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1634411039222972418(Long), 狂神(String), 23(Integer), <a href="mailto:&#107;&#117;&#97;&#110;&#x67;&#115;&#x68;&#x65;&#110;&#64;&#97;&#116;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#99;&#111;&#109;">&#107;&#117;&#97;&#110;&#x67;&#115;&#x68;&#x65;&#110;&#64;&#97;&#116;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#99;&#111;&#109;</a>(String)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@12c0c0b3]<br>受影响行数：1<br>id自动获取：1634411039222972418</p>
 <p>最终执行的结果，所获取的id为1475754982694199298</p>
 <p>这是因为MyBatis-Plus在实现插入数据时，会默认基于雪花算法的策略生成id</p>
 <h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><h3 id="a-gt-通过id删除记录"><a href="#a-gt-通过id删除记录" class="headerlink" title="a&gt;通过id删除记录"></a>a&gt;通过id删除记录</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDeleteById</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//通过id删除用户信息</span></span><br><span class="line">    <span class="comment">// DELETE FROM user WHERE id=?</span></span><br><span class="line">    <span class="type">int</span> result=userMapper.deleteById(<span class="number">1634411039222972418L</span>);</span><br><span class="line">    System.out.println(<span class="string">&quot;受影响行数：&quot;</span>+result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -127,66 +431,44 @@
 <p>JDBC Connection [HikariProxyConnection@1097397209 wrapping com.mysql.cj.jdbc.ConnectionImpl@353e6389] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: DELETE FROM user WHERE name &#x3D; ? AND age &#x3D; ?<br>&#x3D;&#x3D;&gt; Parameters: 张三(String), 23(Integer)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@343e225a]<br>受影响行数：1</p>
 <h1 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testUpdateById</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    user.setId(<span class="number">4L</span>);</span><br><span class="line">    user.setName(<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">    user.setEmail(<span class="string">&quot;lisi@atguigu.com&quot;</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> userMapper.updateById(user);</span><br><span class="line">    System.out.printf(<span class="string">&quot;result&quot;</span>+result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@988876043 wrapping com.mysql.cj.jdbc.ConnectionImpl@6806468e] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: UPDATE user SET name&#x3D;?, email&#x3D;? WHERE id&#x3D;?<br>&#x3D;&#x3D;&gt; Parameters: 李四(String), <a href="mailto:&#108;&#105;&#x73;&#105;&#x40;&#97;&#x74;&#103;&#117;&#105;&#103;&#x75;&#x2e;&#x63;&#111;&#x6d;">&#108;&#105;&#x73;&#105;&#x40;&#97;&#x74;&#103;&#117;&#105;&#103;&#x75;&#x2e;&#x63;&#111;&#x6d;</a>(String), 4(Long)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60aec68a]</p>
+<p>JDBC Connection [HikariProxyConnection@988876043 wrapping com.mysql.cj.jdbc.ConnectionImpl@6806468e] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: UPDATE user SET name&#x3D;?, email&#x3D;? WHERE id&#x3D;?<br>&#x3D;&#x3D;&gt; Parameters: 李四(String), <a href="mailto:&#108;&#105;&#x73;&#x69;&#x40;&#97;&#116;&#103;&#x75;&#x69;&#103;&#x75;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#x73;&#x69;&#x40;&#97;&#116;&#103;&#x75;&#x69;&#103;&#x75;&#46;&#x63;&#x6f;&#x6d;</a>(String), 4(Long)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@60aec68a]</p>
 <h1 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h1><h3 id="a-gt-根据id查询用户信息"><a href="#a-gt-根据id查询用户信息" class="headerlink" title="a&gt;根据id查询用户信息"></a>a&gt;根据id查询用户信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSelectById</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//根据id查询用户信息</span></span><br><span class="line">        <span class="comment">// SELECT id,name,age,email FROM user WHERE id=?</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userMapper.selectById(<span class="number">4L</span>);</span><br><span class="line">        System.out.println(user);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@1819552644 wrapping com.mysql.cj.jdbc.ConnectionImpl@5db3d57c] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE id&#x3D;?<br>&#x3D;&#x3D;&gt; Parameters: 4(Long)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#x6c;&#x69;&#115;&#x69;&#x40;&#x61;&#116;&#x67;&#117;&#105;&#103;&#117;&#x2e;&#99;&#x6f;&#109;">&#x6c;&#x69;&#115;&#x69;&#x40;&#x61;&#116;&#x67;&#117;&#105;&#103;&#117;&#x2e;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 1</p>
+<p>JDBC Connection [HikariProxyConnection@1819552644 wrapping com.mysql.cj.jdbc.ConnectionImpl@5db3d57c] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE id&#x3D;?<br>&#x3D;&#x3D;&gt; Parameters: 4(Long)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#x6c;&#x69;&#x73;&#105;&#64;&#97;&#116;&#103;&#x75;&#x69;&#x67;&#117;&#46;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#x73;&#105;&#64;&#97;&#116;&#103;&#x75;&#x69;&#x67;&#117;&#46;&#x63;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 1</p>
 <h3 id="b-gt-根据多个id查询多个用户信息"><a href="#b-gt-根据多个id查询多个用户信息" class="headerlink" title="b&gt;根据多个id查询多个用户信息"></a>b&gt;根据多个id查询多个用户信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSelectBatchIds</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//根据多个id查询多个用户信息 </span></span><br><span class="line">    <span class="comment">// SELECT id,name,age,email FROM user WHERE id IN ( ? , ? )</span></span><br><span class="line">    List&lt;Long&gt; idList = Arrays.asList(<span class="number">4L</span>, <span class="number">5L</span>);</span><br><span class="line">    List&lt;User&gt; list = userMapper.selectBatchIds(idList);</span><br><span class="line">    list.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@833272193 wrapping com.mysql.cj.jdbc.ConnectionImpl@26be9a6] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE id IN ( ? , ? )<br>&#x3D;&#x3D;&gt; Parameters: 4(Long), 5(Long)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#x6c;&#105;&#x73;&#x69;&#64;&#x61;&#x74;&#103;&#117;&#x69;&#103;&#x75;&#46;&#99;&#111;&#x6d;">&#x6c;&#105;&#x73;&#x69;&#64;&#x61;&#x74;&#103;&#117;&#x69;&#103;&#x75;&#46;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#x74;&#x65;&#115;&#x74;&#53;&#64;&#98;&#97;&#x6f;&#109;&#105;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#x6d;">&#x74;&#x65;&#115;&#x74;&#53;&#64;&#98;&#97;&#x6f;&#109;&#105;&#x64;&#x6f;&#x75;&#x2e;&#99;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 2</p>
+<p>JDBC Connection [HikariProxyConnection@833272193 wrapping com.mysql.cj.jdbc.ConnectionImpl@26be9a6] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE id IN ( ? , ? )<br>&#x3D;&#x3D;&gt; Parameters: 4(Long), 5(Long)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#108;&#105;&#115;&#x69;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#x67;&#x75;&#x2e;&#99;&#111;&#x6d;">&#108;&#105;&#115;&#x69;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#x67;&#x75;&#x2e;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#116;&#101;&#x73;&#116;&#x35;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#x6f;&#117;&#x2e;&#99;&#x6f;&#x6d;">&#116;&#101;&#x73;&#116;&#x35;&#x40;&#x62;&#97;&#111;&#x6d;&#x69;&#100;&#x6f;&#117;&#x2e;&#99;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 2</p>
 <h3 id="c-gt-通过map条件查询用户信息"><a href="#c-gt-通过map条件查询用户信息" class="headerlink" title="c&gt;通过map条件查询用户信息"></a>c&gt;通过map条件查询用户信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSelectByMap</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//通过map条件查询用户信息</span></span><br><span class="line">    <span class="comment">// SELECT id,name,age,email FROM user WHERE name = ? AND age = ?</span></span><br><span class="line">    Map&lt;String, Object&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    map.put(<span class="string">&quot;age&quot;</span>,<span class="number">21</span>);</span><br><span class="line">    map.put(<span class="string">&quot;name&quot;</span>,<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">    List&lt;User&gt; list = userMapper.selectByMap(map);</span><br><span class="line">    list.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@1745241742 wrapping com.mysql.cj.jdbc.ConnectionImpl@3c7b137a] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE name &#x3D; ? AND age &#x3D; ?<br>&#x3D;&#x3D;&gt; Parameters: 李四(String), 21(Integer)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#108;&#105;&#115;&#105;&#x40;&#x61;&#116;&#103;&#x75;&#105;&#x67;&#x75;&#x2e;&#99;&#x6f;&#x6d;">&#108;&#105;&#115;&#105;&#x40;&#x61;&#116;&#103;&#x75;&#105;&#x67;&#x75;&#x2e;&#99;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 1</p>
+<p>JDBC Connection [HikariProxyConnection@1745241742 wrapping com.mysql.cj.jdbc.ConnectionImpl@3c7b137a] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user WHERE name &#x3D; ? AND age &#x3D; ?<br>&#x3D;&#x3D;&gt; Parameters: 李四(String), 21(Integer)<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#108;&#105;&#x73;&#x69;&#64;&#x61;&#116;&#103;&#x75;&#105;&#x67;&#x75;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#x73;&#x69;&#64;&#x61;&#116;&#103;&#x75;&#105;&#x67;&#x75;&#46;&#x63;&#x6f;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 1</p>
 <h3 id="d-gt-查询所有数据"><a href="#d-gt-查询所有数据" class="headerlink" title="d&gt;查询所有数据"></a>d&gt;查询所有数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSelectList</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">//查询所有用户信息</span></span><br><span class="line">    <span class="comment">// SELECT id,name,age,email FROM user</span></span><br><span class="line">    List&lt;User&gt; list = userMapper.selectList(<span class="literal">null</span>);</span><br><span class="line">    list.forEach(System.out::println);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>JDBC Connection [HikariProxyConnection@1015139714 wrapping com.mysql.cj.jdbc.ConnectionImpl@111c229c] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#x6c;&#x69;&#115;&#x69;&#64;&#97;&#x74;&#x67;&#x75;&#105;&#103;&#x75;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#x69;&#115;&#x69;&#64;&#97;&#x74;&#x67;&#x75;&#105;&#103;&#x75;&#x2e;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#x74;&#x65;&#x73;&#x74;&#53;&#64;&#98;&#97;&#111;&#x6d;&#105;&#100;&#111;&#117;&#46;&#x63;&#x6f;&#109;">&#x74;&#x65;&#x73;&#x74;&#53;&#64;&#98;&#97;&#111;&#x6d;&#105;&#100;&#111;&#117;&#46;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 2</p>
+<p>JDBC Connection [HikariProxyConnection@1015139714 wrapping com.mysql.cj.jdbc.ConnectionImpl@111c229c] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 4, 李四, 21, <a href="mailto:&#x6c;&#x69;&#x73;&#105;&#x40;&#x61;&#x74;&#x67;&#117;&#x69;&#103;&#x75;&#x2e;&#99;&#x6f;&#109;">&#x6c;&#x69;&#x73;&#105;&#x40;&#x61;&#x74;&#x67;&#117;&#x69;&#103;&#x75;&#x2e;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#116;&#101;&#115;&#x74;&#53;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#x63;&#111;&#x6d;">&#116;&#101;&#115;&#x74;&#53;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#x6f;&#117;&#x2e;&#x63;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;      Total: 2</p>
 <p>通过观察BaseMapper中的方法，大多方法中都有Wrapper类型的形参，此为条件构造器，可针</p>
 <p>对于SQL语句设置不同的条件，若没有条件，则可以为该形参赋值null，即查询（删除&#x2F;修改）所有数据</p>
+<h1 id="通用Service"><a href="#通用Service" class="headerlink" title="通用Service"></a>通用Service</h1><p>说明:</p>
+<p>通用 Service CRUD 封装IService接口，进一步封装 CRUD 采用 get 查询单行 remove 删</p>
+<p>除 list 查询集合 page 分页 前缀命名方式区分 Mapper 层避免混淆，</p>
+<p>泛型 T 为任意实体对象</p>
+<p>建议如果存在自定义通用 Service 方法的可能，请创建自己的 IBaseService 继承</p>
+<p>Mybatis-Plus 提供的基类</p>
+<h2 id="a-gt-IService"><a href="#a-gt-IService" class="headerlink" title="a&gt;IService"></a>a&gt;IService</h2><p>MyBatis-Plus中有一个接口 IService和其实现类 ServiceImpl，封装了常见的业务层逻辑</p>
+<p>详情查看源码IService和ServiceImpl</p>
+<h2 id="b-gt-创建Service接口和实现类"><a href="#b-gt-创建Service接口和实现类" class="headerlink" title="b&gt;创建Service接口和实现类"></a>b&gt;创建Service接口和实现类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.atguigu.mybatisplus.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.atguigu.mybatisplus.pojo.User;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.IService;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * UserService继承IService模板提供的基础功能</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;User&gt; &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.atguigu.mybatisplus.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.atguigu.mybatisplus.mapper.UserMapper;</span><br><span class="line"><span class="keyword">import</span> com.atguigu.mybatisplus.pojo.User;</span><br><span class="line"><span class="keyword">import</span> com.atguigu.mybatisplus.service.UserService;</span><br><span class="line"><span class="keyword">import</span> com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/***</span></span><br><span class="line"><span class="comment"> * ServiceImpl实现了IService，提供了IService中基础功能的实现</span></span><br><span class="line"><span class="comment"> * * 若ServiceImpl无法满足业务需求，则可以使用自定的UserService定义方法，并在实现类中实现</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;UserMapper, User&gt; <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="c-gt-测试查询记录数"><a href="#c-gt-测试查询记录数" class="headerlink" title="c&gt;测试查询记录数"></a>c&gt;测试查询记录数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> UserService userService;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testGetCount</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">long</span> <span class="variable">count</span> <span class="operator">=</span> userService.count();</span><br><span class="line">    System.out.println(<span class="string">&quot;总记录数：&quot;</span> + count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@1684368286 wrapping com.mysql.cj.jdbc.ConnectionImpl@6870cfac] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT COUNT( * ) FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: COUNT( * )<br>&lt;&#x3D;&#x3D;        Row: 2<br>&lt;&#x3D;&#x3D;      Total: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@297c9a9b]<br>总记录数：2</p>
+<h2 id="d-gt-测试批量插入"><a href="#d-gt-测试批量插入" class="headerlink" title="d&gt;测试批量插入"></a>d&gt;测试批量插入</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSaveBatch</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="comment">// SQL长度有限制，海量数据插入单条SQL无法实行，</span></span><br><span class="line">    <span class="comment">// 因此MP将批量插入放在了通用Service中实现，而不是通用Mapper</span></span><br><span class="line">    ArrayList&lt;User&gt; users = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">        user.setName(<span class="string">&quot;xcw&quot;</span>+i);</span><br><span class="line">        user.setAge(<span class="number">8</span>+i);</span><br><span class="line">        users.add(user);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//SQL:INSERT INTO t_user ( username, age ) VALUES ( ?, ? )</span></span><br><span class="line">    userService.saveBatch(users)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@929066990 wrapping com.mysql.cj.jdbc.ConnectionImpl@33d28f0a] will be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO user ( id, name, age ) VALUES ( ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1634861531262742529(Long), xcw0(String), 8(Integer)<br>&#x3D;&#x3D;&gt; Parameters: 1634861531417931777(Long), xcw1(String), 9(Integer)<br>&#x3D;&#x3D;&gt; Parameters: 1634861531417931778(Long), xcw2(String), 10(Integer)<br>&#x3D;&#x3D;&gt; Parameters: 1634861531417931779(Long), xcw3(String), 11(Integer)<br>&#x3D;&#x3D;&gt; Parameters: 1634861531417931780(Long), xcw4(String), 12(Integer)</p>
 
       
     </div>
     <footer class="article-footer">
       <a data-url="http://example.com/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/" data-id="clf2nvj0t0001ukuqgc5z9puk" data-title="mybatisplus入门案例" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MyBatis第一个程序" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/10/MyBatis%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/" class="article-date">
-  <time class="dt-published" datetime="2023-03-10T05:53:55.000Z" itemprop="datePublished">2023-03-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/10/MyBatis%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/">MyBatis第一个程序</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="pom文件"><a href="#pom文件" class="headerlink" title="pom文件"></a>pom文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.kuang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ssm<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>19<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>19<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="编写MyBatis核心配置文件-mybatis-config-xml"><a href="#编写MyBatis核心配置文件-mybatis-config-xml" class="headerlink" title="编写MyBatis核心配置文件,mybatis-config.xml"></a>编写MyBatis核心配置文件,mybatis-config.xml</h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/10/MyBatis%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/" data-id="clf2nvj0o0000ukuq0niq3oqo" data-title="MyBatis第一个程序" class="article-share-link">Share</a>
       
       
       
@@ -487,315 +769,6 @@
 
 
   
-    <article id="post-spring-自动装配Bean" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" class="article-date">
-  <time class="dt-published" datetime="2022-11-30T02:14:59.000Z" itemprop="datePublished">2022-11-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/">spring 自动装配Bean</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="pojo下三个类，cat-dog-people"><a href="#pojo下三个类，cat-dog-people" class="headerlink" title="pojo下三个类，cat,dog,people"></a>pojo下三个类，cat,dog,people</h3><pre><code>package com.kuang.pojo;
-public class Cat &#123;
-    public void shout() &#123;
-        System.out.println(&quot;miao~&quot;);
-    &#125;
-
-&#125;
-</code></pre>
-<hr>
-<pre><code>package com.kuang.pojo;
-public class Dog &#123;
-    public void shout() &#123;
-        System.out.println(&quot;wang~&quot;);
-    &#125;
-&#125;
-</code></pre>
-<hr>
-<pre><code>package com.kuang.pojo;
-public class People &#123;
-    private Cat cat;
-    private Dog dog;
-    private String name;
-</code></pre>
-<hr>
-<h3 id="beans配置文件"><a href="#beans配置文件" class="headerlink" title="beans配置文件"></a>beans配置文件</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
-        &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
-        &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
-
-        &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot;&gt;
-            &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
-            &lt;property name=&quot;cat&quot; ref=&quot;cat&quot;&gt;&lt;/property&gt;
-            &lt;property name=&quot;dog&quot; ref=&quot;dog&quot;&gt;&lt;/property&gt;
-        &lt;/bean&gt;
-&lt;/beans&gt;
-</code></pre>
-<hr>
-<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><pre><code>import com.kuang.pojo.People;
-import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-public class t &#123;
-    @Test
-    public void ttt()&#123;
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
-        People people = context.getBean(&quot;people&quot;, People.class);
-        people.getDog().shout();
-        people.getCat().shout();
-    &#125;
-&#125;
-</code></pre>
-<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><pre><code>wang~
-miao~
-
-Process finished with exit code 0
-</code></pre>
-<blockquote>
-<p>如果能在bean里自动寻找cat和dog的话，自动装配，就能减少代码量</p>
-</blockquote>
-<h3 id="更改配置文件"><a href="#更改配置文件" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
-    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
-
-    &lt;bean id=&quot;people&quot; class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byName&quot;&gt;
-        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
-    &lt;/bean&gt;
-</code></pre>
-<h3 id="测试成功！"><a href="#测试成功！" class="headerlink" title="测试成功！"></a>测试成功！</h3><pre><code>wang~
-miao~
-</code></pre>
-<hr>
-<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><h6 id="当一个bean节点带有-autowire-byName的属性时。"><a href="#当一个bean节点带有-autowire-byName的属性时。" class="headerlink" title="当一个bean节点带有 autowire byName的属性时。"></a>当一个bean节点带有 autowire byName的属性时。</h6><h6 id="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"><a href="#将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。" class="headerlink" title="将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。"></a>将查找其类中所有的set方法名，例如setCat，获得将set去掉并且首字母小写的字符串，即cat。</h6><h6 id="去spring容器中寻找是否有此字符串名称id的对象。"><a href="#去spring容器中寻找是否有此字符串名称id的对象。" class="headerlink" title="去spring容器中寻找是否有此字符串名称id的对象。"></a>去spring容器中寻找是否有此字符串名称id的对象。</h6><h6 id="如果有，就取出注入；如果没有，就报空指针异常。"><a href="#如果有，就取出注入；如果没有，就报空指针异常。" class="headerlink" title="如果有，就取出注入；如果没有，就报空指针异常。"></a>如果有，就取出注入；如果没有，就报空指针异常。</h6><hr>
-<h1 id="下面介绍-autowire-byType-按类型自动装配"><a href="#下面介绍-autowire-byType-按类型自动装配" class="headerlink" title="下面介绍 autowire byType (按类型自动装配)"></a>下面介绍 autowire byType (按类型自动装配)</h1><h3 id="更改配置文件-1"><a href="#更改配置文件-1" class="headerlink" title="更改配置文件"></a>更改配置文件</h3><pre><code>    &lt;bean id=&quot;cat&quot; class=&quot;com.kuang.pojo.Cat&quot;&gt;&lt;/bean&gt;
-    &lt;bean id=&quot;dog&quot; class=&quot;com.kuang.pojo.Dog&quot;&gt;&lt;/bean&gt;
-
-    &lt;bean class=&quot;com.kuang.pojo.People&quot; autowire=&quot;byType&quot;&gt;
-        &lt;property name=&quot;name&quot; value=&quot;小狂神&quot;&gt;&lt;/property&gt;
-    &lt;/bean&gt;
-</code></pre>
-<h3 id="测试类此时只需要获取对象类型，甚至不用id"><a href="#测试类此时只需要获取对象类型，甚至不用id" class="headerlink" title="测试类此时只需要获取对象类型，甚至不用id"></a>测试类此时只需要获取对象类型，甚至不用id</h3><pre><code>    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
-    People people = context.getBean(People.class);
-    people.getDog().shout();
-    people.getCat().shout();
-</code></pre>
-<h3 id="测试，运行成功！"><a href="#测试，运行成功！" class="headerlink" title="测试，运行成功！"></a>测试，运行成功！</h3><pre><code>wang~
-miao~
-</code></pre>
-<hr>
-<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p><img src="https://user-images.githubusercontent.com/118366174/204694230-6b0997d9-b33b-49d1-90b9-897cce93ebd8.JPG" alt="avater"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/30/spring-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DBean/" data-id="clewx2nou000dakuq3vtdhag9" data-title="spring 自动装配Bean" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Javaweb-Response下载文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2022-11-28T15:40:16.000Z" itemprop="datePublished">2022-11-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">Javaweb Response下载文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><img src="https://user-images.githubusercontent.com/118366174/204320138-59c5dc0f-e8f3-4ae9-933d-85112b98e34e.JPG" alt="avater"></p>
-<p><img src="https://user-images.githubusercontent.com/118366174/204319356-bc0a2187-35a8-4310-a3d3-685f67037657.JPG" alt="avater"></p>
-<h1 id="自己的源码"><a href="#自己的源码" class="headerlink" title="自己的源码"></a>自己的源码</h1><pre><code>public class FileServlet extends HttpServlet &#123;
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
-        String realPath = &quot;D:\\work\\kuang\\servlet\\javaweb\\response\\src\\main\\resources\\小小红.jpg&quot;;
-        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;) + 1);
-        resp.setHeader(&quot;Content-Disposition&quot;,&quot;attachment;filename=&quot;+ URLEncoder.encode(fileName,&quot;UTF-8&quot;));
-        FileInputStream in = new FileInputStream(realPath);
-        int len=0;
-        byte[] buffer=new byte[1024];
-        ServletOutputStream out = resp.getOutputStream();
-        while((len=in.read(buffer))&gt;0)&#123;
-            out.write(buffer,0,len);
-        &#125;
-        in.close();
-        out.close();
-
-    &#125;
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
-        super.doPost(req, resp);
-    &#125;
-&#125;
-</code></pre>
-<hr>
-<h1 id="mapping注册"><a href="#mapping注册" class="headerlink" title="mapping注册"></a>mapping注册</h1><pre><code>&lt;!DOCTYPE web-app PUBLIC
- &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
- &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
-
-&lt;web-app&gt;
-  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
-  &lt;servlet&gt;
-    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;com.kuang.servlet.FileServlet&lt;/servlet-class&gt;
-  &lt;/servlet&gt;
-  &lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;filedown&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;/down&lt;/url-pattern&gt;
-  &lt;/servlet-mapping&gt;
-&lt;/web-app&gt;
-</code></pre>
-<h1 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h1><p><img src="https://user-images.githubusercontent.com/118366174/204320404-69519b30-aa0a-4964-a945-f46f390eb0c3.JPG" alt="avater"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/28/Javaweb-Response%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/" data-id="clewx2noi0000akuq0nfb3sbz" data-title="Javaweb Response下载文件" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Javaweb-Servlet原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2022-11-26T07:21:52.000Z" itemprop="datePublished">2022-11-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/">Javaweb Servlet原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Servlet原理"><a href="#Servlet原理" class="headerlink" title="Servlet原理"></a>Servlet原理</h1><p><img src="https://user-images.githubusercontent.com/118366174/204077714-c2cbc677-d0bb-4ed4-808d-0e82565fd056.JPG" alt="avater"></p>
-<hr>
-<h1 id="这里扩展一下写404网页"><a href="#这里扩展一下写404网页" class="headerlink" title="这里扩展一下写404网页"></a>这里扩展一下写404网页</h1><h4 id="先写ErrorServlet类"><a href="#先写ErrorServlet类" class="headerlink" title="先写ErrorServlet类"></a>先写ErrorServlet类</h4><pre><code>    package com.red.servlet;
-
-    import javax.servlet.ServletException;
-    import javax.servlet.http.HttpServlet;
-    import javax.servlet.http.HttpServletRequest;
-    import javax.servlet.http.HttpServletResponse;
-    import java.io.IOException;
-    import java.io.PrintWriter;
-
-    public class ErrorServlet extends HttpServlet &#123;
-        @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
-            resp.setContentType(&quot;text/html&quot;);
-            resp.setCharacterEncoding(&quot;utf-8&quot;);
-
-            PrintWriter writer = resp.getWriter();
-            writer.print(&quot;&lt;h1&gt;404&lt;/h1&gt;&quot;);
-        &#125;
-
-        @Override
-        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
-            super.doPost(req, resp);
-        &#125;
-    &#125;
-    
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/118366174/204077563-2d48c0bc-3f16-494c-90df-5c8c9e0fb5ef.JPG" alt="avater"></p>
-<h4 id="再编辑web-xml"><a href="#再编辑web-xml" class="headerlink" title="再编辑web.xml"></a>再编辑web.xml</h4><pre><code>    &lt;web-app&gt;
-      &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
-      
-      &lt;!--编写Servlet的映射--&gt;
-      
-      
-      &lt;servlet&gt;
-        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;com.red.servlet.HelloServlet&lt;/servlet-class&gt;
-      &lt;/servlet&gt;
-      &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/hello&lt;/url-pattern&gt;
-      &lt;/servlet-mapping&gt;
-         &lt;!--映射到错误类--&gt;
-         
-         
-      &lt;servlet&gt;
-        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;com.red.servlet.ErrorServlet&lt;/servlet-class&gt;
-      &lt;/servlet&gt;
-      &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;error&lt;/servlet-name&gt;
-        &lt;!-- 这里是正则 *代表任意字符--&gt;
-        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-      &lt;/servlet-mapping&gt;
-
-
-    &lt;/web-app&gt;
-</code></pre>
-<h2 id="运行tomcat服务器，打开网页"><a href="#运行tomcat服务器，打开网页" class="headerlink" title="运行tomcat服务器，打开网页"></a>运行tomcat服务器，打开网页</h2><p><img src="https://user-images.githubusercontent.com/118366174/204077622-87f3ed2d-2da4-4f74-8359-83b75a7f6a31.JPG" alt="avater"></p>
-<h2 id="修改url路径到hello，还是会找到-HelloServlet-网页"><a href="#修改url路径到hello，还是会找到-HelloServlet-网页" class="headerlink" title="修改url路径到hello，还是会找到 HelloServlet 网页"></a>修改url路径到hello，还是会找到 HelloServlet 网页</h2><p><img src="https://user-images.githubusercontent.com/118366174/204077662-1ac10368-6150-4ccb-883c-f48655917040.JPG" alt="avater"></p>
-<h1 id="原因是优先级问题："><a href="#原因是优先级问题：" class="headerlink" title="原因是优先级问题："></a>原因是优先级问题：</h1><h4 id="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"><a href="#指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求" class="headerlink" title="指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求"></a>指定了固有的映射路径优先级最高，如果找不到就会走默认的处理请求</h4>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" data-id="clewx2non0002akuqei7e3l8m" data-title="Javaweb Servlet原理" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -832,23 +805,23 @@ miao~
       <ul>
         
           <li>
+            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">mybatisplus入门案例</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/10/MyBatis%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F/">MyBatis第一个程序</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/06/day01-springcloud/">day01-springcloud</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/02/jvm-day1/">jvm-day1</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/26/reggie-day02/">reggie-day02</a>
           </li>
         
       </ul>

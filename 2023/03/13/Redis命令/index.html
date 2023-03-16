@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Redis命令 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="贴心小建议：命令不要死记，学会查询就好啦  4.2 Redis 通用命令通用指令是部分数据类型的，都可以使用的指令，常见的有：  KEYS：查看符合模板的所有key DEL：删除一个指定的key EXISTS：判断key是否存在 EXPIRE：给一个key设置有效期，有效期到期时该key会被自动删除 TTL：查看一个KEY的剩余有效期  通过help [command] 可以查看一个命令的具体用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis命令">
+<meta property="og:url" content="http://example.com/2023/03/13/Redis%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="贴心小建议：命令不要死记，学会查询就好啦  4.2 Redis 通用命令通用指令是部分数据类型的，都可以使用的指令，常见的有：  KEYS：查看符合模板的所有key DEL：删除一个指定的key EXISTS：判断key是否存在 EXPIRE：给一个key设置有效期，有效期到期时该key会被自动删除 TTL：查看一个KEY的剩余有效期  通过help [command] 可以查看一个命令的具体用法">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-13T05:39:13.000Z">
+<meta property="article:modified_time" content="2023-03-14T15:11:36.133Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Redis命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2023-03-13T05:39:13.000Z" itemprop="datePublished">2023-03-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Redis命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>贴心小建议：命令不要死记，学会查询就好啦</strong> </p>
+<h2 id="4-2-Redis-通用命令"><a href="#4-2-Redis-通用命令" class="headerlink" title="4.2 Redis 通用命令"></a>4.2 Redis 通用命令</h2><p>通用指令是部分数据类型的，都可以使用的指令，常见的有：</p>
+<ul>
+<li>KEYS：查看符合模板的所有key</li>
+<li>DEL：删除一个指定的key</li>
+<li>EXISTS：判断key是否存在</li>
+<li>EXPIRE：给一个key设置有效期，有效期到期时该key会被自动删除</li>
+<li>TTL：查看一个KEY的剩余有效期</li>
+</ul>
+<p>通过help [command] 可以查看一个命令的具体用法，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">192.168.206.133:6379&gt; help keys</span><br><span class="line"></span><br><span class="line">  KEYS pattern</span><br><span class="line">  summary: Find all keys matching the given pattern</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: generic</span><br></pre></td></tr></table></figure>
+<h3 id="keys命令"><a href="#keys命令" class="headerlink" title="keys命令"></a>keys命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line">2) &quot;name&quot;</span><br><span class="line">3) &quot;haha&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询以a开头的key</span></span><br><span class="line">127.0.0.1:6379&gt; keys a*</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>贴心小提示：在生产环境下，不推荐使用keys 命令，因为这个命令在key过多的情况下，效率不高</strong></p>
+<hr>
+<h3 id="DEL命令"><a href="#DEL命令" class="headerlink" title="DEL命令"></a>DEL命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; help del</span><br><span class="line"></span><br><span class="line">  DEL key [key ...]</span><br><span class="line">  summary: Delete a key</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: generic</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; del name #删除单个</span><br><span class="line">(integer) 1  #成功删除1个</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; MSET k1 v1 k2 v2 k3 v3 #批量添加数据</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;k3&quot;</span><br><span class="line">2) &quot;k2&quot;</span><br><span class="line">3) &quot;k1&quot;</span><br><span class="line">4) &quot;age&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; del k1 k2 k3 k4</span><br><span class="line">(integer) 3   #此处返回的是成功删除的key，由于redis中只有k1,k2,k3 所以只成功删除3个，最终返回</span><br><span class="line">127.0.0.1:6379&gt;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys * #再查询全部的key</span><br><span class="line">1) &quot;age&quot;    #只剩下一个了</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="EXISTS命令"><a href="#EXISTS命令" class="headerlink" title="EXISTS命令"></a>EXISTS命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; expire age 10</span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) 6</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -2  #当这个key过期了，那么此时查询出来就是-2 </span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">(empty list or set)</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set age 10 #如果没有设置过期时间</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl age</span><br><span class="line">(integer) -1  # ttl的返回值就是-1</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="4-3-Redis命令-String命令"><a href="#4-3-Redis命令-String命令" class="headerlink" title="4.3 Redis命令-String命令"></a>4.3 Redis命令-String命令</h3><p>String类型，也就是字符串类型，是Redis中最简单的存储类型。</p>
+<p>其value是字符串，不过根据字符串的格式不同，又可以分为3类：</p>
+<ul>
+<li>string：普通字符串</li>
+<li>int：整数类型，可以做自增.自减操作</li>
+<li>float：浮点类型，可以做自增.自减操作</li>
+</ul>
+<p>String的常见命令有：</p>
+<ul>
+<li>SET：添加或者修改已经存在的一个String类型的键值对</li>
+<li>GET：根据key获取String类型的value</li>
+<li>MSET：批量添加多个String类型的键值对</li>
+<li>MGET：根据多个key获取多个String类型的value</li>
+<li>INCR：让一个整型的key自增1</li>
+<li>INCRBY:让一个整型的key自增并指定步长，例如：incrby num 2 让num值自增2</li>
+<li>INCRBYFLOAT：让一个浮点类型的数字自增并指定步长</li>
+<li>SETNX：添加一个String类型的键值对，前提是这个key不存在，否则不执行</li>
+<li>SETEX：添加一个String类型的键值对，并且指定有效期</li>
+</ul>
+<p><strong>贴心小提示</strong>：以上命令除了INCRBYFLOAT 都是常用命令</p>
+<ul>
+<li>SET 和GET: 如果key不存在则是新增，如果存在则是修改<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set name Rose  //原来不存在</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get name </span><br><span class="line">&quot;Rose&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set name Jack //原来存在，就是修改</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;Jack&quot;</span><br></pre></td></tr></table></figure></li>
+<li>MSET和MGET<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; MSET k1 v1 k2 v2 k3 v3</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; MGET name age k1 k2 k3</span><br><span class="line">1) &quot;Jack&quot; //之前存在的name</span><br><span class="line">2) &quot;10&quot;   //之前存在的age</span><br><span class="line">3) &quot;v1&quot;</span><br><span class="line">4) &quot;v2&quot;</span><br><span class="line">5) &quot;v3&quot;</span><br></pre></td></tr></table></figure></li>
+<li>INCR和INCRBY和DECY<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; get age </span><br><span class="line">&quot;10&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incr age //增加1</span><br><span class="line">(integer) 11</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get age //获得age</span><br><span class="line">&quot;11&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age 2 //一次增加2</span><br><span class="line">(integer) 13 //返回目前的age的值</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age 2</span><br><span class="line">(integer) 15</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age -1 //也可以增加负数，相当于减</span><br><span class="line">(integer) 14</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; incrby age -2 //一次减少2个</span><br><span class="line">(integer) 12</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; DECR age //相当于 incr 负数，减少正常用法</span><br><span class="line">(integer) 11</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get age </span><br><span class="line">&quot;11&quot;</span><br></pre></td></tr></table></figure></li>
+<li>SETNX<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; help setnx</span><br><span class="line"></span><br><span class="line">  SETNX key value</span><br><span class="line">  summary: Set the value of a key, only if the key does not exist</span><br><span class="line">  since: 1.0.0</span><br><span class="line">  group: string</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set name Jack  //设置名称</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; setnx name lisi //如果key不存在，则添加成功</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; get name //由于name已经存在，所以lisi的操作失败</span><br><span class="line">&quot;Jack&quot;</span><br><span class="line">127.0.0.1:6379&gt; setnx name2 lisi //name2 不存在，所以操作成功</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get name2 </span><br><span class="line">&quot;lisi&quot;</span><br></pre></td></tr></table></figure></li>
+<li>SETEX<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; setex name 10 jack</span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 7</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ttl name</span><br><span class="line">(integer) 5</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h1 id="4-4-Redis命令-Key的层级结构"><a href="#4-4-Redis命令-Key的层级结构" class="headerlink" title="4.4 Redis命令-Key的层级结构"></a>4.4 Redis命令-Key的层级结构</h1><p>Redis没有类似MySQL中的Table的概念，我们该如何区分不同类型的key呢？</p>
+<p>例如，需要存储用户.商品信息到redis，有一个用户id是1，有一个商品id恰好也是1，此时如果使用id作为key，那就会冲突了，该怎么办？</p>
+<p>我们可以通过给key添加前缀加以区分，不过这个前缀不是随便加的，有一定的规范：</p>
+<p>Redis的key允许有多个单词形成层级结构，多个单词之间用’:’隔开，格式如下：</p>
+<h3 id="项目名-业务名-类型id"><a href="#项目名-业务名-类型id" class="headerlink" title="项目名:业务名:类型id"></a>项目名:业务名:类型id</h3><p>这个格式并非固定，也可以根据自己的需求来删除或添加词条。</p>
+<p>例如我们的项目名称叫 heima，有user和product两种不同类型的数据，我们可以这样定义key：</p>
+<ul>
+<li><p>user相关的key：<strong>heima:user:1</strong></p>
+</li>
+<li><p>product相关的key：<strong>heima:product:1</strong></p>
+</li>
+</ul>
+<p>如果Value是一个Java对象，例如一个User对象，则可以将对象序列化为JSON字符串后存储：</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/13/Redis%E5%91%BD%E4%BB%A4/" data-id="clf6e9zn10000vsuq2ra6eh9q" data-title="Redis命令" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mybatisplus常用注解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mybatis-crud操作</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">mybatisplus入门案例</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

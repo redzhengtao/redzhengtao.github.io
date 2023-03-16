@@ -4,22 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>spring 依赖注入之setter注入 | red的博客</title>
+  <title>mybatis-crud操作 | red的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="&lt;!-- property标签：通过组件类的setXxx()方法给组件对象设置属性 --&gt;     &lt;!-- name属性：指定属性名（这个属性名是getXxx()、setXxx()方法定义的，和成员变量无关） --&gt;     &lt;!-- value属性：指定属性值 --&gt;      &lt;bean id&#x3D;&quot;studentTwo&quot; c">
+  <meta name="description" content="select select标签是mybatis中最常用的标签之一 select语句有很多属性可以详细配置每一条SQL语句 id 命名空间中唯一的标识符 接口中的方法名与映射文件中的SQL语句ID 一一对应   parameterType 传入SQL语句的参数类型 。【万能的Map，可以多尝试使用】   resultType SQL语句返回值类型。【完整的类名或者别名】      需求：根据id查询">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spring 依赖注入之setter注入">
-<meta property="og:url" content="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:title" content="mybatis-crud操作">
+<meta property="og:url" content="http://example.com/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="red的博客">
-<meta property="og:description" content="&lt;!-- property标签：通过组件类的setXxx()方法给组件对象设置属性 --&gt;     &lt;!-- name属性：指定属性名（这个属性名是getXxx()、setXxx()方法定义的，和成员变量无关） --&gt;     &lt;!-- value属性：指定属性值 --&gt;      &lt;bean id&#x3D;&quot;studentTwo&quot; c">
+<meta property="og:description" content="select select标签是mybatis中最常用的标签之一 select语句有很多属性可以详细配置每一条SQL语句 id 命名空间中唯一的标识符 接口中的方法名与映射文件中的SQL语句ID 一一对应   parameterType 传入SQL语句的参数类型 。【万能的Map，可以多尝试使用】   resultType SQL语句返回值类型。【完整的类名或者别名】      需求：根据id查询">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/203968977-ef9e060b-e24c-473b-b531-27df0102dd4c.JPG">
-<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/203972254-7dcabcad-73bc-4931-99f5-2a12dae8553e.JPG">
-<meta property="article:published_time" content="2022-11-25T10:47:21.000Z">
-<meta property="article:modified_time" content="2022-11-25T11:06:05.343Z">
+<meta property="article:published_time" content="2023-03-12T16:31:43.000Z">
+<meta property="article:modified_time" content="2023-03-14T05:54:39.185Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/118366174/203968977-ef9e060b-e24c-473b-b531-27df0102dd4c.JPG">
   
     <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
   
@@ -76,10 +73,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-spring-依赖注入之setter注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-mybatis-crud操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2022-11-25T10:47:21.000Z" itemprop="datePublished">2022-11-25</time>
+    <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2023-03-12T16:31:43.000Z" itemprop="datePublished">2023-03-13</time>
 </a>
     
   </div>
@@ -90,7 +87,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      spring 依赖注入之setter注入
+      mybatis-crud操作
     </h1>
   
 
@@ -98,22 +95,39 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre><code>    &lt;!-- property标签：通过组件类的setXxx()方法给组件对象设置属性 --&gt;
-    &lt;!-- name属性：指定属性名（这个属性名是getXxx()、setXxx()方法定义的，和成员变量无关） --&gt;
-    &lt;!-- value属性：指定属性值 --&gt;
-     &lt;bean id=&quot;studentTwo&quot; class=&quot;com.red.spring.pojo.Student&quot;&gt;
-            &lt;property name=&quot;sid&quot; value=&quot;1001&quot;&gt;&lt;/property&gt;
-            &lt;property name=&quot;sname&quot; value=&quot;张三&quot;&gt;&lt;/property&gt;
-            &lt;property name=&quot;age&quot; value=&quot;23&quot;&gt;&lt;/property&gt;
-            &lt;property name=&quot;gender&quot; value=&quot;男&quot;&gt;&lt;/property&gt;
-        &lt;/bean&gt;
-</code></pre>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/203968977-ef9e060b-e24c-473b-b531-27df0102dd4c.JPG" alt="avater"></h2><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p><img src="https://user-images.githubusercontent.com/118366174/203972254-7dcabcad-73bc-4931-99f5-2a12dae8553e.JPG" alt="avater"></p>
+        <h1 id="select"><a href="#select" class="headerlink" title="select"></a>select</h1><ul>
+<li>select标签是mybatis中最常用的标签之一</li>
+<li>select语句有很多属性可以详细配置每一条SQL语句<ul>
+<li>id<ul>
+<li>命名空间中唯一的标识符</li>
+<li>接口中的方法名与映射文件中的SQL语句ID 一一对应</li>
+</ul>
+</li>
+<li>parameterType<ul>
+<li>传入SQL语句的参数类型 。【万能的Map，可以多尝试使用】</li>
+</ul>
+</li>
+<li>resultType<ul>
+<li>SQL语句返回值类型。【完整的类名或者别名】</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>需求：根据id查询用户</strong></p>
+<p>在UserMapper中添加对应方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="comment">//根据id查询用户</span></span><br><span class="line">    User <span class="title function_">selectUserById</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在UserMapper.xml中添加Select语句</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.kuang.pojo.User&quot;</span>&gt;</span></span><br><span class="line">  select * from user where id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试类中测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/25/spring-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E4%B9%8Bsetter%E6%B3%A8%E5%85%A5/" data-id="clewx2not000cakuqfgoha655" data-title="spring 依赖注入之setter注入" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/" data-id="clf6e9zn40001vsuqcinbgo4s" data-title="mybatis-crud操作" class="article-share-link">Share</a>
       
       
       
@@ -123,19 +137,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/11/26/Javaweb-Servlet%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Javaweb Servlet原理
+          Redis命令
         
       </div>
     </a>
   
   
-    <a href="/2022/11/23/css-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">css 属性选择器</div>
+      <div class="article-nav-title">mybatisplus入门案例</div>
     </a>
   
 </nav>
