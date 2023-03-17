@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>mybatisplus插件 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="六、插件1、分页插件MyBatis Plus自带分页插件，只要简单的配置即可实现分页功能 a&gt;添加配置类1234567891011@Configuration@MapperScan(&quot;com.atguigu.mybatisplus.mapper&quot;)&#x2F;&#x2F;可以将主类中的注解移到此处public class MybatisPlusConfig &amp;#123;    @Bean">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatisplus插件">
+<meta property="og:url" content="http://example.com/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="六、插件1、分页插件MyBatis Plus自带分页插件，只要简单的配置即可实现分页功能 a&gt;添加配置类1234567891011@Configuration@MapperScan(&quot;com.atguigu.mybatisplus.mapper&quot;)&#x2F;&#x2F;可以将主类中的注解移到此处public class MybatisPlusConfig &amp;#123;    @Bean">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-17T00:13:11.000Z">
+<meta property="article:modified_time" content="2023-03-17T00:49:23.364Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-mybatisplus插件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2023-03-17T00:13:11.000Z" itemprop="datePublished">2023-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      mybatisplus插件
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="六、插件"><a href="#六、插件" class="headerlink" title="六、插件"></a>六、插件</h1><h2 id="1、分页插件"><a href="#1、分页插件" class="headerlink" title="1、分页插件"></a>1、分页插件</h2><p>MyBatis Plus自带分页插件，只要简单的配置即可实现分页功能</p>
+<h3 id="a-gt-添加配置类"><a href="#a-gt-添加配置类" class="headerlink" title="a&gt;添加配置类"></a>a&gt;添加配置类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan(&quot;com.atguigu.mybatisplus.mapper&quot;)</span><span class="comment">//可以将主类中的注解移到此处</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MybatisPlusConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> MybatisPlusInterceptor <span class="title function_">mybatisPlusConfig</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">MybatisPlusInterceptor</span> <span class="variable">mybatisPlusInterceptor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MybatisPlusInterceptor</span>();</span><br><span class="line">        mybatisPlusInterceptor.addInnerInterceptor(<span class="keyword">new</span> <span class="title class_">PaginationInnerInterceptor</span>(DbType.MYSQL));</span><br><span class="line">        <span class="keyword">return</span> mybatisPlusInterceptor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="b-gt-测试"><a href="#b-gt-测试" class="headerlink" title="b&gt;测试"></a>b&gt;测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testPage</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//设置分页参数</span></span><br><span class="line">        Page&lt;User&gt; page=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line">        userMapper.selectPage(page,<span class="literal">null</span>);</span><br><span class="line">        <span class="comment">//获取分页数据</span></span><br><span class="line">        List&lt;User&gt; list = page.getRecords();</span><br><span class="line">        list.forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">&quot;当前页：&quot;</span>+page.getCurrent());</span><br><span class="line">        System.out.println(<span class="string">&quot;每页显示的条数：&quot;</span>+page.getSize());</span><br><span class="line">        System.out.println(<span class="string">&quot;总记录数：&quot;</span>+page.getTotal());</span><br><span class="line">        System.out.println(<span class="string">&quot;总页数：&quot;</span>+page.getPages());</span><br><span class="line">        System.out.println(<span class="string">&quot;是否有上一页：&quot;</span>+page.hasPrevious());</span><br><span class="line">        System.out.println(<span class="string">&quot;是否有下一页：&quot;</span>+page.hasNext());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>JDBC Connection [HikariProxyConnection@350099713 wrapping com.mysql.cj.jdbc.ConnectionImpl@437ed416] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: SELECT id,name,age,email FROM user<br>&#x3D;&#x3D;&gt; Parameters:<br>&lt;&#x3D;&#x3D;    Columns: id, name, age, email<br>&lt;&#x3D;&#x3D;        Row: 1, Jone, 18, <a href="mailto:&#x74;&#x65;&#x73;&#116;&#x31;&#64;&#98;&#97;&#111;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#x63;&#x6f;&#109;">&#x74;&#x65;&#x73;&#116;&#x31;&#64;&#98;&#97;&#111;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#x63;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 2, Jack, 18, <a href="mailto:&#117;&#x73;&#x65;&#114;&#x40;&#97;&#x74;&#x67;&#117;&#105;&#103;&#117;&#x2e;&#99;&#111;&#x6d;">&#117;&#x73;&#x65;&#114;&#x40;&#97;&#x74;&#x67;&#117;&#105;&#103;&#117;&#x2e;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 3, Tom, 28, <a href="mailto:&#x74;&#101;&#x73;&#x74;&#x33;&#64;&#x62;&#x61;&#x6f;&#x6d;&#105;&#100;&#111;&#x75;&#46;&#99;&#x6f;&#109;">&#x74;&#101;&#x73;&#x74;&#x33;&#64;&#x62;&#x61;&#x6f;&#x6d;&#105;&#100;&#111;&#x75;&#46;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;        Row: 4, Sandy, 18, <a href="mailto:&#117;&#x73;&#x65;&#114;&#64;&#x61;&#116;&#x67;&#117;&#105;&#x67;&#117;&#46;&#99;&#111;&#x6d;">&#117;&#x73;&#x65;&#114;&#64;&#x61;&#116;&#x67;&#117;&#105;&#x67;&#117;&#46;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 5, Billie, 24, <a href="mailto:&#116;&#101;&#115;&#116;&#x35;&#x40;&#98;&#97;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#x6d;">&#116;&#101;&#115;&#116;&#x35;&#x40;&#98;&#97;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#x6d;</a><br>&lt;&#x3D;&#x3D;        Row: 6, we, 24, <a href="mailto:&#116;&#x65;&#115;&#x74;&#x31;&#x40;&#x62;&#97;&#111;&#x6d;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#x6f;&#109;">&#116;&#x65;&#115;&#x74;&#x31;&#x40;&#x62;&#97;&#111;&#x6d;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#x6f;&#109;</a><br>&lt;&#x3D;&#x3D;      Total: 6<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@270d43a7]<br>User(id&#x3D;1, name&#x3D;Jone, age&#x3D;18, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#x74;&#49;&#64;&#98;&#97;&#111;&#109;&#x69;&#100;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#109;">&#x74;&#101;&#x73;&#x74;&#49;&#64;&#98;&#97;&#111;&#109;&#x69;&#100;&#x6f;&#117;&#x2e;&#x63;&#x6f;&#109;</a>)<br>User(id&#x3D;2, name&#x3D;Jack, age&#x3D;18, email&#x3D;<a href="mailto:&#117;&#115;&#101;&#114;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#103;&#x75;&#46;&#x63;&#x6f;&#x6d;">&#117;&#115;&#101;&#114;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#103;&#x75;&#46;&#x63;&#x6f;&#x6d;</a>)<br>User(id&#x3D;3, name&#x3D;Tom, age&#x3D;28, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#x74;&#51;&#x40;&#x62;&#x61;&#111;&#109;&#x69;&#x64;&#111;&#117;&#46;&#99;&#x6f;&#109;">&#x74;&#101;&#x73;&#x74;&#51;&#x40;&#x62;&#x61;&#111;&#109;&#x69;&#x64;&#111;&#117;&#46;&#99;&#x6f;&#109;</a>)<br>User(id&#x3D;4, name&#x3D;Sandy, age&#x3D;18, email&#x3D;<a href="mailto:&#117;&#x73;&#x65;&#x72;&#x40;&#97;&#116;&#103;&#117;&#x69;&#103;&#x75;&#x2e;&#x63;&#x6f;&#109;">&#117;&#x73;&#x65;&#x72;&#x40;&#97;&#116;&#103;&#117;&#x69;&#103;&#x75;&#x2e;&#x63;&#x6f;&#109;</a>)<br>User(id&#x3D;5, name&#x3D;Billie, age&#x3D;24, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#116;&#x35;&#64;&#98;&#x61;&#111;&#109;&#105;&#100;&#x6f;&#117;&#46;&#x63;&#111;&#x6d;">&#x74;&#101;&#x73;&#116;&#x35;&#64;&#98;&#x61;&#111;&#109;&#105;&#100;&#x6f;&#117;&#46;&#x63;&#111;&#x6d;</a>)<br>User(id&#x3D;6, name&#x3D;we, age&#x3D;24, email&#x3D;<a href="mailto:&#x74;&#x65;&#115;&#116;&#49;&#64;&#x62;&#97;&#111;&#x6d;&#105;&#x64;&#111;&#117;&#x2e;&#99;&#x6f;&#x6d;">&#x74;&#x65;&#115;&#116;&#49;&#64;&#x62;&#97;&#111;&#x6d;&#105;&#x64;&#111;&#117;&#x2e;&#99;&#x6f;&#x6d;</a>)<br>当前页：1<br>每页显示的条数：5<br>总记录数：0<br>总页数：0<br>是否有上一页：false<br>是否有下一页：false</p>
+<h2 id="2、xml自定义分页"><a href="#2、xml自定义分页" class="headerlink" title="2、xml自定义分页"></a>2、xml自定义分页</h2><h4 id="a-gt-UserMapper中定义接口方法"><a href="#a-gt-UserMapper中定义接口方法" class="headerlink" title="a&gt;UserMapper中定义接口方法"></a>a&gt;UserMapper中定义接口方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** 根据年龄查询用户列表，分页显示 </span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> page 分页对象,xml中可以从里面进行取值,传递参数 Page 即自动分页,必须放在第一位</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> age 年龄 </span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> </span></span><br><span class="line"><span class="comment">*/</span> </span><br><span class="line"> Page&lt;User&gt; <span class="title function_">selectPageVo</span><span class="params">(<span class="meta">@Param(&quot;page&quot;)</span> Page&lt;User&gt; page, <span class="meta">@Param(&quot;age&quot;)</span> Integer age)</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="b-gt-UserMapper-xml中编写SQL"><a href="#b-gt-UserMapper-xml中编写SQL" class="headerlink" title="b&gt;UserMapper.xml中编写SQL"></a>b&gt;UserMapper.xml中编写SQL</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--SQL片段，记录基础字段--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">&quot;BaseColumns&quot;</span>&gt;</span>id,username,age,email<span class="tag">&lt;/<span class="name">sql</span>&gt;</span> </span><br><span class="line"><span class="comment">&lt;!--IPage&lt;User&gt; selectPageVo(Page&lt;User&gt; page, Integer age);--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectPageVo&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line"> SELECT <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">&quot;BaseColumns&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span> FROM t_user WHERE age &gt; # &#123;age&#125;</span><br><span class="line"> <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="c-gt-测试"><a href="#c-gt-测试" class="headerlink" title="c&gt;测试"></a>c&gt;测试</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testPage</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//设置分页参数</span></span><br><span class="line">        Page&lt;User&gt; page=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line">        userMapper.selectPage(page,<span class="literal">null</span>);</span><br><span class="line">        <span class="comment">//获取分页数据</span></span><br><span class="line">        List&lt;User&gt; list = page.getRecords();</span><br><span class="line">        list.forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">&quot;当前页：&quot;</span>+page.getCurrent());</span><br><span class="line">        System.out.println(<span class="string">&quot;每页显示的条数：&quot;</span>+page.getSize());</span><br><span class="line">        System.out.println(<span class="string">&quot;总记录数：&quot;</span>+page.getTotal());</span><br><span class="line">        System.out.println(<span class="string">&quot;总页数：&quot;</span>+page.getPages());</span><br><span class="line">        System.out.println(<span class="string">&quot;是否有上一页：&quot;</span>+page.hasPrevious());</span><br><span class="line">        System.out.println(<span class="string">&quot;是否有下一页：&quot;</span>+page.hasN</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p>User(id&#x3D;3, name&#x3D;Tom, age&#x3D;28, email&#x3D;<a href="mailto:&#x74;&#101;&#x73;&#x74;&#x33;&#x40;&#98;&#97;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#109;">&#x74;&#101;&#x73;&#x74;&#x33;&#x40;&#98;&#97;&#x6f;&#109;&#105;&#100;&#x6f;&#x75;&#46;&#99;&#111;&#109;</a>, isDeleted&#x3D;null) User(id&#x3D;4,</p>
+<p>name&#x3D;Sandy, age&#x3D;21, email&#x3D;<a href="mailto:&#116;&#x65;&#115;&#116;&#x34;&#x40;&#x62;&#x61;&#111;&#109;&#x69;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;">&#116;&#x65;&#115;&#116;&#x34;&#x40;&#x62;&#x61;&#111;&#109;&#x69;&#100;&#111;&#117;&#x2e;&#99;&#111;&#109;</a>, isDeleted&#x3D;null) User(id&#x3D;5, name&#x3D;Billie,</p>
+<p>age&#x3D;24, email&#x3D;<a href="mailto:&#x74;&#x65;&#115;&#x74;&#x35;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#111;&#x6d;">&#x74;&#x65;&#115;&#x74;&#x35;&#x40;&#x62;&#97;&#x6f;&#x6d;&#105;&#x64;&#111;&#x75;&#x2e;&#99;&#111;&#x6d;</a>, isDeleted&#x3D;null) User(id&#x3D;8, name&#x3D;ybc1, age&#x3D;21,</p>
+<p>email&#x3D;null, isDeleted&#x3D;null) User(id&#x3D;9, name&#x3D;ybc2, age&#x3D;22, email&#x3D;null, isDeleted&#x3D;null) 当前</p>
+<p>页：1 每页显示的条数：5 总记录数：12 总页数：3 是否有上一页：false 是否有下一页：true</p>
+<h1 id="3、乐观锁"><a href="#3、乐观锁" class="headerlink" title="3、乐观锁"></a>3、乐观锁</h1><h3 id="a-gt-场景"><a href="#a-gt-场景" class="headerlink" title="a&gt;场景"></a>a&gt;场景</h3><p>一件商品，成本价是80元，售价是100元。老板先是通知小李，说你去把商品价格增加50元。小</p>
+<p>李正在玩游戏，耽搁了一个小时。正好一个小时后，老板觉得商品价格增加到150元，价格太高，可能会影响销量。又通知小王，你把商品价格降低30元。</p>
+<p>此时，小李和小王同时操作商品后台系统。小李操作的时候，系统先取出商品价格100元；小王也在操作，取出的商品价格也是100元。小李将价格加了50元，并将100+50&#x3D;150元存入了数据库；小王将商品减了30元，并将100-30&#x3D;70元存入了数据库。是的，如果没有锁，小李的操作就完全被小王的覆盖了。</p>
+<p>现在商品价格是70元，比成本价低10元。几分钟后，这个商品很快出售了1千多件商品，老板亏1万多。</p>
+<p>上面的故事，如果是乐观锁，小王保存价格前，会检查下价格是否被人修改过了。如果被修改过了，则重新取出的被修改后的价格，150元，这样他会将120元存入数据库。</p>
+<p>如果是悲观锁，小李取出数据后，小王只能等小李操作完之后，才能对价格进行操作，也会保证最终的价格是120元。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/" data-id="clfbse84o0000c8uqf30pgd97" data-title="mybatisplus插件" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mybatisplus条件构造器和常用接口</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

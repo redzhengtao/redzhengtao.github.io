@@ -14,7 +14,7 @@
 <meta property="og:description" content="1、@TableName经过以上的测试，在使用MyBatis-Plus实现基本的CRUD时，我们并没有指定要操作的表，只是在 Mapper接口继承BaseMapper时，设置了泛型User，而操作的表为user表 由此得出结论，MyBatis-Plus在确定操作的表时，由BaseMapper的泛型决定，即实体类型决 定，且默认操作的表名和实体类型的类名一致 a&gt;问题若实体类类型的类名和要操">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-16T04:33:12.000Z">
-<meta property="article:modified_time" content="2023-03-16T04:44:36.431Z">
+<meta property="article:modified_time" content="2023-03-17T03:14:04.334Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -118,14 +118,68 @@
 <p>键列吗？</p>
 <p>我们实体类中的属性id改为uid，将表中的字段id也改为uid，测试添加功能</p>
 <h2 id="程序抛出异常，Field-‘uid’-doesn’t-have-a-default-value，说明MyBatis-Plus没有将uid作为主键赋值"><a href="#程序抛出异常，Field-‘uid’-doesn’t-have-a-default-value，说明MyBatis-Plus没有将uid作为主键赋值" class="headerlink" title="程序抛出异常，Field ‘uid’ doesn’t have a default value，说明MyBatis-Plus没有将uid作为主键赋值"></a>程序抛出异常，Field ‘uid’ doesn’t have a default value，说明MyBatis-Plus没有将uid作为主键赋值</h2><h3 id="b-gt-通过-TableId解决问题"><a href="#b-gt-通过-TableId解决问题" class="headerlink" title="b&gt;通过@TableId解决问题"></a>b&gt;通过@TableId解决问题</h3><p>在实体类中uid属性上通过@TableId将其标识为主键，即可成功执行SQL语句</p>
-<p>JDBC Connection [HikariProxyConnection@301084728 wrapping com.mysql.cj.jdbc.ConnectionImpl@de77146] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO t_user ( uid, name, age, email ) VALUES ( ?, ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1635986769228611586(Long), Kuangshen(String), 23(Integer), <a href="mailto:&#107;&#x75;&#x61;&#110;&#x67;&#x73;&#x68;&#x65;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#x63;&#x6f;&#x6d;">&#107;&#x75;&#x61;&#110;&#x67;&#x73;&#x68;&#x65;&#x6e;&#x40;&#x61;&#x74;&#103;&#117;&#105;&#x67;&#x75;&#x2e;&#x63;&#x6f;&#x6d;</a>(String)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f1266c6]<br>受影响行数：1</p>
+<p>JDBC Connection [HikariProxyConnection@301084728 wrapping com.mysql.cj.jdbc.ConnectionImpl@de77146] will not be managed by Spring<br>&#x3D;&#x3D;&gt;  Preparing: INSERT INTO t_user ( uid, name, age, email ) VALUES ( ?, ?, ?, ? )<br>&#x3D;&#x3D;&gt; Parameters: 1635986769228611586(Long), Kuangshen(String), 23(Integer), <a href="mailto:&#x6b;&#x75;&#x61;&#110;&#103;&#115;&#104;&#101;&#x6e;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#103;&#x75;&#x2e;&#x63;&#111;&#109;">&#x6b;&#x75;&#x61;&#110;&#103;&#115;&#104;&#101;&#x6e;&#x40;&#97;&#x74;&#103;&#x75;&#x69;&#103;&#x75;&#x2e;&#x63;&#111;&#109;</a>(String)<br>&lt;&#x3D;&#x3D;    Updates: 1<br>Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@f1266c6]<br>受影响行数：1</p>
 <hr>
 <h3 id="c-gt-TableId的value属性"><a href="#c-gt-TableId的value属性" class="headerlink" title="c&gt;@TableId的value属性"></a>c&gt;@TableId的value属性</h3><p>若实体类中主键对应的属性为id，而表中表示主键的字段为uid，此时若只在属性id上添加注解</p>
 <p>@TableId，则抛出异常Unknown column ‘id’ in ‘field list’，即MyBatis-Plus仍然会将id作为表的</p>
 <p>主键操作，而表中表示主键的是字段uid</p>
 <p>此时需要通过@TableId注解的value属性，指定表中的主键字段，@TableId(“uid”)或@TableId(value&#x3D;”uid”)</p>
 <hr>
-<h3 id="d-gt-TableId的type属性"><a href="#d-gt-TableId的type属性" class="headerlink" title="d&gt;@TableId的type属性"></a>d&gt;@TableId的type属性</h3>
+<h3 id="d-gt-TableId的type属性"><a href="#d-gt-TableId的type属性" class="headerlink" title="d&gt;@TableId的type属性"></a>d&gt;@TableId的type属性</h3><p>type属性用来定义主键策略</p>
+<ul>
+<li>常用的主键策略：</li>
+</ul>
+<p>IdType.ASSIGN_ID（默认）: 基于雪花算法的策略生成数据id，与数据库id是否设置自增无关</p>
+<p>IdType.AUTO : 使用数据库的自增策略，注意，该类型请确保数据库设置了id自增，否则无效</p>
+<h5 id="配置全局主键策略："><a href="#配置全局主键策略：" class="headerlink" title="配置全局主键策略："></a>配置全局主键策略：</h5><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="comment"># 配置MyBatis日志</span></span><br><span class="line">    <span class="attr">log-impl:</span> <span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line">  <span class="attr">global-config:</span></span><br><span class="line">    <span class="attr">db-config:</span></span><br><span class="line">      <span class="comment"># 配置MyBatis-Plus操作表的默认前缀</span></span><br><span class="line">      <span class="attr">table-prefix:</span> <span class="string">t_</span></span><br><span class="line">      <span class="comment"># 配置MyBatis-Plus的主键策略</span></span><br><span class="line">      <span class="attr">id-type:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="e-gt-雪花算法"><a href="#e-gt-雪花算法" class="headerlink" title="e&gt;雪花算法"></a>e&gt;雪花算法</h3><ul>
+<li>主键自增</li>
+</ul>
+<p>①以最常见的用户 ID 为例，可以按照 1000000 的范围大小进行分段，1 ~ 999999 放到表 1中，</p>
+<p>1000000 ~ 1999999 放到表2中，以此类推。</p>
+<p>②复杂点：分段大小的选取。分段太小会导致切分后子表数量过多，增加维护复杂度；分段太大可能会</p>
+<p>导致单表依然存在性能问题，一般建议分段大小在 100 万至 2000 万之间，具体需要根据业务选取合适的分段大小。</p>
+<p>③优点：可以随着数据的增加平滑地扩充新的表。例如，现在的用户是 100 万，如果增加到 1000 万，只需要增加新的表就可以了，原有的数据不需要动。</p>
+<p>④缺点：分布不均匀。假如按照 1000 万来进行分表，有可能某个分段实际存储的数据量只有 1 条，而另外一个分段实际存储的数据量有 1000 万条。</p>
+<ul>
+<li>取模</li>
+</ul>
+<p>①同样以用户 ID 为例，假如我们一开始就规划了 10 个数据库表，可以简单地用 user_id % 10 的值来</p>
+<p>表示数据所属的数据库表编号，ID 为 985 的用户放到编号为 5 的子表中，ID 为 10086 的用户放到编号</p>
+<p>为 6 的子表中。</p>
+<p>②复杂点：初始表数量的确定。表数量太多维护比较麻烦，表数量太少又可能导致单表性能存在问题。</p>
+<p>③优点：表分布比较均匀。</p>
+<p>④缺点：扩充新的表很麻烦，所有数据都要重分布。</p>
+<ul>
+<li>雪花算法</li>
+</ul>
+<p>雪花算法是由Twitter公布的分布式主键生成算法，它能够保证不同表的主键的不重复性，以及相同表的主键的有序性。</p>
+<p>①核心思想：</p>
+<p>长度共64bit（一个long型）。</p>
+<p>首先是一个符号位，1bit标识，由于long基本类型在Java中是带符号的，最高位是符号位，正数是0，负数是1，所以id一般是正数，最高位是0。</p>
+<p>41bit时间截(毫秒级)，存储的是时间截的差值（当前时间截 - 开始时间截)，结果约等于69.73年。</p>
+<p>10bit作为机器的ID（5个bit是数据中心，5个bit的机器ID，可以部署在1024个节点）。</p>
+<p>12bit作为毫秒内的流水号（意味着每个节点在每毫秒可以产生 4096 个 ID）。</p>
+<p>②优点：整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞，并且效率较高。</p>
+<h1 id="3、-TableField"><a href="#3、-TableField" class="headerlink" title="3、@TableField"></a>3、@TableField</h1><p>经过以上的测试，我们可以发现，MyBatis-Plus在执行SQL语句时，要保证实体类中的属性名和表中的字段名一致</p>
+<p>如果实体类中的属性名和字段名不一致的情况，会出现什么问题呢？</p>
+<h3 id="a-gt-情况1"><a href="#a-gt-情况1" class="headerlink" title="a&gt;情况1"></a>a&gt;情况1</h3><p>若实体类中的属性使用的是驼峰命名风格，而表中的字段使用的是下划线命名风格</p>
+<p>例如实体类属性userName，表中字段user_name</p>
+<p>此时MyBatis-Plus会自动将下划线命名风格转化为驼峰命名风格</p>
+<p>相当于在MyBatis中配置</p>
+<h3 id="b-gt-情况2"><a href="#b-gt-情况2" class="headerlink" title="b&gt;情况2"></a>b&gt;情况2</h3><p>若实体类中的属性和表中的字段不满足情况1</p>
+<p>例如实体类属性name，表中字段username</p>
+<p>此时需要在实体类属性上使用@TableField(“username”)设置属性所对应的字段名</p>
+<h1 id="4、-TableLogic"><a href="#4、-TableLogic" class="headerlink" title="4、@TableLogic"></a>4、@TableLogic</h1><h3 id="a-gt-逻辑删除"><a href="#a-gt-逻辑删除" class="headerlink" title="a&gt;逻辑删除"></a>a&gt;逻辑删除</h3><ul>
+<li><p>物理删除：真实删除，将对应数据从数据库中删除，之后查询不到此条被删除的数据</p>
+</li>
+<li><p>逻辑删除：假删除，将对应数据中代表是否被删除字段的状态修改为“被删除状态”，之后在数据库中仍旧能看到此条数据记录</p>
+</li>
+<li><p>使用场景：可以进行数据恢复</p>
+</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
@@ -189,6 +243,10 @@
       <ul>
         
           <li>
+            <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
           </li>
         
@@ -202,10 +260,6 @@
         
           <li>
             <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/10/mybatisplus%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">mybatisplus入门案例</a>
           </li>
         
       </ul>
