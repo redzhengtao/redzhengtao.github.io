@@ -71,6 +71,62 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-reggie-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/25/reggie-day01/" class="article-date">
+  <time class="dt-published" datetime="2023-02-25T15:35:18.000Z" itemprop="datePublished">2023-02-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/02/25/reggie-day01/">reggie-day01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="首先先介绍下静态资源映射吧"><a href="#首先先介绍下静态资源映射吧" class="headerlink" title="首先先介绍下静态资源映射吧"></a>首先先介绍下静态资源映射吧</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcConfig</span> <span class="keyword">extends</span> <span class="title class_">WebMvcConfigurationSupport</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置静态资源映射</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> registry</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;开始进行静态资源映射...&quot;</span>);</span><br><span class="line">        registry.addResourceHandler(<span class="string">&quot;/backend/**&quot;</span>).addResourceLocations(<span class="string">&quot;classpath:/backend/&quot;</span>);</span><br><span class="line">        registry.addResourceHandler(<span class="string">&quot;/front/**&quot;</span>).addResourceLocations(<span class="string">&quot;classpath:/front/&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry-好复杂，自己搜索吧……-呃呃"><a href="#上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry-好复杂，自己搜索吧……-呃呃" class="headerlink" title="上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry,好复杂，自己搜索吧……..呃呃"></a>上面能说的就是WebMvcConfigurationSupport和ResourceHandlerRegistry,好复杂，自己搜索吧……..呃呃</h2><h5 id="数据库表sql什么的，实体类就不写了"><a href="#数据库表sql什么的，实体类就不写了" class="headerlink" title="数据库表sql什么的，实体类就不写了"></a>数据库表sql什么的，实体类就不写了</h5><h2 id="创建controller-service-mapper挺重复工作的，但还是要做"><a href="#创建controller-service-mapper挺重复工作的，但还是要做" class="headerlink" title="创建controller,service,mapper挺重复工作的，但还是要做"></a>创建controller,service,mapper挺重复工作的，但还是要做</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Employee&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmployeeService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Employee&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;EmployeeMapper, Employee&gt; <span class="keyword">implements</span> <span class="title class_">EmployeeService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/employee&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeServiceImpl employeeService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="能说的就是BaseMapper，IService，ServiceImp都是mp自带的了"><a href="#能说的就是BaseMapper，IService，ServiceImp都是mp自带的了" class="headerlink" title="能说的就是BaseMapper，IService，ServiceImp都是mp自带的了"></a>能说的就是BaseMapper，IService，ServiceImp都是mp自带的了</h2><h1 id="然后就是通用结果类R了"><a href="#然后就是通用结果类R了" class="headerlink" title="然后就是通用结果类R了"></a>然后就是通用结果类R了</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">R</span>&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer code; <span class="comment">//编码：1成功，0和其它数字为失败</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String msg; <span class="comment">//错误信息</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T data; <span class="comment">//数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Map</span> <span class="variable">map</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HashMap</span>(); <span class="comment">//动态数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; R&lt;T&gt; <span class="title function_">success</span><span class="params">(T object)</span> &#123;</span><br><span class="line">        R&lt;T&gt; r = <span class="keyword">new</span> <span class="title class_">R</span>&lt;T&gt;();</span><br><span class="line">        r.data = object;</span><br><span class="line">        r.code = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; R&lt;T&gt; <span class="title function_">error</span><span class="params">(String msg)</span> &#123;</span><br><span class="line">        <span class="type">R</span> <span class="variable">r</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">R</span>();</span><br><span class="line">        r.msg = msg;</span><br><span class="line">        r.code = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> R&lt;T&gt; <span class="title function_">add</span><span class="params">(String key, Object value)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.map.put(key, value);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="在Controller中创建登录方法"><a href="#在Controller中创建登录方法" class="headerlink" title="在Controller中创建登录方法"></a>在Controller中创建登录方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/employee&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmployeeController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmployeeServiceImpl employeeService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/login&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;Employee&gt; <span class="title function_">logib</span><span class="params">(HttpServletRequest request, <span class="meta">@RequestBody</span> Employee employee)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//1、将页面提交的密码进行md5加密处理</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> employee.getPassword();</span><br><span class="line">        password = DigestUtils.md5DigestAsHex(password.getBytes());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2、根据页面提交的用户名来查数据库</span></span><br><span class="line">        LambdaQueryWrapper&lt;Employee&gt; queryWrapper = <span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        queryWrapper.eq(Employee::getUsername, employee.getUsername());</span><br><span class="line">        <span class="type">Employee</span> <span class="variable">emp</span> <span class="operator">=</span> employeeService.getOne(queryWrapper);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3、如果没有查询到则返回失败结果</span></span><br><span class="line">        <span class="keyword">if</span> (emp == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;登录失败&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//4、比对密码，如果不一致则返回失败结果</span></span><br><span class="line">        <span class="keyword">if</span> (!emp.getPassword().equals(password)) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;密码错误&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//5、查看员工状态，如果已禁用状态，则返回员工已禁用结果</span></span><br><span class="line">        <span class="keyword">if</span> (emp.getStatus() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> R.error(<span class="string">&quot;账号已禁用&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//6、登录成功，将用户id存入Session并返回成功结果</span></span><br><span class="line">        request.getSession().setAttribute(<span class="string">&quot;employee&quot;</span>, emp.getId());</span><br><span class="line">        <span class="keyword">return</span> R.success(emp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="RequestBody用来传输json格式"><a href="#RequestBody用来传输json格式" class="headerlink" title="@RequestBody用来传输json格式"></a>@RequestBody用来传输json格式</h2><h1 id="在Controller中创建退出方法"><a href="#在Controller中创建退出方法" class="headerlink" title="在Controller中创建退出方法"></a>在Controller中创建退出方法</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//员工退出</span><br><span class="line">@PostMapping(&quot;/logout&quot;)</span><br><span class="line">public R&lt;String&gt; logout(HttpServletRequest request)&#123;</span><br><span class="line">    //清理Session中保存的当前员工登录的id</span><br><span class="line">    request.getSession().removeAttribute(&quot;employee&quot;);</span><br><span class="line">    return R.success(&quot;退出成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>行吧，有什么以后再补吧</p>
+<hr>
+<h1 id="2023-x2F-3-x2F-19-重新写下员工和分类的业务"><a href="#2023-x2F-3-x2F-19-重新写下员工和分类的业务" class="headerlink" title="2023&#x2F;3&#x2F;19 重新写下员工和分类的业务"></a>2023&#x2F;3&#x2F;19 重新写下员工和分类的业务</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/25/reggie-day01/" data-id="clewx2nos000aakuq12pxgco8" data-title="reggie-day01" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2-25" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/02/25/2-25/" class="article-date">
@@ -766,45 +822,6 @@ miao~
 
 
   
-    <article id="post-我的第一篇博客文章" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="article-date">
-  <time class="dt-published" datetime="2022-11-16T13:51:51.000Z" itemprop="datePublished">2022-11-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br><img src="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg" alt="avater"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clewx2nou000eakuqapcv2xpv" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -841,6 +858,14 @@ miao~
       <ul>
         
           <li>
+            <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
           </li>
         
@@ -850,14 +875,6 @@ miao~
         
           <li>
             <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
           </li>
         
       </ul>

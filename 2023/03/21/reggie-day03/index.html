@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>reggie-day03 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="分类管理业务开发 公共字段自动填充问题分析前面我们已经完成了后台系统的员工管理功能开发，在新增员工时需要设置创建时间、创建人、修改时间、修改人等字段，在编辑员工时需要设置修改时间和修改人等字段。这些字段属于公共字段，也就是很多表中都有这些字段，如下:    create_time datetime    update_time datetime   create_user bigint   upd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="reggie-day03">
+<meta property="og:url" content="http://example.com/2023/03/21/reggie-day03/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="分类管理业务开发 公共字段自动填充问题分析前面我们已经完成了后台系统的员工管理功能开发，在新增员工时需要设置创建时间、创建人、修改时间、修改人等字段，在编辑员工时需要设置修改时间和修改人等字段。这些字段属于公共字段，也就是很多表中都有这些字段，如下:    create_time datetime    update_time datetime   create_user bigint   upd">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-21T12:28:01.000Z">
+<meta property="article:modified_time" content="2023-03-21T15:19:24.306Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-reggie-day03" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/21/reggie-day03/" class="article-date">
+  <time class="dt-published" datetime="2023-03-21T12:28:01.000Z" itemprop="datePublished">2023-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      reggie-day03
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="分类管理业务开发"><a href="#分类管理业务开发" class="headerlink" title="分类管理业务开发"></a>分类管理业务开发</h2><hr>
+<h3 id="公共字段自动填充"><a href="#公共字段自动填充" class="headerlink" title="公共字段自动填充"></a>公共字段自动填充</h3><h4 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h4><p>前面我们已经完成了后台系统的员工管理功能开发，在新增员工时需要设置创建时间、创建人、修改时间、修改人等字段，在编辑员工时需要设置修改时间和修改人等字段。这些字段属于公共字段，也就是很多表中都有这些字段，如下:</p>
+<table>
+<thead>
+<tr>
+<th>create_time</th>
+<th>datetime</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>update_time</td>
+<td>datetime</td>
+</tr>
+<tr>
+<td>create_user</td>
+<td>bigint</td>
+</tr>
+<tr>
+<td>update_user</td>
+<td>bigint</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">save</span><span class="params">(HttpServletRequest request,<span class="meta">@RequestBody</span> Employee employee)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;新增员工，员工信息：&#123;&#125;&quot;</span>,employee.toString());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置初始密码123456，需要进行md5加密处理</span></span><br><span class="line">    employee.setPassword(DigestUtils.md5DigestAsHex(<span class="string">&quot;123456&quot;</span>.getBytes()));</span><br><span class="line">    <span class="comment">//公共字段</span></span><br><span class="line">    employee.setCreateTime(LocalDateTime.now());</span><br><span class="line">    employee.setUpdateTime(LocalDateTime.now());</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得当前登录用户的id</span></span><br><span class="line">    <span class="type">Long</span> <span class="variable">empId</span> <span class="operator">=</span> (Long) request.getSession().getAttribute(<span class="string">&quot;employee&quot;</span>);</span><br><span class="line">    <span class="comment">//公共字段</span></span><br><span class="line">    employee.setCreateUser(empId);</span><br><span class="line">    employee.setUpdateUser(empId);</span><br><span class="line"></span><br><span class="line">    employeeService.save(employee);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;新增员工成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>能不能对于这些公共字段在某个地方统一处理，来简化开发呢?答案就是使用Mybatis Plus提供的<strong>公共字段自动填充</strong>功能。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>Mybatis Plus公共字段自动填充，也就是在插入或者更新的时候为指定字段赋予指定的值，使用它的好处就是可以统一对这些字段进行处理，避免了重复代码。</p>
+<p>实现步骤:</p>
+<p>1、在实体类的属性上加入@TableField注解，指定自动填充的策略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TableField(fill = FieldFill.INSERT)</span><span class="comment">//插入时填充字段</span></span><br><span class="line"><span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span><span class="comment">//插入和更新时填充字段</span></span><br><span class="line"><span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line"><span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line"><span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line"><span class="keyword">private</span> Long updateUser;</span><br></pre></td></tr></table></figure>
+
+<p>2、按照框架要求编写元数据对象处理器，在此类中统一为公共字段赋值，此类需要实现MetaObjectHandler接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyMetaObjectHandler</span> <span class="keyword">implements</span> <span class="title class_">MetaObjectHandler</span> &#123;</span><br><span class="line">    <span class="comment">//插入时自动填充</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertFill</span><span class="params">(MetaObject metaObject)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;公共字段自动填充【insert】。。。&quot;</span>);</span><br><span class="line">        log.info(metaObject.toString());</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;createTime&quot;</span>, LocalDateTime.now());</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;updateTime&quot;</span>, LocalDateTime.now());</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;createUser&quot;</span>,<span class="keyword">new</span> <span class="title class_">Long</span>(<span class="number">1</span>));</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;updateUser&quot;</span>,<span class="keyword">new</span> <span class="title class_">Long</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//更新时自动填充</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">updateFill</span><span class="params">(MetaObject metaObject)</span> &#123;</span><br><span class="line">        log.info(<span class="string">&quot;公共字段自动填充【update】。。。&quot;</span>);</span><br><span class="line">        log.info(metaObject.toString());</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;updateTime&quot;</span>,LocalDateTime.now());</span><br><span class="line">        metaObject.setValue(<span class="string">&quot;updateUser&quot;</span>,<span class="keyword">new</span> <span class="title class_">Long</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="新增分类"><a href="#新增分类" class="headerlink" title="新增分类"></a>新增分类</h1><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>后台系统中可以管理分类信息，分类包括两种类型，分别是菜品分类和套餐分类。当我们在后台系统中添加菜品时需要选择一个菜品分类，当我们在后台系统中添加一个套餐时需要选择一个套餐分类，在移动端也会按照菜品分类和套餐分类来展示对应的菜品和套餐。</p>
+<hr>
+<h4 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h4><p>新增分类，其实就是将我们新增窗口录入的分类数据插入到category表，表结构如下:</p>
+<hr>
+<h4 id="代码开发"><a href="#代码开发" class="headerlink" title="代码开发"></a>代码开发</h4><p>在开发业务功能前，先将需要用到的类和接口基本结构创建好:</p>
+<ul>
+<li>实体类Category(直接从课程资料中导入即可)</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Category</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//类型 1 菜品分类 2 套餐分类</span></span><br><span class="line">    <span class="keyword">private</span> Integer type;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//分类名称</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//顺序</span></span><br><span class="line">    <span class="keyword">private</span> Integer sort;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建时间</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//更新时间</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建人</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//修改人</span></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Long updateUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否删除</span></span><br><span class="line">    <span class="keyword">private</span> Integer isDeleted;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Mapper接口CategoryMapper</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>业务层接口CategoryService</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>业务层实现类CategoryServicelmpl</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CategoryServicelmpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;CategoryMapper, Category&gt; <span class="keyword">implements</span> <span class="title class_">CategoryService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>控制层CategoryController</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/category&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CategoryController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CategoryService categoryService;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>在开发代码之前，需要梳理一下整个程序的执行过程:</p>
+<p>1、页面(backend&#x2F;page&#x2F;category&#x2F;list.html)发送ajax请求，将新增分类窗口输入的数据以json形式提交到服务端</p>
+<p>2、服务端Controller接收页面提交的数据并调用Service将数据进行保存</p>
+<p>3、Service调用Mapper操作数据库，保存数据</p>
+<p>可以看到新增菜品分类和新增套餐分类请求的服务端地址和提交的json数据结构相同，所以服务端只需要提供一个方法统一处理即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新增分类</span></span><br><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> Category category)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;category:&#123;&#125;&quot;</span>,category);</span><br><span class="line">    categoryService.save(category);</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;新增分类成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="分类信息分页查询"><a href="#分类信息分页查询" class="headerlink" title="分类信息分页查询"></a>分类信息分页查询</h3><h4 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h4><p>系统中的分类很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。</p>
+<h4 id="代码开发-1"><a href="#代码开发-1" class="headerlink" title="代码开发"></a>代码开发</h4><p>在开发代码之前，需要梳理一下整个程序的执行过程:</p>
+<p>1、页面发送ajax请求，将分页查询参数(page.pageSize)提交到服务端</p>
+<p>2、服务端Controller接收页面提交的数据并调用Service查询数据</p>
+<p>3、Service调用Mapper操作数据库，查询分页数据</p>
+<p>4、Controller将查询到的分页数据响应给页面</p>
+<p>5、页面接收到分页数据并通过ElementUI的Table组件展示到页面上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/page&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;Page&gt; <span class="title function_">page</span><span class="params">(<span class="type">int</span> page, <span class="type">int</span> pageSize)</span> &#123;</span><br><span class="line">    <span class="comment">//构造分页构造器</span></span><br><span class="line">    Page&lt;Category&gt; pageInfo=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(page,pageSize);</span><br><span class="line">    <span class="comment">//构造条件构造器</span></span><br><span class="line">    LambdaQueryWrapper&lt;Category&gt; queryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//添加排序条件，根据sort进行排序</span></span><br><span class="line">    queryWrapper.orderByAsc(Category::getSort);</span><br><span class="line">    <span class="comment">//进行分页查询</span></span><br><span class="line">    categoryService.page(pageInfo,queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(pageInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：要把Category中的<code>private Integer isDeleted;</code>注释掉才能查询到数据</p>
+<hr>
+<h3 id="删除分类"><a href="#删除分类" class="headerlink" title="删除分类"></a>删除分类</h3><h4 id="需求分析-2"><a href="#需求分析-2" class="headerlink" title="需求分析"></a>需求分析</h4><p>在分类管理列表页面，可以对某个分类进行删除操作。需要注意的是当分类关联了菜品或者套餐时，此分类不允许删除。</p>
+<h4 id="代码开发-2"><a href="#代码开发-2" class="headerlink" title="代码开发"></a>代码开发</h4><p>在开发代码之前，需要梳理一下整个程序的执行过程:</p>
+<p>1、页面发送ajax请求，将参数(id)提交到服务端</p>
+<p>2、服务端Controller接收页面提交的数据并调用Service删除数据</p>
+<p>3、Service调用Mapper操作数据库</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据id删除分类</span></span><br><span class="line"><span class="meta">@DeleteMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">delete</span><span class="params">(Long ids)</span>&#123;</span><br><span class="line">    log.info(<span class="string">&quot;删除分类，id为&#123;&#125;&quot;</span>,ids);</span><br><span class="line">    categoryService.removeById(ids);</span><br><span class="line">    <span class="comment">//代码完善之后categoryService.remove(ids);</span></span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;分类信息删除成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="代码完善"><a href="#代码完善" class="headerlink" title="代码完善"></a>代码完善</h4><p>前面我们已经实现了根据id删除分类的功能，但是并没有检查删除的分类是否关联了菜品或者套餐，所以我们需要进行功能完善。</p>
+<p>要完善分类删除功能，需要先准备基础的类和接口:</p>
+<p>1、实体类Dish和Setmeal （从课程资料中复制即可)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dish</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//菜品名称</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//菜品分类id</span></span><br><span class="line">    <span class="keyword">private</span> Long categoryId;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//菜品价格</span></span><br><span class="line">    <span class="keyword">private</span> BigDecimal price;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//商品码</span></span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//图片</span></span><br><span class="line">    <span class="keyword">private</span> String image;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//描述信息</span></span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//0 停售 1 起售</span></span><br><span class="line">    <span class="keyword">private</span> Integer status;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//顺序</span></span><br><span class="line">    <span class="keyword">private</span> Integer sort;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Long updateUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否删除</span></span><br><span class="line">    <span class="keyword">private</span> Integer isDeleted;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Setmeal</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//分类id</span></span><br><span class="line">    <span class="keyword">private</span> Long categoryId;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//套餐名称</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//套餐价格</span></span><br><span class="line">    <span class="keyword">private</span> BigDecimal price;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//状态 0:停用 1:启用</span></span><br><span class="line">    <span class="keyword">private</span> Integer status;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//编码</span></span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//描述信息</span></span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//图片</span></span><br><span class="line">    <span class="keyword">private</span> String image;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT)</span></span><br><span class="line">    <span class="keyword">private</span> Long createUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField(fill = FieldFill.INSERT_UPDATE)</span></span><br><span class="line">    <span class="keyword">private</span> Long updateUser;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否删除</span></span><br><span class="line">    <span class="keyword">private</span> Integer isDeleted;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、Mapper接口DishMapper和SetmealMapper</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DishMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Dish&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SetmealMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Setmeal&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、Service接口DishService和SetmealService</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">DishService</span> <span class="title">extends</span> <span class="title">IService</span>&lt;<span class="title">Dish</span>&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SetmealService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Setmeal&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、Service实现类DishServicelmpl和SetmealServicelmpl</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DishServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;DishMapper, Dish&gt; <span class="keyword">implements</span> <span class="title class_">DishService</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SetmealServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;SetmealMapper, Setmeal&gt; <span class="keyword">implements</span> <span class="title class_">SetmealService</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><ul>
+<li>在CategoryService添加remove方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CategoryService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Category&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">remove</span><span class="params">(Long id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在CategoryServicelmpl实现remove方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CategoryServicelmpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;CategoryMapper, Category&gt; <span class="keyword">implements</span> <span class="title class_">CategoryService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DishService dishService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealService setmealService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">remove</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">        LambdaQueryWrapper&lt;Dish&gt; dishLambdaQueryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加查询条件，根据分类id进行查询</span></span><br><span class="line">        dishLambdaQueryWrapper.eq(Dish::getCategoryId,id);</span><br><span class="line">        <span class="type">int</span> <span class="variable">count1</span> <span class="operator">=</span> dishService.count(dishLambdaQueryWrapper);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询当前分类是否关联菜品,如果已经关联，抛出业务异常</span></span><br><span class="line">        <span class="keyword">if</span>(count1&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//已经关联菜品，抛出业务异常</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CustomException</span>(<span class="string">&quot;已经关联菜品，不能删除&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询当前分类是否关联了套餐，如果已经关联，抛出业务异常</span></span><br><span class="line">        LambdaQueryWrapper&lt;Setmeal&gt; setmealLambdaQueryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//添加查询条件，根据分类id进行查询</span></span><br><span class="line">        setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId,id);</span><br><span class="line">        <span class="type">int</span> <span class="variable">count2</span> <span class="operator">=</span> setmealService.count(setmealLambdaQueryWrapper);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(count2&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//已经关联套餐，抛出业务异常</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CustomException</span>(<span class="string">&quot;已经关联套餐，不能删除&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//正常删除分类</span></span><br><span class="line">        <span class="built_in">super</span>.removeById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义异常类CustomException</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomException</span><span class="params">(String message)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在全局异常处理器<strong>GlobalExceptionHandler</strong>添加</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进行异常处理方法</span></span><br><span class="line"><span class="meta">@ExceptionHandler(CustomException.class)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">exceptionHandler</span><span class="params">(CustomException ex)</span>&#123;</span><br><span class="line">    log.error(ex.getMessage());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.error(ex.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改分类"><a href="#修改分类" class="headerlink" title="修改分类"></a>修改分类</h3><h4 id="需求分析-3"><a href="#需求分析-3" class="headerlink" title="需求分析"></a>需求分析</h4><p>在分类管理列表页面点击修改按钮，弹出修改窗口，在修改窗口回显分类信息并进行修改，最后点击确定按钮完成修改操作</p>
+<h4 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修改分类</span></span><br><span class="line"><span class="meta">@PutMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;String&gt; <span class="title function_">update</span><span class="params">(<span class="meta">@RequestBody</span> Category category)</span>&#123;</span><br><span class="line">    categoryService.updateById(category);</span><br><span class="line">    <span class="keyword">return</span> R.success(<span class="string">&quot;分类修改成功&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/21/reggie-day03/" data-id="clfi8fzsk0000ncuqgw1h7vcf" data-title="reggie-day03" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">springboot-了解自动配置原理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

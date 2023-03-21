@@ -14,7 +14,7 @@
 <meta property="og:description" content="首先先介绍下静态资源映射吧1234567891011121314@Slf4j@Configurationpublic class WebMvcConfig extends WebMvcConfigurationSupport &amp;#123;    &#x2F;**     * 设置静态资源映射     * @param registry     *&#x2F;    @Override    protected voi">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-02-25T15:35:18.000Z">
-<meta property="article:modified_time" content="2023-03-06T14:24:40.950Z">
+<meta property="article:modified_time" content="2023-03-19T06:51:03.017Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -112,7 +112,8 @@
 <h2 id="RequestBody用来传输json格式"><a href="#RequestBody用来传输json格式" class="headerlink" title="@RequestBody用来传输json格式"></a>@RequestBody用来传输json格式</h2><h1 id="在Controller中创建退出方法"><a href="#在Controller中创建退出方法" class="headerlink" title="在Controller中创建退出方法"></a>在Controller中创建退出方法</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//员工退出</span><br><span class="line">@PostMapping(&quot;/logout&quot;)</span><br><span class="line">public R&lt;String&gt; logout(HttpServletRequest request)&#123;</span><br><span class="line">    //清理Session中保存的当前员工登录的id</span><br><span class="line">    request.getSession().removeAttribute(&quot;employee&quot;);</span><br><span class="line">    return R.success(&quot;退出成功&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>行吧，有什么以后再补吧</p>
-
+<hr>
+<h1 id="2023-x2F-3-x2F-19-重新写下员工和分类的业务"><a href="#2023-x2F-3-x2F-19-重新写下员工和分类的业务" class="headerlink" title="2023&#x2F;3&#x2F;19 重新写下员工和分类的业务"></a>2023&#x2F;3&#x2F;19 重新写下员工和分类的业务</h1>
       
     </div>
     <footer class="article-footer">
@@ -176,6 +177,14 @@
       <ul>
         
           <li>
+            <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
           </li>
         
@@ -185,14 +194,6 @@
         
           <li>
             <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
           </li>
         
       </ul>

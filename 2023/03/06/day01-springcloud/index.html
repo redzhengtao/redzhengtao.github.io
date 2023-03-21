@@ -6,15 +6,15 @@
   
   <title>day01-springcloud | red的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。  cloud-demo：父工程，管理依赖 order-service：订单微服务，负责订单相关业务 user-service：用户微服务，负责用户相关业务  要求：  订单微服务和用户微服务都必须有各自的数据库，相互独立 订单服务和用户服务都对外暴露Restful的接口 订单服务如果需要查询用户信">
+  <meta name="description" content="1、我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。 2.服务拆分和远程调用任何分布式架构都离不开服务的拆分，微服务也是一样。 2.1.服务拆分原则这里我总结了微服务拆分时的几个原则：  不同微服务，不要重复开发相同业务  微服务数据独立，不要访问其它微服务的数据库  微服务可以将自己的业务暴露为接口，供其它微服务调用    2.2.服务拆分示例以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="day01-springcloud">
 <meta property="og:url" content="http://example.com/2023/03/06/day01-springcloud/index.html">
 <meta property="og:site_name" content="red的博客">
-<meta property="og:description" content="我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。  cloud-demo：父工程，管理依赖 order-service：订单微服务，负责订单相关业务 user-service：用户微服务，负责用户相关业务  要求：  订单微服务和用户微服务都必须有各自的数据库，相互独立 订单服务和用户服务都对外暴露Restful的接口 订单服务如果需要查询用户信">
+<meta property="og:description" content="1、我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。 2.服务拆分和远程调用任何分布式架构都离不开服务的拆分，微服务也是一样。 2.1.服务拆分原则这里我总结了微服务拆分时的几个原则：  不同微服务，不要重复开发相同业务  微服务数据独立，不要访问其它微服务的数据库  微服务可以将自己的业务暴露为接口，供其它微服务调用    2.2.服务拆分示例以">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-06T13:05:05.000Z">
-<meta property="article:modified_time" content="2023-03-18T08:34:18.727Z">
+<meta property="article:modified_time" content="2023-03-19T06:23:49.686Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -95,20 +95,54 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <ul>
-<li>我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。</li>
-</ul>
-<h2 id="cloud-demo：父工程，管理依赖"><a href="#cloud-demo：父工程，管理依赖" class="headerlink" title="cloud-demo：父工程，管理依赖"></a>cloud-demo：父工程，管理依赖</h2><ul>
-<li>order-service：订单微服务，负责订单相关业务</li>
-<li>user-service：用户微服务，负责用户相关业务</li>
-</ul>
-<p>要求：</p>
+        <h1 id="1、我们课堂学习的版本是-Hoxton-SR10，因此对应的SpringBoot版本是2-3-x版本。"><a href="#1、我们课堂学习的版本是-Hoxton-SR10，因此对应的SpringBoot版本是2-3-x版本。" class="headerlink" title="1、我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。"></a>1、我们课堂学习的版本是 Hoxton.SR10，因此对应的SpringBoot版本是2.3.x版本。</h1><hr>
+<h1 id="2-服务拆分和远程调用"><a href="#2-服务拆分和远程调用" class="headerlink" title="2.服务拆分和远程调用"></a>2.服务拆分和远程调用</h1><p>任何分布式架构都离不开服务的拆分，微服务也是一样。</p>
+<h4 id="2-1-服务拆分原则"><a href="#2-1-服务拆分原则" class="headerlink" title="2.1.服务拆分原则"></a>2.1.服务拆分原则</h4><p>这里我总结了微服务拆分时的几个原则：</p>
 <ul>
-<li>订单微服务和用户微服务都必须有各自的数据库，相互独立</li>
-<li>订单服务和用户服务都对外暴露Restful的接口</li>
-<li>订单服务如果需要查询用户信息，只能调用用户服务的Restful接口，不能查询用户数据库</li>
+<li><p>不同微服务，不要重复开发相同业务</p>
+</li>
+<li><p>微服务数据独立，不要访问其它微服务的数据库</p>
+</li>
+<li><p>微服务可以将自己的业务暴露为接口，供其它微服务调用</p>
+<hr>
+</li>
+</ul>
+<h4 id="2-2-服务拆分示例"><a href="#2-2-服务拆分示例" class="headerlink" title="2.2.服务拆分示例"></a>2.2.服务拆分示例</h4><p>以课前资料中的微服务cloud-demo为例，其结构如下：</p>
+<ul>
+<li><p>cloud-demo：父工程，管理依赖</p>
+<ul>
+<li><p>order-service：订单微服务，负责订单相关业务</p>
+</li>
+<li><p>user-service：用户微服务，负责用户相关业务</p>
+</li>
+</ul>
+</li>
+<li><p>要求：</p>
+<ul>
+<li><p>订单微服务和用户微服务都必须有各自的数据库，相互独立</p>
+</li>
+<li><p>订单服务和用户服务都对外暴露Restful的接口</p>
+</li>
+<li><p>订单服务如果需要查询用户信息，只能调用用户服务的Restful接口，不能查询用户数据库</p>
+</li>
+</ul>
+</li>
 </ul>
 <hr>
+<h4 id="2-3-实现远程调用案例"><a href="#2-3-实现远程调用案例" class="headerlink" title="2.3.实现远程调用案例"></a>2.3.实现远程调用案例</h4><p>在order-service服务中，有一个根据id查询订单的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;order&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderController</span> &#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> OrderService orderService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;&#123;orderId&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Order <span class="title function_">queryOrderByUserId</span><span class="params">(<span class="meta">@PathVariable(&quot;orderId&quot;)</span> Long orderId)</span> &#123;</span><br><span class="line">        <span class="comment">// 根据id查询订单并返回</span></span><br><span class="line">        <span class="keyword">return</span> orderService.queryOrderById(orderId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据id查询订单，返回值是Order对象，如图：</p>
+<hr>
+<p>{“id”:101,”price”:699900,”name”:”Apple 苹果 iPhone 12 “,”num”:1,”userId”:1,”user”:null}</p>
+<hr>
+<p>其中的user为null<br>在user-service中有一个根据id查询用户的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 路径： /user/110</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id 用户id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 用户</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">queryById</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userService.queryById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查询的结果如图：</p>
+<hr>
+<p>{“id”:101,”price”:699900,”name”:”Apple 苹果 iPhone 12 “,”num”:1,”userId”:1,”user”:null}</p>
+<hr>
+<h2 id="2-3-1-案例需求："><a href="#2-3-1-案例需求：" class="headerlink" title="2.3.1.案例需求："></a>2.3.1.案例需求：</h2><p>修改order-service中的根据id查询订单业务，要求在查询订单的同时，根据订单中包含的userId查询出用户信息，一起返回。</p>
 <h1 id="注册RestTemplate"><a href="#注册RestTemplate" class="headerlink" title="注册RestTemplate"></a>注册RestTemplate</h1><h3 id="RestTemplate-概述"><a href="#RestTemplate-概述" class="headerlink" title="RestTemplate 概述"></a>RestTemplate 概述</h3><p>发送 http 请求，估计很多人用过 httpclient 和 okhttp，确实挺好用的，而 Spring web 中的 RestTemplate 和这俩的功能类似，也是用来发送 http 请求的，不过用法上面比前面的 2 位要容易很多。</p>
 <p>spring 框架提供的 RestTemplate 类可用于在应用中调用 rest 服务，它简化了与 http 服务的通信方式，统一了 RESTful 的标准，封装了 http 链接， 我们只需要传入 url 及返回值类型即可。相较于之前常用的 HttpClient，RestTemplate 是一种更优雅的调用 RESTful 服务的方式。</p>
 <p>在 Spring 应用程序中访问第三方 REST 服务与使用 Spring RestTemplate 类有关。RestTemplate 类的设计原则与许多其他 Spring 模板类(例如 JdbcTemplate、JmsTemplate)相同，为执行复杂任务提供了一种具有默认行为的简化方法。</p>
@@ -361,6 +395,14 @@
       <ul>
         
           <li>
+            <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
           </li>
         
@@ -370,14 +412,6 @@
         
           <li>
             <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/Redis%E5%91%BD%E4%BB%A4/">Redis命令</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/13/mybatis-crud%E6%93%8D%E4%BD%9C/">mybatis-crud操作</a>
           </li>
         
       </ul>
