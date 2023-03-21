@@ -140,12 +140,12 @@
 <ul>
 <li>Mapper接口CategoryMapper</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CategoryMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Category&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>业务层接口CategoryService</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CategoryService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Category&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>业务层实现类CategoryServicelmpl</li>
@@ -198,7 +198,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SetmealMapper</span> <span class="keyword">extends</span> <span class="title class_">BaseMapper</span>&lt;Setmeal&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>3、Service接口DishService和SetmealService</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">DishService</span> <span class="title">extends</span> <span class="title">IService</span>&lt;<span class="title">Dish</span>&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DishService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Dish&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SetmealService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;Setmeal&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
