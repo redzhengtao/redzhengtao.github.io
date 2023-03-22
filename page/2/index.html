@@ -71,6 +71,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-reggie-day02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/26/reggie-day02/" class="article-date">
+  <time class="dt-published" datetime="2023-02-26T02:11:34.000Z" itemprop="datePublished">2023-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/02/26/reggie-day02/">reggie-day02</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>前面我们已经完成了后台系统的员工登录功能开发，但是还存在一个问题:用户如果不登录，直接访问系统首页面，照样可以正常访问。</p>
+<p>这种设计并不合理，我们希望看到的效果应该是，<strong>只有登录成功后才可以访问系统中的页面</strong>，如果没有登录则跳转到登录页面。</p>
+<p>那么，具体应该怎么实现呢?</p>
+<p>答案就是使用<strong>过滤器或者拦截器</strong>，在过滤器或者拦截器中<strong>判断用户是否已经完成登录</strong>，如果没有登录则跳转到登录页面</p>
+<h1 id="在启动类上加入注解-ServletComponentScan"><a href="#在启动类上加入注解-ServletComponentScan" class="headerlink" title="在启动类上加入注解@ServletComponentScan"></a>在启动类上加入注解@ServletComponentScan</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@ServletComponentScan</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReggieApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(ReggieApplication.class,args);</span><br><span class="line">        log.info(<span class="string">&quot;项目启动成功！！！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="创建自定义过滤器LoginCheckFilter"><a href="#创建自定义过滤器LoginCheckFilter" class="headerlink" title="创建自定义过滤器LoginCheckFilter"></a>创建自定义过滤器LoginCheckFilter</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @ClassName: LoginCheckFilter</span><br><span class="line"> * @Description: 检查用户是否已经完成登录</span><br><span class="line"> * @author: 名字</span><br><span class="line"> * @date: 2022/5/10  15:57</span><br><span class="line"> */</span><br><span class="line">@WebFilter(filterName = &quot;LoginCheckFilter&quot;,urlPatterns = &quot;/*&quot;)</span><br><span class="line">@Slf4j</span><br><span class="line">public class LoginCheckFilter implements Filter &#123;</span><br><span class="line">    //路径匹配器，支持通配符</span><br><span class="line">    public static final AntPathMatcher PATH_MATCHER=new AntPathMatcher();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line">        HttpServletRequest request=(HttpServletRequest) servletRequest;</span><br><span class="line">        HttpServletResponse response=(HttpServletResponse) servletResponse;</span><br><span class="line"></span><br><span class="line">//        1、获取本次请求的URI</span><br><span class="line">        String requestURI = request.getRequestURI();</span><br><span class="line"></span><br><span class="line">        log.info(&quot;拦截到请求：&#123;&#125;&quot;,requestURI);</span><br><span class="line"></span><br><span class="line">//        定义不需要处理的请求路径</span><br><span class="line">        String[] urls=new String[]&#123;</span><br><span class="line">                &quot;/employee/login&quot;,</span><br><span class="line">                &quot;/employee/logout&quot;,</span><br><span class="line">                &quot;/backend/**&quot;,</span><br><span class="line">                &quot;/front/**&quot;</span><br><span class="line">        &#125;;</span><br><span class="line">//        2、判断本次请求是否需要处理</span><br><span class="line">        boolean check = check(urls, requestURI);</span><br><span class="line">//        3、如果不需要处理，则直接放行</span><br><span class="line">        if(check)&#123;</span><br><span class="line">            log.info(&quot;本次请求&#123;&#125;不需要处理&quot;,requestURI);</span><br><span class="line">            filterChain.doFilter(request,response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">//        4、判断登录状态，如果已登录，则直接放行</span><br><span class="line">        if(request.getSession().getAttribute(&quot;employee&quot;)!=null)&#123;</span><br><span class="line">            log.info(&quot;用户已登录，用户id为：&#123;&#125;&quot;,request.getSession().getAttribute(&quot;employee&quot;));</span><br><span class="line">            filterChain.doFilter(request,response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(&quot;用户未登录&quot;);</span><br><span class="line">//        5、如果未登录则返回未登录结果,通过输出流向客户端页面响应数据</span><br><span class="line">        response.getWriter().write(JSON.toJSONString(R.error(&quot;NOTLOGIN&quot;)));</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    //路径匹配，检查本次请求是否需要放行</span><br><span class="line">    public boolean check(String[] urls,String requestURI)&#123;</span><br><span class="line">        for (String url : urls) &#123;</span><br><span class="line">            boolean match = PATH_MATCHER.match(url, requestURI);</span><br><span class="line">            if(match==true)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码开发"><a href="#代码开发" class="headerlink" title="代码开发"></a>代码开发</h3><p>在开发代码之前，需要梳理一下整个程序的执行过程:</p>
+<ul>
+<li>页面发送ajax请求，将新增员工页面中输入的数据以json的形式提交到服务端</li>
+<li>服务端Controller接收页面提交的数据并调用Service将数据进行保存</li>
+<li>Service调用Mapper操作数据库，保存数据</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/26/reggie-day02/" data-id="clewx2not000bakuqd6do7rwr" data-title="reggie-day02" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-reggie-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/02/25/reggie-day01/" class="article-date">
@@ -782,46 +834,6 @@ miao~
 
 
   
-    <article id="post-css-基本选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2022-11-19T07:10:46.000Z" itemprop="datePublished">2022-11-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/">css 基本选择器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1、标签选择器：选择一类标签-标签"><a href="#1、标签选择器：选择一类标签-标签" class="headerlink" title="1、标签选择器：选择一类标签 标签{}"></a>1、标签选择器：选择一类标签 标签{}</h2><p><img src="https://user-images.githubusercontent.com/118366174/202839577-67879494-4f7c-4e41-b087-5cbc05ec86cf.JPG" alt="avater"></p>
-<hr>
-<h2 id="2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名"><a href="#2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名" class="headerlink" title="2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}"></a>2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839648-883e4e8d-d4b9-42dd-b3f8-0a615ac0d717.JPG" alt="avater"></h2><h2 id="3、-id选择器：全局唯一！-id名"><a href="#3、-id选择器：全局唯一！-id名" class="headerlink" title="3、 id选择器：全局唯一！#id名{}"></a>3、 id选择器：全局唯一！#id名{}</h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839671-8530fed7-3751-4d8a-8060-21e4ad8c71f7.JPG" alt="avater"></h2><h1 id="优先级：-id-gt-class-gt-标签"><a href="#优先级：-id-gt-class-gt-标签" class="headerlink" title="优先级： id&gt;class&gt;标签"></a>优先级： id&gt;class&gt;标签</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2noo0003akuq1ajw9jrz" data-title="css 基本选择器" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -858,6 +870,10 @@ miao~
       <ul>
         
           <li>
+            <a href="/2023/03/22/reggie-day04/">reggie-day04</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
           </li>
         
@@ -871,10 +887,6 @@ miao~
         
           <li>
             <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/16/mybatisplus%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">mybatisplus常用注解</a>
           </li>
         
       </ul>
