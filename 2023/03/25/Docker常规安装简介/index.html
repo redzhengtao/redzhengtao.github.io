@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Docker常规安装简介 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="查看防火墙状态firewall-cmd –state停止firewallsystemctl stop firewalld.service 1.8.1.总体步骤·搜索镜像·拉取镜像·查看镜像·启动镜像·服务端口映射·停止容器·移除容器 1.8.2.安装tomcat docker hub上面查找tomcat镜像·docker search tomcat1234567891011121314151617">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker常规安装简介">
+<meta property="og:url" content="http://example.com/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="查看防火墙状态firewall-cmd –state停止firewallsystemctl stop firewalld.service 1.8.1.总体步骤·搜索镜像·拉取镜像·查看镜像·启动镜像·服务端口映射·停止容器·移除容器 1.8.2.安装tomcat docker hub上面查找tomcat镜像·docker search tomcat1234567891011121314151617">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-25T07:17:25.000Z">
+<meta property="article:modified_time" content="2023-03-25T11:23:36.656Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Docker常规安装简介" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-03-25T07:17:25.000Z" itemprop="datePublished">2023-03-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Docker常规安装简介
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>查看防火墙状态<br>firewall-cmd –state<br>停止firewall<br>systemctl stop firewalld.service</p>
+<h1 id="1-8-1-总体步骤"><a href="#1-8-1-总体步骤" class="headerlink" title="1.8.1.总体步骤"></a>1.8.1.总体步骤</h1><p>·搜索镜像<br>·拉取镜像<br>·查看镜像<br>·启动镜像<br>·服务端口映射<br>·停止容器<br>·移除容器</p>
+<h3 id="1-8-2-安装tomcat"><a href="#1-8-2-安装tomcat" class="headerlink" title="1.8.2.安装tomcat"></a>1.8.2.安装tomcat</h3><ul>
+<li>docker hub上面查找tomcat镜像<br>·docker search tomcat<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker search tomcat</span><br><span class="line">NAME                                  DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">tomcat                                Apache Tomcat is an open source implementati…   3511      [OK]       </span><br><span class="line">tomee                                 Apache TomEE is an all-Apache Java EE certif…   104       [OK]       </span><br><span class="line">bitnami/tomcat                        Bitnami Tomcat Docker Image                     48                   [OK]</span><br><span class="line">secoresearch/tomcat-varnish           Tomcat and Varnish 5.0                          0                    [OK]</span><br><span class="line">bitnamicharts/tomcat                                                                  0                    </span><br><span class="line">wnprcehr/tomcat                                                                       0                    </span><br><span class="line">eclipse/rdf4j-workbench               Dockerfile for Eclipse RDF4J Server and Work…   6                    </span><br><span class="line">semoss/docker-tomcat                  Tomcat, Java, Maven, and Git on top of debian   0                    [OK]</span><br><span class="line">eclipse/hadoop-dev                    Ubuntu 14.04, Maven 3.3.9, JDK8, Tomcat 8       0                    [OK]</span><br><span class="line">dhis2/base-dev                        Images in this repository contains DHIS2 WAR…   0                    </span><br><span class="line">eclipse/alpine_jdk8                   Based on Alpine 3.3. JDK 1.8, Maven 3.3.9, T…   1                    [OK]</span><br><span class="line">misolims/miso-base                    MySQL 5.7 Database and Tomcat 8 Server neede…   0                    </span><br><span class="line">dhis2/base                            Images in this repository contains DHIS2 WAR…   0                    </span><br><span class="line">jelastic/tomcat                       An image of the Tomcat Java application serv…   4                    </span><br><span class="line">cfje/tomcat-resource                  Tomcat Concourse Resource                       2                    </span><br><span class="line">rightctrl/tomcat                      CentOS , Oracle Java, tomcat application ssl…   7                    [OK]</span><br><span class="line">amd64/tomcat                          Apache Tomcat is an open source implementati…   6                    </span><br><span class="line">arm64v8/tomcat                        Apache Tomcat is an open source implementati…   8                    </span><br><span class="line">tomcat0823/auto1                                                                      0                    </span><br><span class="line">tomcatengineering/pg_backup_rotated   Clone of martianrock/pg_backup_rotated but w…   0                    </span><br><span class="line">softwareplant/tomcat                  Tomcat images for jira-cloud testing            0                    [OK]</span><br><span class="line">tomcat2111/papercut-mf                PaperCut MF Application Server                  0                    </span><br><span class="line">oobsri/tomcat8                        Testing CI Jobs with different names.           2                    </span><br><span class="line">appsvc/tomcat                                                                         1                    </span><br><span class="line">s390x/tomcat                          Apache Tomcat is an open source implementati…   0                    </span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<p>·从docker hub上拉取tomcat镜像到本地<br>docker pull tomcat</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull tomcat</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/tomcat</span><br><span class="line">74ac377868f8: Pull complete </span><br><span class="line">a182a611d05b: Pull complete </span><br><span class="line">ad4fe29a3001: Pull complete </span><br><span class="line">9d52462c5181: Pull complete </span><br><span class="line">ac04a5bb8dd2: Pull complete </span><br><span class="line">07629b69d33f: Pull complete </span><br><span class="line">ab42e69de175: Pull complete </span><br><span class="line">Digest: sha256:28d70f3719e124d597e57e7c13ef3aaa76997dd21d66205b1a2229a0c92edfc4</span><br><span class="line">Status: Downloaded newer image for tomcat:latest</span><br><span class="line">docker.io/library/tomcat:latest</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure>
+<hr>
+<p>·docker images查看是否有拉取到的tomcat</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat        latest    51c25da77baf   8 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="重启docker"><a href="#重启docker" class="headerlink" title="重启docker"></a>重启docker</h1><hr>
+<p>·使用tomcat镜像创建容器实例(也叫运行镜像)<br>·docker run -it -p 8080:8080 tomcat<br>·-p 小写，主机端口:docker容器端口<br>·-P 大写，随机分配端口<br>·i:交互<br>·t:终端<br>·d:后台</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker run -it -p 8080:8080 tomcat</span><br><span class="line">Using CATALINA_BASE:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_HOME:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_TMPDIR: /usr/local/tomcat/temp</span><br><span class="line">Using JRE_HOME:        /opt/java/openjdk</span><br><span class="line">Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar</span><br><span class="line">Using CATALINA_OPTS:   </span><br><span class="line">25-Mar-2023 07:29:03.266 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.7</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Feb 27 2023 20:25:27 UTC</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.7.0</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            3.10.0-957.el7.x86_64</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /opt/java/openjdk</span><br><span class="line">25-Mar-2023 07:29:03.271 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           17.0.6+10</span><br><span class="line">25-Mar-2023 07:29:03.271 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Eclipse Adoptium</span><br><span class="line">25-Mar-2023 07:29:03.272 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.272 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.284 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.286 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp</span><br><span class="line">25-Mar-2023 07:29:03.294 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.3] using APR version [1.7.0].</span><br><span class="line">25-Mar-2023 07:29:03.307 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.2 15 Mar 2022]</span><br><span class="line">25-Mar-2023 07:29:03.569 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler [&quot;http-nio-8080&quot;]</span><br><span class="line">25-Mar-2023 07:29:03.590 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [512] milliseconds</span><br><span class="line">25-Mar-2023 07:29:03.643 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]</span><br><span class="line">25-Mar-2023 07:29:03.643 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.7]</span><br><span class="line">25-Mar-2023 07:29:03.665 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [&quot;http-nio-8080&quot;]</span><br><span class="line">25-Mar-2023 07:29:03.687 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [96] milliseconds</span><br></pre></td></tr></table></figure>
+<hr>
+<p>·访问猫首页</p>
+<hr>
+<p>·免修改版说明<br>·docker pull billygoo&#x2F;tomcat8-jdk8<br>·docker run -d -p 8080:8080 –name mytomcat8 billygoo&#x2F;tomcat8-jdk8</p>
+<hr>
+<h1 id="1-8-3-安装mysql"><a href="#1-8-3-安装mysql" class="headerlink" title="1.8.3.安装mysql"></a>1.8.3.安装mysql</h1><ul>
+<li>docker hub上面查找mysql镜像<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker search mysql</span><br><span class="line">NAME                            DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">mysql                           MySQL is a widely used, open-source relation…   13968     [OK]       </span><br><span class="line">mariadb                         MariaDB Server is a high performing open sou…   5325      [OK]       </span><br><span class="line">percona                         Percona Server is a fork of the MySQL relati…   602       [OK]       </span><br><span class="line">phpmyadmin                      phpMyAdmin - A web interface for MySQL and M…   765       [OK]       </span><br><span class="line">circleci/mysql                  MySQL is a widely used, open-source relation…   29                   </span><br><span class="line">bitnami/mysql                   Bitnami MySQL Docker Image                      80                   [OK]</span><br><span class="line">bitnami/mysqld-exporter                                                         4                    </span><br><span class="line">ubuntu/mysql                    MySQL open source fast, stable, multi-thread…   43                   </span><br><span class="line">cimg/mysql                                                                      0                    </span><br><span class="line">rapidfort/mysql                 RapidFort optimized, hardened image for MySQL   14                   </span><br><span class="line">google/mysql                    MySQL server for Google Compute Engine          23                   [OK]</span><br><span class="line">ibmcom/mysql-s390x              Docker image for mysql-s390x                    2                    </span><br><span class="line">rapidfort/mysql8-ib             RapidFort optimized, hardened image for MySQ…   0                    </span><br><span class="line">hashicorp/mysql-portworx-demo                                                   0                    </span><br><span class="line">rapidfort/mysql-official        RapidFort optimized, hardened image for MySQ…   0                    </span><br><span class="line">newrelic/mysql-plugin           New Relic Plugin for monitoring MySQL databa…   1                    [OK]</span><br><span class="line">databack/mysql-backup           Back up mysql databases to... anywhere!         82                   </span><br><span class="line">linuxserver/mysql               A Mysql container, brought to you by LinuxSe…   38                   </span><br><span class="line">mirantis/mysql                                                                  0                    </span><br><span class="line">docksal/mysql                   MySQL service images for Docksal - https://d…   0                    </span><br><span class="line">vitess/mysqlctld                vitess/mysqlctld                                1                    [OK]</span><br><span class="line">linuxserver/mysql-workbench                                                     48                   </span><br><span class="line">bitnamicharts/mysql                                                             0                    </span><br><span class="line">eclipse/mysql                   Mysql 5.7, curl, rsync                          0                    [OK]</span><br><span class="line">drud/mysql                                                                      0                    </span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<p>·</p>
+<ul>
+<li>从docker hub上(阿里云加速器)拉取mysql镜像到本地标签为5.7<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull mysql:5.7</span><br><span class="line">5.7: Pulling from library/mysql</span><br><span class="line">2ec521688c56: Pull complete </span><br><span class="line">f911f9b90db6: Pull complete </span><br><span class="line">38eb4fe7ed26: Pull complete </span><br><span class="line">01f772a6b25f: Pull complete </span><br><span class="line">499456357ebf: Pull complete </span><br><span class="line">274f3ad0dcec: Pull complete </span><br><span class="line">3e6a5b12e1de: Pull complete </span><br><span class="line">de0c5c82dbbc: Pull complete </span><br><span class="line">c9bd281f4600: Pull complete </span><br><span class="line">3289c4277a83: Pull complete </span><br><span class="line">8b66f10a11fa: Pull complete </span><br><span class="line">Digest: sha256:1780318bdabc0edd36907bf91b47632eb912e8ea91258eca3590f8aca6f54836</span><br><span class="line">Status: Downloaded newer image for mysql:5.7</span><br><span class="line">docker.io/library/mysql:5.7</span><br><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   3 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   9 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<ul>
+<li>使用mysql5.7镜像创建容器(也叫运行镜像)<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br><span class="line">1a44e646c8ad29df42049a18b9922ace2eff2df8527e71cb53cf4725abc4c363</span><br><span class="line">[root@re0 ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                                                  NAMES</span><br><span class="line">1a44e646c8ad   mysql:5.7   &quot;docker-entrypoint.s…&quot;   9 seconds ago   Up 8 seconds   0.0.0.0:3306-&gt;3306/tcp, :::3306-&gt;3306/tcp, 33060/tcp   condescending_pasteur</span><br><span class="line">[root@re0 ~]# docker exec -it 1a44e646c8ad   /bin/bash</span><br><span class="line">bash-4.2# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.41 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2023, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker exec -it 1a44e646c8ad   /bin/bash</span><br><span class="line">bash-4.2# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 6</span><br><span class="line">Server version: 5.7.41 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2023, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; show database;</span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;database&#x27; at line 1</span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| db                 |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; </span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/" data-id="clfnn2gzg0000xkuq3hm594ej" data-title="Docker常规安装简介" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker常用命令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/">Docker常规安装简介</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/22/reggie-day05/">reggie-day05</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/22/reggie-day04/">reggie-day04</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
