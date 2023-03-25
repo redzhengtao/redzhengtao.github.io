@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>reggie-day05 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="套餐管理业务开发 新增套餐需求分析套餐就是菜品的集合。 后台系统中可以管理套餐信息，通过新增套餐功能来添加一个新的套餐，在添加套餐时需要选择当前套餐所属的套餐分类和包含的菜品，并且需要上传套餐对应的图片，在移动端会按照套餐分类来展示对应的套餐。 数据模型新增套餐，其实就是将新增页面录入的套餐信息插入到setmeal表，还需要向setmeal_dish表插入套餐和菜品关联数据。所以在新增套餐时，涉及">
+<meta property="og:type" content="article">
+<meta property="og:title" content="reggie-day05">
+<meta property="og:url" content="http://example.com/2023/03/22/reggie-day05/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="套餐管理业务开发 新增套餐需求分析套餐就是菜品的集合。 后台系统中可以管理套餐信息，通过新增套餐功能来添加一个新的套餐，在添加套餐时需要选择当前套餐所属的套餐分类和包含的菜品，并且需要上传套餐对应的图片，在移动端会按照套餐分类来展示对应的套餐。 数据模型新增套餐，其实就是将新增页面录入的套餐信息插入到setmeal表，还需要向setmeal_dish表插入套餐和菜品关联数据。所以在新增套餐时，涉及">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-22T15:14:42.000Z">
+<meta property="article:modified_time" content="2023-03-22T15:30:27.816Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-reggie-day05" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/22/reggie-day05/" class="article-date">
+  <time class="dt-published" datetime="2023-03-22T15:14:42.000Z" itemprop="datePublished">2023-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      reggie-day05
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="套餐管理业务开发"><a href="#套餐管理业务开发" class="headerlink" title="套餐管理业务开发"></a>套餐管理业务开发</h2><hr>
+<h3 id="新增套餐"><a href="#新增套餐" class="headerlink" title="新增套餐"></a>新增套餐</h3><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>套餐就是菜品的集合。</p>
+<p>后台系统中可以管理套餐信息，通过新增套餐功能来添加一个新的套餐，在添加套餐时需要选择当前套餐所属的套餐分类和包含的菜品，并且需要上传套餐对应的图片，在移动端会按照套餐分类来展示对应的套餐。</p>
+<h4 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h4><p>新增套餐，其实就是将新增页面录入的套餐信息插入到setmeal表，还需要向setmeal_dish表插入套餐和菜品关联数据。所以在新增套餐时，涉及到两个表:</p>
+<ul>
+<li>setmeal</li>
+<li>setmeal_dish</li>
+</ul>
+<h4 id="代码开发-准备工作"><a href="#代码开发-准备工作" class="headerlink" title="代码开发-准备工作"></a>代码开发-准备工作</h4><p>在开发业务功能前，先将需要用到的类和接口基本结构创建好:</p>
+<ul>
+<li><strong>实体类SetmealDish</strong>(直接从课程资料中导入即可，Setmeal实体前面+ 课程中已经导入过了)</li>
+<li>DTO <strong>SetmealDto</strong>(直接从课程资料中导入即可)</li>
+<li>Mapper接口SetmealDishMapper</li>
+<li>业务层接口SetmealDishService</li>
+<li>业务层实现类SetmealDishServicelmpl</li>
+<li>控制层SetmealController</li>
+</ul>
+<h4 id="代码开发-梳理交互过程"><a href="#代码开发-梳理交互过程" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下新增套餐时前端页面和服务端的交互过程:</p>
+<p>1、页面(backend&#x2F; page&#x2F;comboladd.html)发送ajax请求，请求服务端获取套餐分类数据并展示到下拉框中</p>
+<p>2、页面发送ajax请求，请求服务端获取菜品分类数据并展示到添加菜品窗口中</p>
+<p>3、页面发送ajax请求，请求服务端，根据菜品分类查询对应的菜品数据并展示到添加菜品窗口中</p>
+<p>在DishController添加list方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据条件查询对应菜品数据</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;Dish&gt;&gt; <span class="title function_">list</span><span class="params">(Dish dish)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造查询条件</span></span><br><span class="line">    LambdaQueryWrapper&lt;Dish&gt; lambdaQueryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//添加条件，查询状态为1的（起售状态）</span></span><br><span class="line">    lambdaQueryWrapper.eq(Dish::getStatus,<span class="number">1</span>);</span><br><span class="line">    lambdaQueryWrapper.eq(dish.getCategoryId()!=<span class="literal">null</span>,Dish::getCategoryId,dish.getCategoryId());</span><br><span class="line">    <span class="comment">//条件排序条件</span></span><br><span class="line">    lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);</span><br><span class="line"></span><br><span class="line">    List&lt;Dish&gt; list=dishService.list(lambdaQueryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、页面发送请求进行图片上传，请求服务端将图片保存到服务器</p>
+<p>5、页面发送请求进行图片下载，将上传的图片进行回显</p>
+<p>6、点击保存按钮，发送ajax请求，将套餐相关数据以json形式提交到服务端</p>
+<p>在SetmealServiceImpl实现saveWithDish方法：新增套餐，同时要保持与菜品的关联关系</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SetmealServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;SetmealMapper, Setmeal&gt; <span class="keyword">implements</span> <span class="title class_">SetmealService</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealDishService setmealDishService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//新增套餐，同时要保持与菜品的关联关系</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">saveWithDish</span><span class="params">(SetmealDto setmealDto)</span> &#123;</span><br><span class="line">        <span class="comment">//保存套餐基本信息，操作setmeal，执行insert操作</span></span><br><span class="line">        <span class="built_in">this</span>.save(setmealDto);</span><br><span class="line"></span><br><span class="line">        List&lt;SetmealDish&gt; setmealDishes = setmealDto.getSetmealDishes();</span><br><span class="line"></span><br><span class="line">        setmealDishes.stream().map((item)-&gt;&#123;</span><br><span class="line">            item.setSetmealId(setmealDto.getId());</span><br><span class="line">            <span class="keyword">return</span> item;</span><br><span class="line">        &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//保存套餐和菜品的关联信息，操作setmeal_dish，执行insert操作</span></span><br><span class="line">        setmealDishService.saveBatch(setmealDishes);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在SetmealController添加save方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/setmeal&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SetmealController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealService setmealService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealDishService setmealDishService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;String&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> SetmealDto setmealDto)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;setmeal:&#123;&#125;&quot;</span>,setmealDto);</span><br><span class="line">        setmealService.saveWithDish(setmealDto);</span><br><span class="line">        <span class="keyword">return</span> R.success(<span class="string">&quot;新增套餐成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开发新增套餐功能，其实就是在服务端编写代码去处理前端页面发送的这6次请求即可。</p>
+<h3 id="套餐分页查询"><a href="#套餐分页查询" class="headerlink" title="套餐分页查询"></a>套餐分页查询</h3><h4 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h4><p>系统中的套餐数据很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。</p>
+<h4 id="代码开发-梳理交互过程-1"><a href="#代码开发-梳理交互过程-1" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下套餐分页查询时前端页面和服务端的交互过程:</p>
+<p>1、页面(backend&#x2F;page&#x2F;combo&#x2F;list.html)发送ajax请求，将分页查询参数(page、pageSize、name)提交到服务端，获取分页数据</p>
+<p>2、页面发送请求，请求服务端进行图片下载，用于页面图片展示</p>
+<p>开发套餐信息分页查询功能，其实就是在服务端编写代码去处理前端页面发送的这2次请求即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/page&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;Page&gt; <span class="title function_">page</span><span class="params">(<span class="type">int</span> page,<span class="type">int</span> pageSize,String name)</span>&#123;</span><br><span class="line">    <span class="comment">//构造分页构造器</span></span><br><span class="line">    Page&lt;Setmeal&gt; pageInfo=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(page,pageSize);</span><br><span class="line"></span><br><span class="line">    Page&lt;SetmealDto&gt; pageDtoInfo=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//构造条件构造器</span></span><br><span class="line">    LambdaQueryWrapper&lt;Setmeal&gt; queryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//根据name进行模糊查询</span></span><br><span class="line">    queryWrapper.like(!StringUtils.isEmpty(name),Setmeal::getName,name);</span><br><span class="line">    <span class="comment">//添加排序条件，根据sort进行排序</span></span><br><span class="line">    queryWrapper.orderByDesc(Setmeal::getUpdateTime);</span><br><span class="line">    <span class="comment">//进行分页查询</span></span><br><span class="line">    setmealService.page(pageInfo,queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对象拷贝</span></span><br><span class="line">    BeanUtils.copyProperties(pageInfo,pageDtoInfo,<span class="string">&quot;records&quot;</span>);</span><br><span class="line"></span><br><span class="line">    List&lt;Setmeal&gt; records=pageInfo.getRecords();</span><br><span class="line"></span><br><span class="line">    List&lt;SetmealDto&gt; list= records.stream().map((item)-&gt;&#123;</span><br><span class="line">        SetmealDto setmealDto=<span class="keyword">new</span> <span class="title class_">SetmealDto</span>();</span><br><span class="line"></span><br><span class="line">        BeanUtils.copyProperties(item,setmealDto);</span><br><span class="line">        <span class="type">Long</span> <span class="variable">categoryId</span> <span class="operator">=</span> item.getCategoryId();</span><br><span class="line">        <span class="comment">//根据id查分类对象</span></span><br><span class="line">        <span class="type">Category</span> <span class="variable">category</span> <span class="operator">=</span> categoryService.getById(categoryId);</span><br><span class="line">        <span class="keyword">if</span>(category!=<span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">categoryName</span> <span class="operator">=</span> category.getName();</span><br><span class="line">            setmealDto.setCategoryName(categoryName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> setmealDto;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    pageDtoInfo.setRecords(list);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(pageDtoInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除、起售、停售套餐"><a href="#删除、起售、停售套餐" class="headerlink" title="删除、起售、停售套餐"></a>删除、起售、停售套餐</h3><h4 id="需求分析-2"><a href="#需求分析-2" class="headerlink" title="需求分析"></a>需求分析</h4><p>在套餐管理列表页面点击删除按钮，可以删除对应的套餐信息。也可以通过复选框选择多个套餐，点击批量删除按钮一次删除多个套餐。注意，对于状态为售卖中的套餐不能删除，需要先停售，然后才能删除。</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>开发删除套餐功能，其实就是在服务端编写代码去处理前端页面发送的这2次请求即可。<br>观察删除单个套餐和批量删除套餐的请求信息可以发现，两种请求的地址和请求方式都是相同的，不同的则是传递的id个数，所以在服务端可以提供一个方法来统一处理。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;<span class="title class_">String</span>&gt; <span class="title function_">delete</span>(<span class="params"><span class="built_in">String</span>[] ids</span>)&#123;</span><br><span class="line">    int index=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="title class_">String</span> <span class="attr">id</span>:ids) &#123;</span><br><span class="line">        <span class="title class_">Setmeal</span> setmeal = setmealService.<span class="title function_">getById</span>(id);</span><br><span class="line">        <span class="keyword">if</span>(setmeal.<span class="title function_">getStatus</span>()!=<span class="number">1</span>)&#123;</span><br><span class="line">            setmealService.<span class="title function_">removeById</span>(id);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            index++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (index&gt;<span class="number">0</span>&amp;&amp;index==ids.<span class="property">length</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> R.<span class="title function_">error</span>(<span class="string">&quot;选中的套餐均为启售状态，不能删除&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> R.<span class="title function_">success</span>(<span class="string">&quot;删除成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">&quot;/status/&#123;status&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> R&lt;<span class="title class_">String</span>&gt; <span class="title function_">sale</span>(<span class="params"><span class="meta">@PathVariable</span> int status,<span class="built_in">String</span>[] ids</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="title class_">String</span> <span class="attr">id</span>:ids)&#123;</span><br><span class="line">        <span class="title class_">Setmeal</span> setmeal = setmealService.<span class="title function_">getById</span>(id);</span><br><span class="line">        setmeal.<span class="title function_">setStatus</span>(status);</span><br><span class="line">        setmealService.<span class="title function_">updateById</span>(setmeal);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.<span class="title function_">success</span>(<span class="string">&quot;修改成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改套餐"><a href="#修改套餐" class="headerlink" title="修改套餐"></a>修改套餐</h3><h4 id="需求分析-3"><a href="#需求分析-3" class="headerlink" title="需求分析"></a>需求分析</h4><p>在套餐管理列表页面点击修改按钮，跳转到修改套餐页面，在修改页面回显套餐相关信息并进行修改，最后点击确定按钮完成修改操作</p>
+<h4 id="代码开发-梳理交互过程-2"><a href="#代码开发-梳理交互过程-2" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下修改套餐时前端页面（ add.html)和服务端的交互过程:</p>
+<p>1、页面发送ajax请求，请求服务端获取分类数据，用于套餐分类下拉框中数据展示</p>
+<p>2、页面发送ajax请求，请求服务端，根据id查询当前套餐信息，用于套餐信息回显</p>
+<ul>
+<li>SetmealController处理Get请求</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据Id查询套餐信息</span></span><br><span class="line"><span class="meta">@GetMapping(<span class="string">&quot;/&#123;id&#125;&quot;</span>)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;SetmealDto&gt; getById(<span class="meta">@PathVariable</span> <span class="built_in">Long</span> id)&#123;</span><br><span class="line">    SetmealDto setmealDto=setmealService.getByIdWithDish(id);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(setmealDto);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>SetmealServiceImpl添加getByIdWithDish方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> SetmealDto <span class="title function_">getByIdWithDish</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">//查询套餐基本信息</span></span><br><span class="line">    <span class="type">Setmeal</span> <span class="variable">setmeal</span> <span class="operator">=</span> <span class="built_in">this</span>.getById(id);</span><br><span class="line">    <span class="type">SetmealDto</span> <span class="variable">setmealDto</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SetmealDto</span>();</span><br><span class="line">    BeanUtils.copyProperties(setmeal, setmealDto);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询套餐菜品信息</span></span><br><span class="line">    LambdaQueryWrapper&lt;SetmealDish&gt; queryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(SetmealDish::getSetmealId,setmeal.getId());</span><br><span class="line">    List&lt;SetmealDish&gt; list = setmealDishService.list(queryWrapper);</span><br><span class="line"></span><br><span class="line">    setmealDto.setSetmealDishes(list);</span><br><span class="line">    <span class="keyword">return</span> setmealDto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、页面发送请求，请求服务端进行图片下载，用于页图片回显</p>
+<p>4、点击保存按钮，页面发送ajax请求，将修改后的菜品相关数据以json形式提交到服务端</p>
+<ul>
+<li>在SetmealServiceImpl添加updateWithDish方法</li>
+</ul>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void updateWithDish(SetmealDto setmealDto) &#123;</span><br><span class="line">    <span class="regexp">//</span>更新setmeal表基本信息</span><br><span class="line">    this.updateById(setmealDto);</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span>更新setmeal_dish表信息<span class="keyword">delete</span>操作</span><br><span class="line">    LambdaQueryWrapper&lt;SetmealDish&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span><br><span class="line">    queryWrapper.e<span class="string">q(SetmealDish::getSetmealId, setmealDto.getId()</span>);</span><br><span class="line">    setmealDishService.remove(queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span>更新setmeal_dish表信息insert操作</span><br><span class="line">    List&lt;SetmealDish&gt; SetmealDishes = setmealDto.getSetmealDishes();</span><br><span class="line"></span><br><span class="line">    SetmealDishes = SetmealDishes.stream().map((item) -&gt; &#123;</span><br><span class="line">        item.setSetmealId(setmealDto.getId());</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    setmealDishService.saveBatch(SetmealDishes);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在SetmealController处理put请求</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修改套餐</span></span><br><span class="line"><span class="variable">@PutMapping</span></span><br><span class="line">public R&lt;String&gt; <span class="built_in">update</span>(<span class="variable">@RequestBody</span> SetmealDto setmealDto)&#123;</span><br><span class="line">    <span class="selector-tag">setmealService</span><span class="selector-class">.updateWithDish</span>(setmealDto);</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">R</span><span class="selector-class">.success</span>(<span class="string">&quot;修改成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>开发修改套餐功能，其实就是在服务端编写代码去处理前端页面发送的这4次请求即可。</p>
+<h2 id="手机验证码登录"><a href="#手机验证码登录" class="headerlink" title="手机验证码登录"></a>手机验证码登录</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/22/reggie-day05/" data-id="clfjtso4e0000e4uqesoy1l8w" data-title="reggie-day05" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/25/docker/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          docker
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/22/reggie-day04/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">reggie-day04</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/25/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/22/reggie-day05/">reggie-day05</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/22/reggie-day04/">reggie-day04</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/21/reggie-day03/">reggie-day03</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

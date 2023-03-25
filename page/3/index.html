@@ -71,6 +71,165 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-css-结构伪类选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-20T14:43:55.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"><a href="#结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素" class="headerlink" title="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"></a>结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素</h3><table>
+<thead>
+<tr>
+<th align="left">选择符</th>
+<th align="left">解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中的第一个子元素 E</td>
+</tr>
+<tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中最后一个E元素</td>
+</tr>
+<tr>
+<td align="left">E:nth-child(n)</td>
+<td align="left">匹配父元素中的第n个子元素E</td>
+</tr>
+<tr>
+<td align="left">E:first-of-type</td>
+<td align="left">指定类型E的第一个</td>
+</tr>
+<tr>
+<td align="left">E:last-of-type</td>
+<td align="left">指定类型E的最后一个</td>
+</tr>
+<tr>
+<td align="left">E:nth-of-type(n)</td>
+<td align="left">指定类型E的第n个</td>
+</tr>
+</tbody></table>
+<pre><code>        ul li:first-child&#123;
+        background: #66945e;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909431-66e24bea-9432-4b85-ba2d-669a3a601a71.JPG" alt="avater"></p>
+<pre><code>        ul li:last-child&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909599-6f1dd4b4-f237-44b4-9cf8-7f37b6c6952d.JPG" alt="avater"></p>
+<pre><code>         p:nth-child(2)&#123;
+        background: blue;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909650-14992b3c-d134-448d-a2a0-7fda8c1220ea.JPG" alt="avater"></p>
+<pre><code>         p:nth-of-type(1)&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909853-56c38ad5-b52d-4444-a7b9-ce96c081f439.JPG" alt="avater"></p>
+<pre><code>        同理也有
+            ul li:first-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        和
+            ul li:last-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        这里就不放图了
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2noq0006akuqcxbq8euh" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css-层次选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-19T16:19:59.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1、后代选择器"><a href="#1、后代选择器" class="headerlink" title="1、后代选择器"></a>1、后代选择器</h2><pre><code>        body p&#123;
+        background: #79c7c7;
+      &#125;
+      在某个元素的后面
+</code></pre>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861713-84d36687-f6a7-48e1-a5b7-873a0265b897.JPG" alt="avater"></h2><h2 id="2、子选择器"><a href="#2、子选择器" class="headerlink" title="2、子选择器"></a>2、子选择器</h2><pre><code>        body &gt;p&#123;
+        background: #79c7c7;
+      &#125;
+      一代 儿子
+</code></pre>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861854-d32ccd84-62d5-4c73-8cb0-5574df4d6a91.JPG" alt="avater"></h2><h2 id="3、相邻兄弟选择器"><a href="#3、相邻兄弟选择器" class="headerlink" title="3、相邻兄弟选择器"></a>3、相邻兄弟选择器</h2><pre><code>        .green + h1&#123;
+          background: #66945e;
+      &#125;
+        指下一个标签
+</code></pre>
+<h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861904-099a15d1-4aba-41f4-b0bd-cea7e41ada2d.JPG" alt="avater"></h2><h2 id="4、通用选择器"><a href="#4、通用选择器" class="headerlink" title="4、通用选择器"></a>4、通用选择器</h2><pre><code>         .green ~ h1&#123;
+          background: #66945e;
+      &#125;
+      它的功能是将后续所有的兄弟（相同等级的）标签背景全部改为green色：
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202861933-ae8578e6-f581-4ce0-b977-f9473b2464e5.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2nop0004akuqapttfcfn" data-title="css 层次选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-css-基本选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
@@ -237,6 +396,14 @@
       <ul>
         
           <li>
+            <a href="/2023/03/25/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/22/reggie-day05/">reggie-day05</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/22/reggie-day04/">reggie-day04</a>
           </li>
         
@@ -246,14 +413,6 @@
         
           <li>
             <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/17/mybatisplus%E6%8F%92%E4%BB%B6/">mybatisplus插件</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/16/mybatisplus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8%E5%92%8C%E5%B8%B8%E7%94%A8%E6%8E%A5%E5%8F%A3/">mybatisplus条件构造器和常用接口</a>
           </li>
         
       </ul>
