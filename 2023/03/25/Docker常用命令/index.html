@@ -14,7 +14,7 @@
 <meta property="og:description" content="1.2.7.底层原理 为什么Docker会比VM虚拟机快(1)docker有着比虚拟机更少的抽象层   由于docker不需要Hypervisor(虚拟机)实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。(2)docker利用的是宿主机的内核,而不需要加载操作系统OS内核   当新建一个容器时,do">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-25T06:53:55.000Z">
-<meta property="article:modified_time" content="2023-03-25T07:05:35.322Z">
+<meta property="article:modified_time" content="2023-03-26T13:33:52.857Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -99,6 +99,35 @@
 <li>为什么Docker会比VM虚拟机快<br>(1)docker有着比虚拟机更少的抽象层<br>   由于docker不需要Hypervisor(虚拟机)实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<br>(2)docker利用的是宿主机的内核,而不需要加载操作系统OS内核<br>   当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。进而避免引寻、加载操作系统内核返回等比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载OS,返回新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返回过程,因此新建一个docker容器只需要几秒钟。</li>
 </ul>
 <h1 id="1-3-Docker常用命令"><a href="#1-3-Docker常用命令" class="headerlink" title="1.3.Docker常用命令"></a>1.3.Docker常用命令</h1><h3 id="1-3-1-帮助启动类命令"><a href="#1-3-1-帮助启动类命令" class="headerlink" title="1.3.1.帮助启动类命令"></a>1.3.1.帮助启动类命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">·启动docker： systemctl start docker</span><br><span class="line">·停止docker： systemctl stop docker</span><br><span class="line">·重启docker： systemctl restart docker</span><br><span class="line">·查看docker状态： systemctl status docker</span><br><span class="line">·开机启动： systemctl enable docker</span><br><span class="line">·查看docker概要信息： docker info</span><br><span class="line">·查看docker总体帮助文档： docker --help</span><br><span class="line">·查看docker命令帮助文档： docker 具体命令 --help</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="1-3-2-镜像命令"><a href="#1-3-2-镜像命令" class="headerlink" title="1.3.2.镜像命令"></a>1.3.2.镜像命令</h3><ul>
+<li><p>列出本地主机上的镜像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   3 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   9 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<p>各个选项说明:<br>REPOSITORY：表示镜像的仓库源<br>TAG：镜像的标签版本号<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小<br> 同一仓库源可以有多个 TAG版本，代表这个仓库源的不同个版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。<br>如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像<br> <br> <br>·OPTIONS说明：<br>·-a :列出本地所有的镜像（含历史映像层）<br>·-q :只显示镜像ID。<br>·docker search 某个XXX镜像名字<br>·网站<br>·<a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com</a><br>·命令<br>·docker search [OPTIONS] 镜像名字<br>·案例<br>·OPTIONS说明：<br>·–limit : 只列出N个镜像，默认25个<br>·docker search –limit 5 redis<br>·docker pull 某个XXX镜像名字<br>·下载镜像<br>·docker pull 镜像名字[:TAG]<br>·docker pull 镜像名字<br>·没有TAG就是最新版<br>·等价于<br>·docker pull 镜像名字:latest<br>·docker pull ubuntu</p>
+<hr>
+<ul>
+<li>docker system df 查看镜像&#x2F;容器&#x2F;数据卷所占的空间</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker system df</span><br><span class="line">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE</span><br><span class="line">Images          3         3         928.7MB   0B (0%)</span><br><span class="line">Containers      8         0         10.5kB    10.5kB (100%)</span><br><span class="line">Local Volumes   2         2         413.9MB   0B (0%)</span><br><span class="line">Build Cache     0         0         0B        0B</span><br><span class="line">[root@re0 ~]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>docker rmi 某个XXX镜像名字ID<br>·删除镜像<br>·删除单个<br>·docker rmi  -f 镜像ID<br>·删除多个<br>·docker rmi -f 镜像名1:TAG 镜像名2:TAG<br>·删除全部<br>·docker rmi -f $(docker images -qa)<br>·面试题：谈谈docker虚悬镜像是什么？<br>·是什么<br>·仓库名、标签都是<none>的镜像，俗称虚悬镜像dangling image<br>·长什么样</li>
+</ul>
+<hr>
+<h3 id="1-3-3-容器命令"><a href="#1-3-3-容器命令" class="headerlink" title="1.3.3 容器命令"></a>1.3.3 容器命令</h3><ul>
+<li>有镜像才能创建容器， 这是根本前提(下载一个CentOS或者ubuntu镜像演示)</li>
+</ul>
+<p>·本次演示用ubuntu演示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull ubuntu</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/ubuntu</span><br><span class="line">2ab09b027e7f: Pull complete </span><br><span class="line">Digest: sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21</span><br><span class="line">Status: Downloaded newer image for ubuntu:latest</span><br><span class="line">docker.io/library/ubuntu:latest</span><br><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   4 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   10 days ago     474MB</span><br><span class="line">ubuntu        latest    08d22c0ceb15   2 weeks ago     77.8MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure>
+
+
+<p>·新建+启动容器<br>·docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>· OPTIONS说明<br> OPTIONS说明（常用）：有些是一个减号，有些是两个减号<br> <br>–name&#x3D;”容器新名字”       为容器指定一个名称；<br>-d: 后台运行容器并返回容器ID，也即启动守护式容器(后台运行)；<br> <br>-i：以交互模式运行容器，通常与 -t 同时使用；<br>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>也即启动交互式容器(前台有伪终端，等待交互)；<br> <br>-P: 随机端口映射，大写P<br>-p: 指定端口映射，小写p</p>
+<p>·启动交互式容器(前台命令行)<br>关系	前后对比 - 开始 启动守护式容器(后台服务器)</p>
+<p>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行&#x2F;bin&#x2F;bash命令。<br>docker run -it centos &#x2F;bin&#x2F;bash<br> <br>参数说明：<br>-i: 交互式操作。<br>-t: 终端。<br>centos : centos 镜像。<br>&#x2F;bin&#x2F;bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 &#x2F;bin&#x2F;bash。<br>要退出终端，直接输入 exit:<br> <br>·列出当前所有正在运行的容器<br>·docker ps [OPTIONS]<br>· OPTIONS说明<br>OPTIONS说明（常用）：<br> <br>-a :列出当前所有正在运行的容器+历史上运行过的<br>-l :显示最近创建的容器。<br>-n：显示最近n个创建的容器。<br>-q :静默模式，只显示容器编号。<br>·退出容器<br>关系	指向 进入正在运行的容器并以命令行交互<br>·两种退出方式<br>·exit<br>·run进去容器，exit退出，容器停止<br>·ctrl+p+q<br>·run进去容器，ctrl+p+q退出，容器不停止<br>·启动已停止运行的容器<br>·docker start 容器ID或者容器名<br>·重启容器<br>·docker restart 容器ID或者容器名<br>·停止容器<br>·docker stop 容器ID或者容器名<br>·强制停止容器<br>·docker kill 容器ID或容器名<br>·删除已停止的容器<br>·docker rm 容器ID<br>·一次性删除多个容器实例<br>·docker rm -f $(docker ps -a -q)<br>·docker ps -a -q | xargs docker rm<br>·重要<br>·有镜像才能创建容器，这是根本前提(下载一个Redis6.0.8镜像演示)<br>·启动守护式容器(后台服务器)<br>关系	前后对比 - 指向 启动交互式容器(前台命令行)<br>·在大部分的场景下，我们希望 docker 的服务是在后台运行的， 我们可以过 -d 指定容器的后台运行模式。<br>·docker run -d 容器名<br> <br>#使用镜像centos:latest以后台模式启动一个容器<br>docker run -d centos<br> <br>问题：然后docker ps -a 进行查看, 会发现容器已经退出<br>很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.<br>容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。<br> <br>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,<br>我们配置启动服务只需要启动响应的service即可。例如service nginx start<br>但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,<br>这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.<br>所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行，<br>常见就是命令行模式，表示我还有交互操作，别中断，O(∩_∩)O哈哈~<br>·redis 前后台启动演示case<br>·前台交互式启动<br>· docker run -it redis:6.0.8<br>·后台守护式启动<br>·docker run -d redis:6.0.8<br>·查看容器日志<br>·docker logs 容器ID<br>·查看容器内运行的进程<br>·docker top 容器ID<br>·查看容器内部细节<br>·docker inspect 容器ID<br>·进入正在运行的容器并以命令行交互<br>关系	开始 退出容器<br>·docker exec -it 容器ID bashShell</p>
+
       
     </div>
     <footer class="article-footer">
@@ -162,6 +191,14 @@
       <ul>
         
           <li>
+            <a href="/2023/03/26/Docker%E9%95%9C%E5%83%8F/">Docker镜像</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">Linux下MySQL的安装与使用</a>
+          </li>
+        
+          <li>
             <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/">Docker常规安装简介</a>
           </li>
         
@@ -171,14 +208,6 @@
         
           <li>
             <a href="/2023/03/25/docker/">docker</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/22/reggie-day05/">reggie-day05</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/22/reggie-day04/">reggie-day04</a>
           </li>
         
       </ul>

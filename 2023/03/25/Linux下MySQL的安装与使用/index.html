@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Linux下MySQL的安装与使用 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1、安装前说明1.1 Linux系统及工具的准备 安装并启动好两台虚拟机： CentOS 7  掌握克隆虚拟机的操作   mac地址  主机名  ip地址  UUID  安装有 Xshell 和 Xftp 等访问CentOS系统的工具  CentOS6和CentOS7在MySQL的使用中的区别   121. 防火墙：6是iptables，7是firewalld2. 启动服务的命令：6是servic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下MySQL的安装与使用">
+<meta property="og:url" content="http://example.com/2023/03/25/Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="1、安装前说明1.1 Linux系统及工具的准备 安装并启动好两台虚拟机： CentOS 7  掌握克隆虚拟机的操作   mac地址  主机名  ip地址  UUID  安装有 Xshell 和 Xftp 等访问CentOS系统的工具  CentOS6和CentOS7在MySQL的使用中的区别   121. 防火墙：6是iptables，7是firewalld2. 启动服务的命令：6是servic">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-25T15:18:59.000Z">
+<meta property="article:modified_time" content="2023-03-26T02:53:50.008Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Linux下MySQL的安装与使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/25/Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2023-03-25T15:18:59.000Z" itemprop="datePublished">2023-03-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Linux下MySQL的安装与使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1、安装前说明"><a href="#1、安装前说明" class="headerlink" title="1、安装前说明"></a>1、安装前说明</h1><h3 id="1-1-Linux系统及工具的准备"><a href="#1-1-Linux系统及工具的准备" class="headerlink" title="1.1 Linux系统及工具的准备"></a>1.1 Linux系统及工具的准备</h3><ul>
+<li><p>安装并启动好两台虚拟机： CentOS 7</p>
+<ul>
+<li>掌握克隆虚拟机的操作</li>
+</ul>
+</li>
+<li><p>mac地址</p>
+</li>
+<li><p>主机名</p>
+</li>
+<li><p>ip地址</p>
+</li>
+<li><p>UUID</p>
+</li>
+<li><p>安装有 Xshell 和 Xftp 等访问CentOS系统的工具</p>
+</li>
+<li><p>CentOS6和CentOS7在MySQL的使用中的区别</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 防火墙：6是iptables，7是firewalld</span><br><span class="line">2. 启动服务的命令：6是service，7是systemctl</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-2-查看是否安装过MySQL"><a href="#1-2-查看是否安装过MySQL" class="headerlink" title="1.2 查看是否安装过MySQL"></a>1.2 查看是否安装过MySQL</h3><ul>
+<li>如果你是用rpm安装, 检查一下RPM PACKAGE：</li>
+</ul>
+<p><code>rpm -qa | grep -i mysql # -i 忽略大小写</code></p>
+<ul>
+<li>检查mysql service：</li>
+</ul>
+<p><code>systemctl status mysqld.service</code></p>
+<h3 id="1-3-MySQL的卸载"><a href="#1-3-MySQL的卸载" class="headerlink" title="1.3 MySQL的卸载"></a>1.3 MySQL的卸载</h3><ol>
+<li><p>关闭 mysql 服务</p>
+</li>
+<li><p>查看当前 mysql 安装状况</p>
+</li>
+<li><p>卸载上述命令查询出的已安装程序</p>
+</li>
+</ol>
+<p>务必卸载干净，反复执行 rpm -qa | grep -i mysql 确认是否有卸载残留</p>
+<ol start="4">
+<li>删除 mysql 相关文件</li>
+</ol>
+<p>查找相关文件</p>
+<p><code>find / -name mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# find / -name mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>删除上述命令查找出的相关文件</p>
+<p>5.删除 my.cnf</p>
+<h1 id="2-MySQL的Linux版安装"><a href="#2-MySQL的Linux版安装" class="headerlink" title="2.MySQL的Linux版安装"></a>2.MySQL的Linux版安装</h1><ul>
+<li><p>MySQL Community Server 社区版本，开源免费，自由下载，但不提供官方技术支持，适用于大多数普通用户。</p>
+</li>
+<li><p>MySQL Enterprise Edition 企业版本，需付费，不能在线下载，可以试用30天。提供了更多的功能和更完备的技术支持，更适合于对数据库的功能和可靠性要求较高的企业客户。</p>
+</li>
+<li><p>MySQL Cluster 集群版，开源免费。用于架设集群服务器，可将几个MySQL Server封装成一个Server。需要在社区版或企业版的基础上使用。</p>
+</li>
+<li><p>MySQL Cluster CGE 高级集群版，需付费。</p>
+</li>
+</ul>
+<hr>
+<h1 id="5-1-修改MySQL5-7字符集"><a href="#5-1-修改MySQL5-7字符集" class="headerlink" title="5.1 修改MySQL5.7字符集"></a>5.1 修改MySQL5.7字符集</h1><ol>
+<li>修改步骤</li>
+</ol>
+<p>在MySQL 8.0版本之前，默认字符集为 <code>latin1</code> ，utf8字符集指向的是 <code>utf8mb3</code> 。网站开发人员在数据库</p>
+<p>设计的时候往往会将编码修改为<code>utf8</code>字符集。如果遗忘修改默认的编码，就会出现乱码的问题。从MySQL8.0开始，数据库的默认编码将改为 <code>utf8mb4</code> ，从而避免上述乱码的问题。</p>
+<ul>
+<li>操作1：查看默认使用的字符集</li>
+</ul>
+<p><code>show variables like &#39;character%&#39;;</code></p>
+<ul>
+<li>或者</li>
+</ul>
+<p><code>show variables like &#39;%char%&#39;;</code></p>
+<p>MySQL5.7中执行：</p>
+<p>MySQL 5.7 默认的客户端和服务器都用了 latin1 ，不支持中文，保存中文会报错</p>
+<ul>
+<li>MySQL5.7截图如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">show variables like <span class="string">&#x27;character%&#x27;</span>;</span></span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| Variable_name            | Value                      |</span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">| character_set_client     | latin1                     |</span><br><span class="line">| character_set_connection | latin1                     |</span><br><span class="line">| character_set_database   | latin1                     |</span><br><span class="line">| character_set_filesystem | binary                     |</span><br><span class="line">| character_set_results    | latin1                     |</span><br><span class="line">| character_set_server     | latin1                     |</span><br><span class="line">| character_set_system     | utf8                       |</span><br><span class="line">| character_sets_dir       | /usr/share/mysql/charsets/ |</span><br><span class="line">+--------------------------+----------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span></span><br></pre></td></tr></table></figure>
+
+<p>在MySQL5.7中添加中文数据时，报错：</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/25/Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" data-id="clfo49rxt00007kuqf1oxat1q" data-title="Linux下MySQL的安装与使用" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/26/Docker%E9%95%9C%E5%83%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Docker镜像
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker常规安装简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/03/26/Docker%E9%95%9C%E5%83%8F/">Docker镜像</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">Linux下MySQL的安装与使用</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/">Docker常规安装简介</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/25/docker/">docker</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
