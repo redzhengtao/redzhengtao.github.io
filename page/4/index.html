@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="red的博客">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-css-结构伪类选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-20T14:43:55.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/">css 结构伪类选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"><a href="#结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素" class="headerlink" title="结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素"></a>结构伪类选择器主要根据文档结构来选择器元素，常用于根据父级选择器里面的子元素</h3><table>
+<thead>
+<tr>
+<th align="left">选择符</th>
+<th align="left">解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中的第一个子元素 E</td>
+</tr>
+<tr>
+<td align="left">E:first-child</td>
+<td align="left">匹配父元素中最后一个E元素</td>
+</tr>
+<tr>
+<td align="left">E:nth-child(n)</td>
+<td align="left">匹配父元素中的第n个子元素E</td>
+</tr>
+<tr>
+<td align="left">E:first-of-type</td>
+<td align="left">指定类型E的第一个</td>
+</tr>
+<tr>
+<td align="left">E:last-of-type</td>
+<td align="left">指定类型E的最后一个</td>
+</tr>
+<tr>
+<td align="left">E:nth-of-type(n)</td>
+<td align="left">指定类型E的第n个</td>
+</tr>
+</tbody></table>
+<pre><code>        ul li:first-child&#123;
+        background: #66945e;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909431-66e24bea-9432-4b85-ba2d-669a3a601a71.JPG" alt="avater"></p>
+<pre><code>        ul li:last-child&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909599-6f1dd4b4-f237-44b4-9cf8-7f37b6c6952d.JPG" alt="avater"></p>
+<pre><code>         p:nth-child(2)&#123;
+        background: blue;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909650-14992b3c-d134-448d-a2a0-7fda8c1220ea.JPG" alt="avater"></p>
+<pre><code>         p:nth-of-type(1)&#123;
+        background: #c75a5a;
+    &#125;
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202909853-56c38ad5-b52d-4444-a7b9-ce96c081f439.JPG" alt="avater"></p>
+<pre><code>        同理也有
+            ul li:first-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        和
+            ul li:last-of-type&#123;
+        background: #e5e39d;
+    &#125;
+        这里就不放图了
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/20/css-%E7%BB%93%E6%9E%84%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2noq0006akuqcxbq8euh" data-title="css 结构伪类选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css-层次选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-19T16:19:59.000Z" itemprop="datePublished">2022-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/">css 层次选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1、后代选择器"><a href="#1、后代选择器" class="headerlink" title="1、后代选择器"></a>1、后代选择器</h2><pre><code>        body p&#123;
+        background: #79c7c7;
+      &#125;
+      在某个元素的后面
+</code></pre>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861713-84d36687-f6a7-48e1-a5b7-873a0265b897.JPG" alt="avater"></h2><h2 id="2、子选择器"><a href="#2、子选择器" class="headerlink" title="2、子选择器"></a>2、子选择器</h2><pre><code>        body &gt;p&#123;
+        background: #79c7c7;
+      &#125;
+      一代 儿子
+</code></pre>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861854-d32ccd84-62d5-4c73-8cb0-5574df4d6a91.JPG" alt="avater"></h2><h2 id="3、相邻兄弟选择器"><a href="#3、相邻兄弟选择器" class="headerlink" title="3、相邻兄弟选择器"></a>3、相邻兄弟选择器</h2><pre><code>        .green + h1&#123;
+          background: #66945e;
+      &#125;
+        指下一个标签
+</code></pre>
+<h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202861904-099a15d1-4aba-41f4-b0bd-cea7e41ada2d.JPG" alt="avater"></h2><h2 id="4、通用选择器"><a href="#4、通用选择器" class="headerlink" title="4、通用选择器"></a>4、通用选择器</h2><pre><code>         .green ~ h1&#123;
+          background: #66945e;
+      &#125;
+      它的功能是将后续所有的兄弟（相同等级的）标签背景全部改为green色：
+</code></pre>
+<p><img src="https://user-images.githubusercontent.com/118366174/202861933-ae8578e6-f581-4ce0-b977-f9473b2464e5.JPG" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/20/css-%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2nop0004akuqapttfcfn" data-title="css 层次选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css-基本选择器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2022-11-19T07:10:46.000Z" itemprop="datePublished">2022-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/">css 基本选择器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1、标签选择器：选择一类标签-标签"><a href="#1、标签选择器：选择一类标签-标签" class="headerlink" title="1、标签选择器：选择一类标签 标签{}"></a>1、标签选择器：选择一类标签 标签{}</h2><p><img src="https://user-images.githubusercontent.com/118366174/202839577-67879494-4f7c-4e41-b087-5cbc05ec86cf.JPG" alt="avater"></p>
+<hr>
+<h2 id="2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名"><a href="#2、类-选择器-class：选择所有class属性一致的标签，跨标签-类名" class="headerlink" title="2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}"></a>2、类 选择器 class：选择所有class属性一致的标签，跨标签 .类名{}</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839648-883e4e8d-d4b9-42dd-b3f8-0a615ac0d717.JPG" alt="avater"></h2><h2 id="3、-id选择器：全局唯一！-id名"><a href="#3、-id选择器：全局唯一！-id名" class="headerlink" title="3、 id选择器：全局唯一！#id名{}"></a>3、 id选择器：全局唯一！#id名{}</h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://user-images.githubusercontent.com/118366174/202839671-8530fed7-3751-4d8a-8060-21e4ad8c71f7.JPG" alt="avater"></h2><h1 id="优先级：-id-gt-class-gt-标签"><a href="#优先级：-id-gt-class-gt-标签" class="headerlink" title="优先级： id&gt;class&gt;标签"></a>优先级： id&gt;class&gt;标签</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" data-id="clewx2noo0003akuq1ajw9jrz" data-title="css 基本选择器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-我的第一篇博客文章" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="article-date">
+  <time class="dt-published" datetime="2022-11-16T13:51:51.000Z" itemprop="datePublished">2022-11-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br><img src="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg" alt="avater"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clewx2nou000eakuqapcv2xpv" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/16/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2022-11-16T10:38:09.818Z" itemprop="datePublished">2022-11-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/11/16/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/16/hello-world/" data-id="clewx2nor0008akuq930xhjs7" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">进程与线程</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/JDK8-%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">JDK8-方法引用</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/">Lambda表达式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

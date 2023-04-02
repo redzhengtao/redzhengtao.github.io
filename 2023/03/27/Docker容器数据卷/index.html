@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Docker容器数据卷 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Docker挂载主机目录访问如果出现cannot open directory .: Permission denied解决办法：在挂载目录后多加一个–privileged&#x3D;true参数即可  如果是CentOS7安全模块会比之前系统版本加强，不安全的会先禁止，所以目录挂载的情况被默认为不安全的行为，在SELinux里面挂载目录被禁止掉了额，如果要开启，我们一般使用–privileged">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker容器数据卷">
+<meta property="og:url" content="http://example.com/2023/03/27/Docker%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="Docker挂载主机目录访问如果出现cannot open directory .: Permission denied解决办法：在挂载目录后多加一个–privileged&#x3D;true参数即可  如果是CentOS7安全模块会比之前系统版本加强，不安全的会先禁止，所以目录挂载的情况被默认为不安全的行为，在SELinux里面挂载目录被禁止掉了额，如果要开启，我们一般使用–privileged">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-27T04:52:57.000Z">
+<meta property="article:modified_time" content="2023-03-27T13:31:31.261Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Docker容器数据卷" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/27/Docker%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7/" class="article-date">
+  <time class="dt-published" datetime="2023-03-27T04:52:57.000Z" itemprop="datePublished">2023-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Docker容器数据卷
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Docker挂载主机目录访问如果出现cannot open directory .: Permission denied<br>解决办法：在挂载目录后多加一个–privileged&#x3D;true参数即可<br> <br> <br>如果是CentOS7安全模块会比之前系统版本加强，不安全的会先禁止，所以目录挂载的情况被默认为不安全的行为，<br>在SELinux里面挂载目录被禁止掉了额，如果要开启，我们一般使用–privileged&#x3D;true命令，扩大容器的权限解决挂载目录没有权限的问题，也即<br>使用该参数，container内的root拥有真正的root权限，否则，container内的root只是外部的一个普通用户权限。</p>
+<p>卷就是目录或文件，存在于一个或多个容器中，由docker挂载到容器，但不属于联合文件系统，因此能够绕过Union File System提供一些用于持续存储或共享数据的特性：<br>卷的设计目的就是数据的持久化，完全独立于容器的生存周期，因此Docker不会在容器删除时删除其挂载的数据卷<br> <br> <br>·一句话：有点类似我们Redis里面的rdb和aof文件<br>·将docker容器内的数据保存进宿主机的磁盘中<br>·运行一个带有容器卷存储功能的容器实例<br>· docker run -it –privileged&#x3D;true -v &#x2F;宿主机绝对路径目录:&#x2F;容器内目录      镜像名<br>1.7.4.能干嘛<br>*  将运用与运行的环境打包镜像，run后形成容器实例运行 ，但是我们对数据的要求希望是持久化的<br> <br>Docker容器产生的数据，如果不备份，那么当容器实例删除后，容器内的数据自然也就没有了。<br>为了能保存数据在docker中我们使用卷。<br> <br>特点：<br>1：数据卷可在容器之间共享或重用数据<br>2：卷中的更改可以直接实时生效，爽<br>3：数据卷中的更改不会包含在镜像的更新中<br>4：数据卷的生命周期一直持续到没有容器使用它为止<br> <br>1.7.5.数据卷案例<br>·宿主vs容器之间映射添加容器卷<br>·直接命令添加<br>·命令<br> 公式：docker run -it -v &#x2F;宿主机目录:&#x2F;容器内目录 ubuntu &#x2F;bin&#x2F;bash<br>docker run -it –name myu3 –privileged&#x3D;true -v &#x2F;tmp&#x2F;myHostData:&#x2F;tmp&#x2F;myDockerData ubuntu &#x2F;bin&#x2F;bash<br> <br>· docker run -it –privileged&#x3D;true -v &#x2F;宿主机绝对路径目录:&#x2F;容器内目录      镜像名<br>·查看数据卷是否挂载成功<br> <br>docker inspect 容器ID
+ 
+ </p>
+<p>·容器和宿主机之间数据共享<br>1  docker修改，主机同步获得 <br>2 主机修改，docker同步获得<br>3 docker容器stop，主机修改，docker容器重启看数据是否同步。</p>
+<p>·读写规则映射添加说明<br>·读写(默认)</p>
+<p> <br> rw &#x3D; read + write</p>
+<p> <br> <br> <br>· docker run -it –privileged&#x3D;true -v &#x2F;宿主机绝对路径目录:&#x2F;容器内目录:rw      镜像名<br>·默认同上案例，默认就是rw<br>·只读<br>·容器实例内部被限制，只能读取不能写</p>
+<p> <br> &#x2F;容器目录:ro 镜像名               就能完成功能，此时容器自己只能读取不能写  <br> <br>ro &#x3D; read only<br> <br>此时如果宿主机写入内容，可以同步给容器内，容器可以读取到。<br>· docker run -it –privileged&#x3D;true -v &#x2F;宿主机绝对路径目录:&#x2F;容器内目录:ro      镜像名<br>·卷的继承和共享<br>·容器1完成和宿主机的映射<br> <br>docker run -it  –privileged&#x3D;true -v &#x2F;mydocker&#x2F;u:&#x2F;tmp –name u1 ubuntu
+ </p>
+<p> </p>
+<p>·容器2继承容器1的卷规则</p>
+<p>·docker run -it  –privileged&#x3D;true –volumes-from 父类  –name u2 ubuntu</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/27/Docker%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7/" data-id="clfqcsfsw0000bwuqb5078m10" data-title="Docker容器数据卷" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          视图解析-Thymeleaf初体验
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/26/Docker%E9%95%9C%E5%83%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker镜像</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">进程与线程</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/JDK8-%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">JDK8-方法引用</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/">Lambda表达式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

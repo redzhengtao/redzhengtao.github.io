@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Lambda表达式介绍 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="目标 了解使用匿名内部类存在的问题  体验Lambda   使用匿名内部类存在的问题当需要启动一个线程去完成任务时，通常会通过 Runnable接口来定义任务内容，并使用 Thread 类来启动该线程。  传统写法,代码如下：  12345678910public class test01 &amp;#123;    public static void main(String[] args) &amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lambda表达式介绍">
+<meta property="og:url" content="http://example.com/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="目标 了解使用匿名内部类存在的问题  体验Lambda   使用匿名内部类存在的问题当需要启动一个线程去完成任务时，通常会通过 Runnable接口来定义任务内容，并使用 Thread 类来启动该线程。  传统写法,代码如下：  12345678910public class test01 &amp;#123;    public static void main(String[] args) &amp;#123">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-01T04:55:43.000Z">
+<meta property="article:modified_time" content="2023-04-01T06:59:51.235Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Lambda表达式介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time class="dt-published" datetime="2023-04-01T04:55:43.000Z" itemprop="datePublished">2023-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Lambda表达式介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><ul>
+<li><p>了解使用匿名内部类存在的问题</p>
+</li>
+<li><p>体验Lambda</p>
+</li>
+</ul>
+<h2 id="使用匿名内部类存在的问题"><a href="#使用匿名内部类存在的问题" class="headerlink" title="使用匿名内部类存在的问题"></a>使用匿名内部类存在的问题</h2><p>当需要启动一个线程去完成任务时，通常会通过 <code>Runnable</code>接口来定义任务内容，并使用 <code>Thread</code> 类来启动该线程。</p>
+<ul>
+<li>传统写法,代码如下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">test01</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;新线程任务执行！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">新线程任务执行！</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p>由于面向对象的语法要求，首先创建一个 <code>Runnable</code> 接口的匿名内部类对象来指定线程要执行的任务内容，再将其交给一个线程来启动。</p>
+<h3 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析:"></a>代码分析:</h3><p>对于 <code>Runnable</code> 的匿名内部类用法，可以分析出几点内容：</p>
+<ul>
+<li><p><code>Thread</code> 类需要 <code>Runnable</code> 接口作为参数，其中的抽象 <code>run</code>方法是用来指定线程任务内容的核心</p>
+</li>
+<li><p>为了指定 <code>run</code> 的方法体，不得不需要 <code>Runnable</code> 接口的实现类</p>
+</li>
+<li><p>为了省去定义一个 Runnable 实现类的麻烦，不得不使用匿名内部类</p>
+</li>
+<li><p>必须覆盖重写抽象<code>run</code> 方法，所以方法名称、方法参数、方法返回值不得不再写一遍，且不能写错</p>
+</li>
+<li><p>而实际上，似乎只有方法体才是关键所在。</p>
+</li>
+</ul>
+<h2 id="Lambda体验"><a href="#Lambda体验" class="headerlink" title="Lambda体验"></a>Lambda体验</h2><ul>
+<li>Lambda是一个匿名函数，可以理解为一段可以传递的代码。</li>
+</ul>
+<h3 id="Lambda表达式写法-代码如下："><a href="#Lambda表达式写法-代码如下：" class="headerlink" title="Lambda表达式写法,代码如下："></a>Lambda表达式写法,代码如下：</h3><p>借助Java 8的全新语法，上述 <code>Runnable</code> 接口的匿名内部类写法可以通过更简单的Lambda表达式达到相同的效果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo01LambdaIntro</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; System.out.println(<span class="string">&quot;新线程任务执行！&quot;</span>)).start(); <span class="comment">// 启动线程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">新线程任务执行！</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<p>这段代码和刚才的执行效果是完全一样的，可以在JDK 8或更高的编译级别下通过。从代码的语义中可以看出：我们启动了一个线程，而线程任务的内容以一种更加简洁的形式被指定。</p>
+<p>我们只需要将要执行的代码放到一个Lambda表达式中，不需要定义类，不需要创建对象。</p>
+<h2 id="Lambda的优点"><a href="#Lambda的优点" class="headerlink" title="Lambda的优点"></a>Lambda的优点</h2><p>简化匿名内部类的使用，语法更加简单。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>了解了匿名内部类语法冗余，体验了Lambda表达式的使用，发现Lmabda是简化匿名内部类的简写</p>
+<hr>
+<h1 id="Lambda的标准格式"><a href="#Lambda的标准格式" class="headerlink" title="Lambda的标准格式"></a>Lambda的标准格式</h1><h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><ul>
+<li><p>掌握Lambda的标准格式</p>
+</li>
+<li><p>练习无参数无返回值的Lambda</p>
+</li>
+<li><p>练习有参数有返回值的Lambda</p>
+</li>
+</ul>
+<h3 id="Lambda的标准格式-1"><a href="#Lambda的标准格式-1" class="headerlink" title="Lambda的标准格式"></a>Lambda的标准格式</h3><p>Lambda省去面向对象的条条框框，Lambda的标准格式格式由<code>3个部分</code>组成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(参数类型 参数名称) -&gt; &#123;</span><br><span class="line">代码体;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="格式说明："><a href="#格式说明：" class="headerlink" title="格式说明："></a>格式说明：</h3><ul>
+<li><p>(参数类型 参数名称)：参数列表</p>
+</li>
+<li><p>{代码体;}：方法体</p>
+</li>
+<li><p>-&gt; ：箭头，分隔参数列表和方法体</p>
+</li>
+</ul>
+<h3 id="Lambda与方法的对比"><a href="#Lambda与方法的对比" class="headerlink" title="Lambda与方法的对比"></a>Lambda与方法的对比</h3><p>匿名内部类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">System.out.println(<span class="string">&quot;aa&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lambda</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">() -&gt; System.out.println(<span class="string">&quot;bb！&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="练习无参数无返回值的Lambda"><a href="#练习无参数无返回值的Lambda" class="headerlink" title="练习无参数无返回值的Lambda"></a>练习无参数无返回值的Lambda</h2><p>掌握了Lambda的语法，我们来通过一个案例熟悉Lambda的使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Swimmable</span> &#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">swimming</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo02LambdaUse</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        goSwimming(<span class="keyword">new</span> <span class="title class_">Swimmable</span>() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">swimming</span><span class="params">()</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;匿名内部类游泳&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        goSwimming(() -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Lambda游泳&quot;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">goSwimming</span><span class="params">(Swimmable swimmable)</span> &#123;</span><br><span class="line">        swimmable.swimming();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="练习有参数有返回值的Lambda"><a href="#练习有参数有返回值的Lambda" class="headerlink" title="练习有参数有返回值的Lambda"></a>练习有参数有返回值的Lambda</h1><p>下面举例演示 <code>java.util.Comparator&lt;T&gt; </code>接口的使用场景代码，其中的抽象方法定义为：</p>
+<ul>
+<li>public abstract int compare(T o1, T o2);</li>
+</ul>
+<p>当需要对一个对象集合进行排序时， Collections.sort 方法需要一个 Comparator 接口实例来指定排序的规则。</p>
+<hr>
+<h1 id="Lambda省略格式"><a href="#Lambda省略格式" class="headerlink" title="Lambda省略格式"></a>Lambda省略格式</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/" data-id="clfxi74lu0000c4uq9thv9ku3" data-title="Lambda表达式介绍" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/04/01/JDK8-%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JDK8-方法引用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">视图解析-Thymeleaf初体验</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">进程与线程</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/JDK8-%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">JDK8-方法引用</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/">Lambda表达式介绍</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
