@@ -14,7 +14,7 @@
 <meta property="og:description" content="1、安装前说明1.1 Linux系统及工具的准备 安装并启动好两台虚拟机： CentOS 7  掌握克隆虚拟机的操作   mac地址  主机名  ip地址  UUID  安装有 Xshell 和 Xftp 等访问CentOS系统的工具  CentOS6和CentOS7在MySQL的使用中的区别   121. 防火墙：6是iptables，7是firewalld2. 启动服务的命令：6是servic">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-25T15:18:59.000Z">
-<meta property="article:modified_time" content="2023-04-03T15:21:04.934Z">
+<meta property="article:modified_time" content="2023-04-03T15:26:05.710Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -386,10 +386,10 @@
 <p>解决方法：Linux下 mysql -u root -p 登录你的 mysql 数据库，然后 执行这条SQL：</p>
 <p><code>ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;abc123&#39;;</code></p>
 <p>然后在重新配置SQLyog的连接，则可连接成功了，OK。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED WITH mysql_native_password BY <span class="string">&#x27;abc123&#x27;</span>;</span></span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">flush privileges;</span></span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h1 id="4-MySQL8的密码强度评估（了解）"><a href="#4-MySQL8的密码强度评估（了解）" class="headerlink" title="4.MySQL8的密码强度评估（了解）"></a>4.MySQL8的密码强度评估（了解）</h1><hr>
+<h1 id="4-MySQL8的密码强度评估（了解）"><a href="#4-MySQL8的密码强度评估（了解）" class="headerlink" title="4.MySQL8的密码强度评估（了解）"></a>4.MySQL8的密码强度评估（了解）</h1><h3 id="4-1-MySQL不同版本设置密码-可能出现"><a href="#4-1-MySQL不同版本设置密码-可能出现" class="headerlink" title="4.1 MySQL不同版本设置密码(可能出现)"></a>4.1 MySQL不同版本设置密码(可能出现)</h3><hr>
 <h1 id="5-1-修改MySQL5-7字符集"><a href="#5-1-修改MySQL5-7字符集" class="headerlink" title="5.1 修改MySQL5.7字符集"></a>5.1 修改MySQL5.7字符集</h1><ol>
 <li>修改步骤</li>
 </ol>
