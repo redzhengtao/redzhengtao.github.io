@@ -14,7 +14,7 @@
 <meta property="og:description" content="1、安装前说明1.1 Linux系统及工具的准备 安装并启动好两台虚拟机： CentOS 7  掌握克隆虚拟机的操作   mac地址  主机名  ip地址  UUID  安装有 Xshell 和 Xftp 等访问CentOS系统的工具  CentOS6和CentOS7在MySQL的使用中的区别   121. 防火墙：6是iptables，7是firewalld2. 启动服务的命令：6是servic">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-03-25T15:18:59.000Z">
-<meta property="article:modified_time" content="2023-03-26T02:53:50.008Z">
+<meta property="article:modified_time" content="2023-04-03T15:21:04.934Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -116,8 +116,6 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 防火墙：6是iptables，7是firewalld</span><br><span class="line">2. 启动服务的命令：6是service，7是systemctl</span><br></pre></td></tr></table></figure>
 
-
-
 <h3 id="1-2-查看是否安装过MySQL"><a href="#1-2-查看是否安装过MySQL" class="headerlink" title="1.2 查看是否安装过MySQL"></a>1.2 查看是否安装过MySQL</h3><ul>
 <li>如果你是用rpm安装, 检查一下RPM PACKAGE：</li>
 </ul>
@@ -140,10 +138,11 @@
 </ol>
 <p>查找相关文件</p>
 <p><code>find / -name mysql</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# find / -name mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# find / -name mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br></pre></td></tr></table></figure>
 
 <p>删除上述命令查找出的相关文件</p>
 <p>5.删除 my.cnf</p>
+<hr>
 <h1 id="2-MySQL的Linux版安装"><a href="#2-MySQL的Linux版安装" class="headerlink" title="2.MySQL的Linux版安装"></a>2.MySQL的Linux版安装</h1><ul>
 <li><p>MySQL Community Server 社区版本，开源免费，自由下载，但不提供官方技术支持，适用于大多数普通用户。</p>
 </li>
@@ -155,6 +154,242 @@
 </li>
 </ul>
 <hr>
+<h1 id="2-2-下载MySQL指定版本"><a href="#2-2-下载MySQL指定版本" class="headerlink" title="2.2 下载MySQL指定版本"></a>2.2 下载MySQL指定版本</h1><ol>
+<li>下载地址</li>
+</ol>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.mysql.com/">https://www.mysql.com</a></p>
+<ol start="2">
+<li>打开官网，点击DOWNLOADS</li>
+</ol>
+<p>然后，点击 MySQL Community(GPL) Downloads</p>
+<ol start="3">
+<li><p>点击 MySQL Community Server</p>
+</li>
+<li><p>在General Availability(GA) Releases中选择适合的版本</p>
+</li>
+</ol>
+<p>如果安装Windows 系统下MySQL ，推荐下载 MSI安装程序 ；点击 Go to Download Page 进行下载即可</p>
+<ul>
+<li><p>Windows下的MySQL安装有两种安装程序</p>
+</li>
+<li><p>mysql-installer-web-community-8.0.25.0.msi 下载程序大小：2.4M；安装时需要联网安装组件。</p>
+</li>
+<li><p>mysql-installer-community-8.0.25.0.msi 下载程序大小：435.7M；安装时离线安装即</p>
+</li>
+</ul>
+<p>可。推荐。</p>
+<ol start="5">
+<li>Linux系统下安装MySQL的几种方式</li>
+</ol>
+<hr>
+<h5 id="5-1-Linux系统下安装软件的常用三种方式："><a href="#5-1-Linux系统下安装软件的常用三种方式：" class="headerlink" title="5.1 Linux系统下安装软件的常用三种方式："></a>5.1 Linux系统下安装软件的常用三种方式：</h5><ul>
+<li>方式1：rpm命令</li>
+</ul>
+<p>使用rpm命令安装扩展名为”.rpm”的软件包。</p>
+<ul>
+<li>方式2：yum命令</li>
+</ul>
+<p>需联网，从 互联网获取 的yum源，直接使用yum命令安装。</p>
+<ul>
+<li>方式3：编译安装源码包</li>
+</ul>
+<p>针对 tar.gz 这样的压缩格式，要用tar命令来解压；如果是其它压缩格式，就使用其它命令。</p>
+<h5 id="5-2-Linux系统下安装MySQL，官方给出多种安装方式"><a href="#5-2-Linux系统下安装MySQL，官方给出多种安装方式" class="headerlink" title="5.2 Linux系统下安装MySQL，官方给出多种安装方式"></a>5.2 Linux系统下安装MySQL，官方给出多种安装方式</h5><table>
+<thead>
+<tr>
+<th>安装方式</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpm</td>
+<td>安装简单，灵活性差，无法灵活选择版本、升级</td>
+</tr>
+<tr>
+<td>rpm repository</td>
+<td>安装包极小，版本安装简单灵活，升级方便，需要联网安装</td>
+</tr>
+<tr>
+<td>通用二进制包</td>
+<td>安装比较复杂，灵活性高，平台通用性好</td>
+</tr>
+<tr>
+<td>源码包</td>
+<td>安装最复杂，时间长，参数设置灵活，性能好</td>
+</tr>
+</tbody></table>
+<ol start="6">
+<li>下载的tar包，用压缩工具打开</li>
+</ol>
+<hr>
+<h1 id="2-3-CentOS7下检查MySQL依赖"><a href="#2-3-CentOS7下检查MySQL依赖" class="headerlink" title="2.3 CentOS7下检查MySQL依赖"></a>2.3 CentOS7下检查MySQL依赖</h1><h3 id="1-检查-x2F-tmp临时目录权限（必不可少）"><a href="#1-检查-x2F-tmp临时目录权限（必不可少）" class="headerlink" title="1.检查&#x2F;tmp临时目录权限（必不可少）"></a>1.检查&#x2F;tmp临时目录权限（必不可少）</h3><p>由于mysql安装过程中，会通过mysql用户在&#x2F;tmp目录下新建tmp_db文件，所以请给&#x2F;tmp较大的权限。执行 ：</p>
+<p><code>chmod -R 777 /tmp</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# pwd</span><br><span class="line">/</span><br><span class="line">[root@re0 /]# ls</span><br><span class="line">bin   dev  home  lib64  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib   media  opt  root  sbin  sys  usr</span><br><span class="line">[root@re0 /]# ll</span><br><span class="line">total 28</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 Mar 24 21:21 boot</span><br><span class="line">drwxr-xr-x.  19 root root 3260 Apr  3 07:30 dev</span><br><span class="line">drwxr-xr-x. 145 root root 8192 Apr  3 07:30 etc</span><br><span class="line">drwxr-xr-x.   3 root root   15 Mar  1 15:45 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 Mar  1 15:40 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 media</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 mnt</span><br><span class="line">drwxr-xr-x.   4 root root   34 Mar 24 23:34 opt</span><br><span class="line">dr-xr-xr-x. 241 root root    0 Apr  3 07:30 proc</span><br><span class="line">dr-xr-x---.  16 root root 4096 Apr  3 07:31 root</span><br><span class="line">drwxr-xr-x.  42 root root 1280 Apr  3 07:32 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 Mar  1 15:40 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 srv</span><br><span class="line">dr-xr-xr-x.  13 root root    0 Apr  3 07:30 sys</span><br><span class="line">drwxrwxrwt.  29 root root 4096 Apr  3 07:31 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 Mar  1 15:40 usr</span><br><span class="line">drwxr-xr-x.  22 root root 4096 Mar 21 21:41 var</span><br><span class="line">[root@re0 /]# chmod -R 777 /tmp</span><br><span class="line">[root@re0 /]# ll</span><br><span class="line">total 28</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 Mar 24 21:21 boot</span><br><span class="line">drwxr-xr-x.  19 root root 3260 Apr  3 07:30 dev</span><br><span class="line">drwxr-xr-x. 145 root root 8192 Apr  3 07:30 etc</span><br><span class="line">drwxr-xr-x.   3 root root   15 Mar  1 15:45 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 Mar  1 15:40 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 media</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 mnt</span><br><span class="line">drwxr-xr-x.   4 root root   34 Mar 24 23:34 opt</span><br><span class="line">dr-xr-xr-x. 241 root root    0 Apr  3 07:30 proc</span><br><span class="line">dr-xr-x---.  16 root root 4096 Apr  3 07:31 root</span><br><span class="line">drwxr-xr-x.  42 root root 1300 Apr  3 07:32 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 Mar  1 15:40 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 srv</span><br><span class="line">dr-xr-xr-x.  13 root root    0 Apr  3 07:30 sys</span><br><span class="line">drwxrwxrwx.  28 root root 4096 Apr  3 07:32 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 Mar  1 15:40 usr</span><br><span class="line">drwxr-xr-x.  22 root root 4096 Mar 21 21:41 var</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-安装前，检查依赖"><a href="#2-安装前，检查依赖" class="headerlink" title="2.安装前，检查依赖"></a>2.安装前，检查依赖</h3><p><code>rpm -qa|grep libaio</code></p>
+<ul>
+<li>如果存在libaio包如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep libaio</span><br><span class="line">libaio-0.3.109-13.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<p><code>rpm -qa|grep net-tools</code></p>
+<ul>
+<li>如果存在net-tools包如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep net-tools</span><br><span class="line">net-tools-2.0-0.24.20131004git.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<p><code>rpm -qa|grep net-tools</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep net-tools</span><br><span class="line">net-tools-2.0-0.24.20131004git.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果不存在需要到centos安装盘里进行rpm安装。安装linux如果带图形化界面，这些都是安装好的。</li>
+</ul>
+<h2 id="2-4-CentOS7下MySQL安装过程"><a href="#2-4-CentOS7下MySQL安装过程" class="headerlink" title="2.4 CentOS7下MySQL安装过程"></a>2.4 CentOS7下MySQL安装过程</h2><h4 id="1-将安装程序拷贝到-x2F-opt目录下"><a href="#1-将安装程序拷贝到-x2F-opt目录下" class="headerlink" title="1.将安装程序拷贝到&#x2F;opt目录下"></a>1.将安装程序拷贝到&#x2F;opt目录下</h4><p>在mysql的安装文件目录下执行：（必须按照顺序执行）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>注意: 如在检查工作时，没有检查mysql依赖环境在安装mysql-community-server会报错</p>
+</li>
+<li><p>rpm 是Redhat Package Manage缩写，通过RPM的管理，用户可以把源代码包装成以rpm为扩展名的文件形式，易于安装。</p>
+</li>
+<li><p>-i , –install 安装软件包</p>
+</li>
+<li><p>-v , –verbose 提供更多的详细信息输出</p>
+</li>
+<li><p>-h , –hash 软件包安装的时候列出哈希标记 (和 -v 一起使用效果更好)，展示进度条</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# ll</span><br><span class="line">total 489744</span><br><span class="line">drwx--x--x. 4 root root        28 Mar 24 23:34 containerd</span><br><span class="line">-rw-r--r--. 1 root root  47810444 Apr  3 07:44 mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root    193616 Apr  3 07:44 mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root    628904 Apr  3 07:44 mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   4240320 Apr  3 07:44 mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 448614076 Apr  3 07:44 mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">drwxr-xr-x. 2 root root         6 Oct 30  2018 rh</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="2-安装过程截图"><a href="#2-安装过程截图" class="headerlink" title="2.安装过程截图"></a>2.安装过程截图</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-common-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-common-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-client-plugins-8.################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-libs-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-libs-8.0.25-1.el7################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-client-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-client-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-server-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-server-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>安装过程中可能的报错信息：</p>
+<p><code>一个命令：yum remove mysql-libs 解决，清除之前安装过的依赖即可</code></p>
+<h4 id="3-查看MySQL版本"><a href="#3-查看MySQL版本" class="headerlink" title="3.查看MySQL版本"></a>3.查看MySQL版本</h4><p>执行如下命令，如果成功表示安装mysql成功。类似java -version如果打出版本等信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql --version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">或</span></span><br><span class="line">mysqladmin --version</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# mysql --version</span><br><span class="line">mysql  Ver 8.0.25 for Linux on x86_64 (MySQL Community Server - GPL)</span><br><span class="line">[root@re0 opt]# mysqladmin --version</span><br><span class="line">mysqladmin  Ver 8.0.25 for Linux on x86_64 (MySQL Community Server - GPL)</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>执行如下命令，查看是否安装成功。需要增加 -i 不用去区分大小写，否则搜索不到。</p>
+<p><code>rpm -qa|grep -i mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -qa|grep -i mysql</span><br><span class="line">mysql-community-libs-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-common-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-server-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-client-plugins-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-client-8.0.25-1.el7.x86_64</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="4-服务的初始化"><a href="#4-服务的初始化" class="headerlink" title="4.服务的初始化"></a>4.服务的初始化</h4><p>为了保证数据库目录与文件的所有者为 mysql 登录用户，如果你是以 root 身份运行 mysql 服务，需要执行下面的命令初始化：</p>
+<p><code>mysqld --initialize --user=mysql</code></p>
+<p>说明：</p>
+<p>–initialize 选项默认以“安全”模式来初始化，则会为 root 用户生成一个密码并将 <code>该密码标记为过期</code> ，登录后你需要设置一个新的密码。生成的 <code>临时密码</code> 会往日志中记录一份。</p>
+<p>查看密码：</p>
+<p><code>cat /var/log/mysqld.log</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# cat /var/log/mysqld.log</span><br><span class="line">2023-04-03T14:52:39.253105Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.25) initializing of server in progress as process 21179</span><br><span class="line">2023-04-03T14:52:39.260283Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.</span><br><span class="line">2023-04-03T14:52:39.446761Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.</span><br><span class="line">2023-04-03T14:52:39.908369Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: mg;j)Y&lt;I4hm:</span><br><span class="line">[root@re0 opt]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>root@localhost: 后面就是初始化的密码</li>
+</ul>
+<h4 id="5-启动MySQL，查看状态"><a href="#5-启动MySQL，查看状态" class="headerlink" title="5.启动MySQL，查看状态"></a>5.启动MySQL，查看状态</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">加不加.service后缀都可以</span></span><br><span class="line">启动：systemctl start mysqld.service</span><br><span class="line">关闭：systemctl stop mysqld.service</span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>mysqld 这个可执行文件就代表着 MySQL 服务器程序，运行这个可执行文件就可以直接启动一个服务器进程。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# systemctl start mysqld.service</span><br><span class="line">[root@re0 opt]# systemctl status mysqld</span><br><span class="line">● mysqld.service - MySQL Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Mon 2023-04-03 07:55:50 PDT; 10s ago</span><br><span class="line">     Docs: man:mysqld(8)</span><br><span class="line">           http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line">  Process: 25329 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)</span><br><span class="line"> Main PID: 25357 (mysqld)</span><br><span class="line">   Status: &quot;Server is operational&quot;</span><br><span class="line">    Tasks: 38</span><br><span class="line">   CGroup: /system.slice/mysqld.service</span><br><span class="line">           └─25357 /usr/sbin/mysqld</span><br><span class="line"></span><br><span class="line">Apr 03 07:55:48 re0 systemd[1]: Starting MySQL Server...</span><br><span class="line">Apr 03 07:55:50 re0 systemd[1]: Started MySQL Server.</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>查看进程：</p>
+<p><code>ps -ef | grep -i mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# ps -ef | grep -i mysql</span><br><span class="line">mysql     25357      1  1 07:55 ?        00:00:00 /usr/sbin/mysqld</span><br><span class="line">root      26660  10426  0 07:56 pts/4    00:00:00 grep --color=auto -i mysql</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="6-查看MySQL服务是否自启动"><a href="#6-查看MySQL服务是否自启动" class="headerlink" title="6.查看MySQL服务是否自启动"></a>6.查看MySQL服务是否自启动</h4><p><code>systemctl list-unit-files|grep mysqld.service</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# systemctl list-unit-files|grep mysqld.service</span><br><span class="line">mysqld.service                                enabled </span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>默认是enabled。</p>
+</li>
+<li><p>如不是enabled可以运行如下命令设置自启动</p>
+</li>
+<li><p><code>systemctl enable mysqld.service</code></p>
+</li>
+<li><p>如果希望不进行自启动，运行如下命令设置</p>
+</li>
+<li><p><code>systemctl disable mysqld.service</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="3-MySQL登录"><a href="#3-MySQL登录" class="headerlink" title="3.MySQL登录"></a>3.MySQL登录</h1><h3 id="3-1-首次登录"><a href="#3-1-首次登录" class="headerlink" title="3.1 首次登录"></a>3.1 首次登录</h3><p>通过 <code>mysql -hlocalhost -P3306 -uroot -p</code> 进行登录，在Enter password：录入初始化密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# mysql -hlocalhost -P3306 -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 8</span><br><span class="line">Server version: 8.0.25</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2021, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-修改密码"><a href="#3-2-修改密码" class="headerlink" title="3.2 修改密码"></a>3.2 修改密码</h3><ul>
+<li><p>因为初始化密码默认是过期的，所以查看数据库会报错</p>
+</li>
+<li><p>修改密码：<code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new_password;</code></p>
+</li>
+<li><p>5.7版本之后（不含5.7），mysql加入了全新的密码安全机制。设置新密码太简单会报错。</p>
+</li>
+<li><p>改为更复杂的密码规则之后，设置成功，可以正常使用数据库了</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;new_pwd&#x27;</span>;</span></span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-设置远程登录"><a href="#3-3-设置远程登录" class="headerlink" title="3.3 设置远程登录"></a>3.3 设置远程登录</h3><h3 id="1-当前问题"><a href="#1-当前问题" class="headerlink" title="1.当前问题"></a>1.当前问题</h3><p>在用SQLyog或Navicat中配置远程连接Mysql数据库时遇到如下报错信息，这是由于Mysql配置了不支持远程连接引起的</p>
+<h3 id="2-确认网络"><a href="#2-确认网络" class="headerlink" title="2.确认网络"></a>2.确认网络</h3><p>1.在远程机器上使用ping ip地址 保证网络畅通</p>
+<p>2.在远程机器上使用telnet命令 保证端口号开放 访问</p>
+<p><code>telnet ip地址 端口号</code></p>
+<h3 id="3-关闭防火墙或开放端口"><a href="#3-关闭防火墙或开放端口" class="headerlink" title="3.关闭防火墙或开放端口"></a>3.关闭防火墙或开放端口</h3><ul>
+<li>方式一：关闭防火墙</li>
+</ul>
+<p>CentOS6 ：<code>service iptables stop</code></p>
+<hr>
+<p>CentOS7：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置开机启用防火墙</span></span><br><span class="line">systemctl enable firewalld.service</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置开机禁用防火墙</span></span><br><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方式二：开放端口</li>
+</ul>
+<p>查看开放的端口号 <code>firewall-cmd --list-all</code></p>
+<p>设置开放的端口号</p>
+<p><code>firewall-cmd --add-service=http --permanent</code></p>
+<p><code>firewall-cmd --add-port=3306/tcp --permanent</code></p>
+<p>重启防火墙 <code>firewall-cmd --reload</code></p>
+<h3 id="4-Linux下修改配置"><a href="#4-Linux下修改配置" class="headerlink" title="4.Linux下修改配置"></a>4.Linux下修改配置</h3><p>在Linux系统MySQL下测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select Host,User from user;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">use mysql;</span></span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">select Host,User from user;</span></span><br><span class="line">+-----------+------------------+</span><br><span class="line">| Host      | User             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">| localhost | root             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到root用户的当前主机配置信息为localhost。</p>
+<ul>
+<li>修改Host为通配符%</li>
+</ul>
+<p>Host列指定了允许用户登录所使用的IP，比如user&#x3D;root Host&#x3D;192.168.1.1。这里的意思就是说root用户只</p>
+<p>能通过192.168.1.1的客户端去访问。 user&#x3D;root Host&#x3D;localhost，表示只能通过本机客户端去访问。而 <code>%</code>是个 <code>通配符</code> ，如果Host&#x3D;192.168.1.%，那么就表示只要是IP地址前缀为“192.168.1.”的客户端都可以连接。如果 Host&#x3D;% ，表示所有IP都有连接权限。</p>
+<p>注意：在生产环境下不能为了省事将host设置为%，这样做会存在安全问题，具体的设置可以根据生产环境的IP进行设置。</p>
+<p><code>update user set host = &#39;%&#39; where user =&#39;root&#39;;</code></p>
+<p>Host设置了“%”后便可以允许远程访问。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">update user <span class="built_in">set</span> host = <span class="string">&#x27;%&#x27;</span> <span class="built_in">where</span> user =<span class="string">&#x27;root&#x27;</span>;</span></span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">select Host,User from user;</span></span><br><span class="line">+-----------+------------------+</span><br><span class="line">| Host      | User             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| %         | root             |</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<p>Host修改完成后记得执行flush privileges使配置立即生效：</p>
+<p><code>flush privileges;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">flush privileges;</span></span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-测试"><a href="#5-测试" class="headerlink" title="5.测试"></a>5.测试</h3><ul>
+<li><p>如果是 MySQL5.7 版本，接下来就可以使用SQLyog或者Navicat成功连接至MySQL了。</p>
+</li>
+<li><p>如果是 MySQL8 版本，连接时还会出现如下问题：</p>
+</li>
+</ul>
+<p>配置新连接报错：错误号码 2058，分析是 mysql 密码加密方法变了。</p>
+<p>解决方法：Linux下 mysql -u root -p 登录你的 mysql 数据库，然后 执行这条SQL：</p>
+<p><code>ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;abc123&#39;;</code></p>
+<p>然后在重新配置SQLyog的连接，则可连接成功了，OK。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="4-MySQL8的密码强度评估（了解）"><a href="#4-MySQL8的密码强度评估（了解）" class="headerlink" title="4.MySQL8的密码强度评估（了解）"></a>4.MySQL8的密码强度评估（了解）</h1><hr>
 <h1 id="5-1-修改MySQL5-7字符集"><a href="#5-1-修改MySQL5-7字符集" class="headerlink" title="5.1 修改MySQL5.7字符集"></a>5.1 修改MySQL5.7字符集</h1><ol>
 <li>修改步骤</li>
 </ol>
@@ -240,6 +475,10 @@
       <ul>
         
           <li>
+            <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
+          </li>
+        
+          <li>
             <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
           </li>
         
@@ -253,10 +492,6 @@
         
           <li>
             <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/">Lambda表达式介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
           </li>
         
       </ul>

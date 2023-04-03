@@ -71,6 +71,113 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-04-03T10:29:56.000Z" itemprop="datePublished">2023-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="3-Java-线程"><a href="#3-Java-线程" class="headerlink" title="3.Java 线程"></a>3.Java 线程</h1><h3 id="本章内容"><a href="#本章内容" class="headerlink" title="本章内容"></a>本章内容</h3><ul>
+<li><p>创建和运行线程</p>
+</li>
+<li><p>查看线程</p>
+</li>
+<li><p>线程 API</p>
+</li>
+<li><p>线程状态</p>
+</li>
+</ul>
+<h2 id="3-1-创建和运行线程"><a href="#3-1-创建和运行线程" class="headerlink" title="3.1 创建和运行线程"></a>3.1 创建和运行线程</h2><ul>
+<li>方法一，直接使用 Thread</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建线程对象</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>() &#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> <span class="comment">// 要执行的任务</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例如：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造方法的参数是给线程指定名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="string">&quot;t1&quot;</span>) &#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="comment">// run 方法内实现了要执行的任务</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line">t1.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:19:00 [t1] c.ThreadStarter - hello</code></p>
+<hr>
+<h4 id="方法二，使用-Runnable-配合-Thread"><a href="#方法二，使用-Runnable-配合-Thread" class="headerlink" title="方法二，使用 Runnable 配合 Thread"></a>方法二，使用 Runnable 配合 Thread</h4><p>把【线程】和【任务】（要执行的代码）分开</p>
+<ul>
+<li><p>Thread 代表线程</p>
+</li>
+<li><p>Runnable 可运行的任务（线程要执行的代码）</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Runnable</span> <span class="variable">runnable</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>&#123;</span><br><span class="line"> <span class="comment">// 要执行的任务</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 创建线程对象</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>( runnable );</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例如：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line"><span class="type">Runnable</span> <span class="variable">task2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(task2, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:19:00 [t2] c.ThreadStarter - hello</code></p>
+<ul>
+<li>Java 8 以后可以使用 lambda 精简代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line"><span class="type">Runnable</span> <span class="variable">task2</span> <span class="operator">=</span> () -&gt; log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(task2, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理之-Thread-与-Runnable-的关系"><a href="#原理之-Thread-与-Runnable-的关系" class="headerlink" title="原理之 Thread 与 Runnable 的关系"></a>原理之 Thread 与 Runnable 的关系</h3><p>分析 Thread 的源码，理清它与 Runnable 的关系</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>方法1 是把线程和任务合并在了一起，方法2 是把线程和任务分开了</p>
+</li>
+<li><p>用 Runnable 更容易与线程池等高级 API 配合</p>
+</li>
+<li><p>用 Runnable 让任务类脱离了 Thread 继承体系，更灵活</p>
+</li>
+</ul>
+<hr>
+<h3 id="方法三，FutureTask-配合-Thread"><a href="#方法三，FutureTask-配合-Thread" class="headerlink" title="方法三，FutureTask 配合 Thread"></a>方法三，FutureTask 配合 Thread</h3><ul>
+<li>FutureTask 能够接收 Callable 类型的参数，用来处理有返回结果的情况</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line">FutureTask&lt;Integer&gt; task3 = <span class="keyword">new</span> <span class="title class_">FutureTask</span>&lt;&gt;(() -&gt; &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(task3, <span class="string">&quot;t3&quot;</span>).start();</span><br><span class="line"><span class="comment">// 主线程阻塞，同步等待 task 执行完毕的结果</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">result</span> <span class="operator">=</span> task3.get();</span><br><span class="line">log.debug(<span class="string">&quot;结果是:&#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:22:27 [t3] c.ThreadStarter - hello</code></p>
+<p><code>19:22:27 [main] c.ThreadStarter - 结果是:100</code></p>
+<hr>
+<h2 id="3-2-观察多个线程同时运行"><a href="#3-2-观察多个线程同时运行" class="headerlink" title="3.2 观察多个线程同时运行"></a>3.2 观察多个线程同时运行</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/03/Java%E7%BA%BF%E7%A8%8B/" data-id="clg0oworz0000psuqhkglb11l" data-title="Java线程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-设计模式-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/" class="article-date">
@@ -152,6 +259,12 @@
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饿汉式</span></span><br><span class="line"><span class="comment"> *      静态变量创建类的对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在成员位置创建该类的对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>  <font color='red'>说明：</font></p>
 <p>  ​ 该方式在成员位置声明Singleton类型的静态变量，并创建Singleton类的对象instance。instance对象是随着类的加载而创建的。如果该对象足够大的话，而一直没有使用就会造成内存的浪费。</p>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> single.Singleton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//创建Singletion类的对象</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line"></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance1</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断获取到的两个是否是同一个对象</span></span><br><span class="line">        System.out.println(instance == instance1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<hr>
 <ol start="2">
 <li>饿汉式-方式2（静态代码块方式）</li>
 </ol>
@@ -334,6 +447,23 @@
 </li>
 </ul>
 <hr>
+<h1 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h1><p>单核 cpu 下，线程实际还是 <code>串行执行</code> 的。操作系统中有一个组件叫做任务调度器，将 cpu 的时间片（windows下时间片最小约为 15 毫秒）分给不同的程序使用，只是由于 cpu 在线程间（时间片很短）的切换非常快，人类感觉是 <code>同时运行的</code> 。总结为一句话就是： <code>微观串行，宏观并行</code> ，</p>
+<p>一般会将这种 <code>线程轮流使用 CPU</code> 的做法称为并发， <code>concurrent</code></p>
+<hr>
+<h2 id="引用-Rob-Pike-的一段描述："><a href="#引用-Rob-Pike-的一段描述：" class="headerlink" title="引用 Rob Pike 的一段描述："></a>引用 Rob Pike 的一段描述：</h2><ul>
+<li><p>并发（concurrent）是同一时间应对（dealing with）多件事情的能力</p>
+</li>
+<li><p>并行（parallel）是同一时间动手做（doing）多件事情的能力</p>
+</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li><p>家庭主妇做饭、打扫卫生、给孩子喂奶，她一个人轮流交替做这多件事，这时就是并发</p>
+</li>
+<li><p>家庭主妇雇了个保姆，她们一起这些事，这时既有并发，也有并行（这时会产生竞争，例如锅只有一口，一个人用锅时，另一个人就得等待）</p>
+</li>
+<li><p>雇了3个保姆，一个专做饭、一个专打扫卫生、一个专喂奶，互不干扰，这时是并行</p>
+</li>
+</ul>
 
       
     </div>
@@ -891,8 +1021,6 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 防火墙：6是iptables，7是firewalld</span><br><span class="line">2. 启动服务的命令：6是service，7是systemctl</span><br></pre></td></tr></table></figure>
 
-
-
 <h3 id="1-2-查看是否安装过MySQL"><a href="#1-2-查看是否安装过MySQL" class="headerlink" title="1.2 查看是否安装过MySQL"></a>1.2 查看是否安装过MySQL</h3><ul>
 <li>如果你是用rpm安装, 检查一下RPM PACKAGE：</li>
 </ul>
@@ -915,10 +1043,11 @@
 </ol>
 <p>查找相关文件</p>
 <p><code>find / -name mysql</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# find / -name mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# find / -name mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br></pre></td></tr></table></figure>
 
 <p>删除上述命令查找出的相关文件</p>
 <p>5.删除 my.cnf</p>
+<hr>
 <h1 id="2-MySQL的Linux版安装"><a href="#2-MySQL的Linux版安装" class="headerlink" title="2.MySQL的Linux版安装"></a>2.MySQL的Linux版安装</h1><ul>
 <li><p>MySQL Community Server 社区版本，开源免费，自由下载，但不提供官方技术支持，适用于大多数普通用户。</p>
 </li>
@@ -930,6 +1059,242 @@
 </li>
 </ul>
 <hr>
+<h1 id="2-2-下载MySQL指定版本"><a href="#2-2-下载MySQL指定版本" class="headerlink" title="2.2 下载MySQL指定版本"></a>2.2 下载MySQL指定版本</h1><ol>
+<li>下载地址</li>
+</ol>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.mysql.com/">https://www.mysql.com</a></p>
+<ol start="2">
+<li>打开官网，点击DOWNLOADS</li>
+</ol>
+<p>然后，点击 MySQL Community(GPL) Downloads</p>
+<ol start="3">
+<li><p>点击 MySQL Community Server</p>
+</li>
+<li><p>在General Availability(GA) Releases中选择适合的版本</p>
+</li>
+</ol>
+<p>如果安装Windows 系统下MySQL ，推荐下载 MSI安装程序 ；点击 Go to Download Page 进行下载即可</p>
+<ul>
+<li><p>Windows下的MySQL安装有两种安装程序</p>
+</li>
+<li><p>mysql-installer-web-community-8.0.25.0.msi 下载程序大小：2.4M；安装时需要联网安装组件。</p>
+</li>
+<li><p>mysql-installer-community-8.0.25.0.msi 下载程序大小：435.7M；安装时离线安装即</p>
+</li>
+</ul>
+<p>可。推荐。</p>
+<ol start="5">
+<li>Linux系统下安装MySQL的几种方式</li>
+</ol>
+<hr>
+<h5 id="5-1-Linux系统下安装软件的常用三种方式："><a href="#5-1-Linux系统下安装软件的常用三种方式：" class="headerlink" title="5.1 Linux系统下安装软件的常用三种方式："></a>5.1 Linux系统下安装软件的常用三种方式：</h5><ul>
+<li>方式1：rpm命令</li>
+</ul>
+<p>使用rpm命令安装扩展名为”.rpm”的软件包。</p>
+<ul>
+<li>方式2：yum命令</li>
+</ul>
+<p>需联网，从 互联网获取 的yum源，直接使用yum命令安装。</p>
+<ul>
+<li>方式3：编译安装源码包</li>
+</ul>
+<p>针对 tar.gz 这样的压缩格式，要用tar命令来解压；如果是其它压缩格式，就使用其它命令。</p>
+<h5 id="5-2-Linux系统下安装MySQL，官方给出多种安装方式"><a href="#5-2-Linux系统下安装MySQL，官方给出多种安装方式" class="headerlink" title="5.2 Linux系统下安装MySQL，官方给出多种安装方式"></a>5.2 Linux系统下安装MySQL，官方给出多种安装方式</h5><table>
+<thead>
+<tr>
+<th>安装方式</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rpm</td>
+<td>安装简单，灵活性差，无法灵活选择版本、升级</td>
+</tr>
+<tr>
+<td>rpm repository</td>
+<td>安装包极小，版本安装简单灵活，升级方便，需要联网安装</td>
+</tr>
+<tr>
+<td>通用二进制包</td>
+<td>安装比较复杂，灵活性高，平台通用性好</td>
+</tr>
+<tr>
+<td>源码包</td>
+<td>安装最复杂，时间长，参数设置灵活，性能好</td>
+</tr>
+</tbody></table>
+<ol start="6">
+<li>下载的tar包，用压缩工具打开</li>
+</ol>
+<hr>
+<h1 id="2-3-CentOS7下检查MySQL依赖"><a href="#2-3-CentOS7下检查MySQL依赖" class="headerlink" title="2.3 CentOS7下检查MySQL依赖"></a>2.3 CentOS7下检查MySQL依赖</h1><h3 id="1-检查-x2F-tmp临时目录权限（必不可少）"><a href="#1-检查-x2F-tmp临时目录权限（必不可少）" class="headerlink" title="1.检查&#x2F;tmp临时目录权限（必不可少）"></a>1.检查&#x2F;tmp临时目录权限（必不可少）</h3><p>由于mysql安装过程中，会通过mysql用户在&#x2F;tmp目录下新建tmp_db文件，所以请给&#x2F;tmp较大的权限。执行 ：</p>
+<p><code>chmod -R 777 /tmp</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# pwd</span><br><span class="line">/</span><br><span class="line">[root@re0 /]# ls</span><br><span class="line">bin   dev  home  lib64  mnt  proc  run   srv  tmp  var</span><br><span class="line">boot  etc  lib   media  opt  root  sbin  sys  usr</span><br><span class="line">[root@re0 /]# ll</span><br><span class="line">total 28</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 Mar 24 21:21 boot</span><br><span class="line">drwxr-xr-x.  19 root root 3260 Apr  3 07:30 dev</span><br><span class="line">drwxr-xr-x. 145 root root 8192 Apr  3 07:30 etc</span><br><span class="line">drwxr-xr-x.   3 root root   15 Mar  1 15:45 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 Mar  1 15:40 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 media</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 mnt</span><br><span class="line">drwxr-xr-x.   4 root root   34 Mar 24 23:34 opt</span><br><span class="line">dr-xr-xr-x. 241 root root    0 Apr  3 07:30 proc</span><br><span class="line">dr-xr-x---.  16 root root 4096 Apr  3 07:31 root</span><br><span class="line">drwxr-xr-x.  42 root root 1280 Apr  3 07:32 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 Mar  1 15:40 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 srv</span><br><span class="line">dr-xr-xr-x.  13 root root    0 Apr  3 07:30 sys</span><br><span class="line">drwxrwxrwt.  29 root root 4096 Apr  3 07:31 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 Mar  1 15:40 usr</span><br><span class="line">drwxr-xr-x.  22 root root 4096 Mar 21 21:41 var</span><br><span class="line">[root@re0 /]# chmod -R 777 /tmp</span><br><span class="line">[root@re0 /]# ll</span><br><span class="line">total 28</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 bin -&gt; usr/bin</span><br><span class="line">dr-xr-xr-x.   5 root root 4096 Mar 24 21:21 boot</span><br><span class="line">drwxr-xr-x.  19 root root 3260 Apr  3 07:30 dev</span><br><span class="line">drwxr-xr-x. 145 root root 8192 Apr  3 07:30 etc</span><br><span class="line">drwxr-xr-x.   3 root root   15 Mar  1 15:45 home</span><br><span class="line">lrwxrwxrwx.   1 root root    7 Mar  1 15:40 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx.   1 root root    9 Mar  1 15:40 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 media</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 mnt</span><br><span class="line">drwxr-xr-x.   4 root root   34 Mar 24 23:34 opt</span><br><span class="line">dr-xr-xr-x. 241 root root    0 Apr  3 07:30 proc</span><br><span class="line">dr-xr-x---.  16 root root 4096 Apr  3 07:31 root</span><br><span class="line">drwxr-xr-x.  42 root root 1300 Apr  3 07:32 run</span><br><span class="line">lrwxrwxrwx.   1 root root    8 Mar  1 15:40 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x.   2 root root    6 Apr 10  2018 srv</span><br><span class="line">dr-xr-xr-x.  13 root root    0 Apr  3 07:30 sys</span><br><span class="line">drwxrwxrwx.  28 root root 4096 Apr  3 07:32 tmp</span><br><span class="line">drwxr-xr-x.  13 root root  155 Mar  1 15:40 usr</span><br><span class="line">drwxr-xr-x.  22 root root 4096 Mar 21 21:41 var</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-安装前，检查依赖"><a href="#2-安装前，检查依赖" class="headerlink" title="2.安装前，检查依赖"></a>2.安装前，检查依赖</h3><p><code>rpm -qa|grep libaio</code></p>
+<ul>
+<li>如果存在libaio包如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep libaio</span><br><span class="line">libaio-0.3.109-13.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<p><code>rpm -qa|grep net-tools</code></p>
+<ul>
+<li>如果存在net-tools包如下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep net-tools</span><br><span class="line">net-tools-2.0-0.24.20131004git.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<p><code>rpm -qa|grep net-tools</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# rpm -qa|grep net-tools</span><br><span class="line">net-tools-2.0-0.24.20131004git.el7.x86_64</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果不存在需要到centos安装盘里进行rpm安装。安装linux如果带图形化界面，这些都是安装好的。</li>
+</ul>
+<h2 id="2-4-CentOS7下MySQL安装过程"><a href="#2-4-CentOS7下MySQL安装过程" class="headerlink" title="2.4 CentOS7下MySQL安装过程"></a>2.4 CentOS7下MySQL安装过程</h2><h4 id="1-将安装程序拷贝到-x2F-opt目录下"><a href="#1-将安装程序拷贝到-x2F-opt目录下" class="headerlink" title="1.将安装程序拷贝到&#x2F;opt目录下"></a>1.将安装程序拷贝到&#x2F;opt目录下</h4><p>在mysql的安装文件目录下执行：（必须按照顺序执行）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">rpm -ivh mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>注意: 如在检查工作时，没有检查mysql依赖环境在安装mysql-community-server会报错</p>
+</li>
+<li><p>rpm 是Redhat Package Manage缩写，通过RPM的管理，用户可以把源代码包装成以rpm为扩展名的文件形式，易于安装。</p>
+</li>
+<li><p>-i , –install 安装软件包</p>
+</li>
+<li><p>-v , –verbose 提供更多的详细信息输出</p>
+</li>
+<li><p>-h , –hash 软件包安装的时候列出哈希标记 (和 -v 一起使用效果更好)，展示进度条</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# ll</span><br><span class="line">total 489744</span><br><span class="line">drwx--x--x. 4 root root        28 Mar 24 23:34 containerd</span><br><span class="line">-rw-r--r--. 1 root root  47810444 Apr  3 07:44 mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root    193616 Apr  3 07:44 mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root    628904 Apr  3 07:44 mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root   4240320 Apr  3 07:44 mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">-rw-r--r--. 1 root root 448614076 Apr  3 07:44 mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">drwxr-xr-x. 2 root root         6 Oct 30  2018 rh</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="2-安装过程截图"><a href="#2-安装过程截图" class="headerlink" title="2.安装过程截图"></a>2.安装过程截图</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-common-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-common-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-common-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-client-plugins-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-client-plugins-8.################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-libs-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-libs-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-libs-8.0.25-1.el7################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-client-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-client-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-client-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -ivh mysql-community-server-8.0.25-1.el7.x86_64.rpm</span><br><span class="line">warning: mysql-community-server-8.0.25-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY</span><br><span class="line">Preparing...                          ################################# [100%]</span><br><span class="line">Updating / installing...</span><br><span class="line">   1:mysql-community-server-8.0.25-1.e################################# [100%]</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>安装过程中可能的报错信息：</p>
+<p><code>一个命令：yum remove mysql-libs 解决，清除之前安装过的依赖即可</code></p>
+<h4 id="3-查看MySQL版本"><a href="#3-查看MySQL版本" class="headerlink" title="3.查看MySQL版本"></a>3.查看MySQL版本</h4><p>执行如下命令，如果成功表示安装mysql成功。类似java -version如果打出版本等信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql --version</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">或</span></span><br><span class="line">mysqladmin --version</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# mysql --version</span><br><span class="line">mysql  Ver 8.0.25 for Linux on x86_64 (MySQL Community Server - GPL)</span><br><span class="line">[root@re0 opt]# mysqladmin --version</span><br><span class="line">mysqladmin  Ver 8.0.25 for Linux on x86_64 (MySQL Community Server - GPL)</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>执行如下命令，查看是否安装成功。需要增加 -i 不用去区分大小写，否则搜索不到。</p>
+<p><code>rpm -qa|grep -i mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# rpm -qa|grep -i mysql</span><br><span class="line">mysql-community-libs-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-common-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-server-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-client-plugins-8.0.25-1.el7.x86_64</span><br><span class="line">mysql-community-client-8.0.25-1.el7.x86_64</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="4-服务的初始化"><a href="#4-服务的初始化" class="headerlink" title="4.服务的初始化"></a>4.服务的初始化</h4><p>为了保证数据库目录与文件的所有者为 mysql 登录用户，如果你是以 root 身份运行 mysql 服务，需要执行下面的命令初始化：</p>
+<p><code>mysqld --initialize --user=mysql</code></p>
+<p>说明：</p>
+<p>–initialize 选项默认以“安全”模式来初始化，则会为 root 用户生成一个密码并将 <code>该密码标记为过期</code> ，登录后你需要设置一个新的密码。生成的 <code>临时密码</code> 会往日志中记录一份。</p>
+<p>查看密码：</p>
+<p><code>cat /var/log/mysqld.log</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# cat /var/log/mysqld.log</span><br><span class="line">2023-04-03T14:52:39.253105Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.0.25) initializing of server in progress as process 21179</span><br><span class="line">2023-04-03T14:52:39.260283Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.</span><br><span class="line">2023-04-03T14:52:39.446761Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.</span><br><span class="line">2023-04-03T14:52:39.908369Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: mg;j)Y&lt;I4hm:</span><br><span class="line">[root@re0 opt]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>root@localhost: 后面就是初始化的密码</li>
+</ul>
+<h4 id="5-启动MySQL，查看状态"><a href="#5-启动MySQL，查看状态" class="headerlink" title="5.启动MySQL，查看状态"></a>5.启动MySQL，查看状态</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">加不加.service后缀都可以</span></span><br><span class="line">启动：systemctl start mysqld.service</span><br><span class="line">关闭：systemctl stop mysqld.service</span><br><span class="line">重启：systemctl restart mysqld.service</span><br><span class="line">查看状态：systemctl status mysqld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>mysqld 这个可执行文件就代表着 MySQL 服务器程序，运行这个可执行文件就可以直接启动一个服务器进程。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# systemctl start mysqld.service</span><br><span class="line">[root@re0 opt]# systemctl status mysqld</span><br><span class="line">● mysqld.service - MySQL Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Mon 2023-04-03 07:55:50 PDT; 10s ago</span><br><span class="line">     Docs: man:mysqld(8)</span><br><span class="line">           http://dev.mysql.com/doc/refman/en/using-systemd.html</span><br><span class="line">  Process: 25329 ExecStartPre=/usr/bin/mysqld_pre_systemd (code=exited, status=0/SUCCESS)</span><br><span class="line"> Main PID: 25357 (mysqld)</span><br><span class="line">   Status: &quot;Server is operational&quot;</span><br><span class="line">    Tasks: 38</span><br><span class="line">   CGroup: /system.slice/mysqld.service</span><br><span class="line">           └─25357 /usr/sbin/mysqld</span><br><span class="line"></span><br><span class="line">Apr 03 07:55:48 re0 systemd[1]: Starting MySQL Server...</span><br><span class="line">Apr 03 07:55:50 re0 systemd[1]: Started MySQL Server.</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<p>查看进程：</p>
+<p><code>ps -ef | grep -i mysql</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# ps -ef | grep -i mysql</span><br><span class="line">mysql     25357      1  1 07:55 ?        00:00:00 /usr/sbin/mysqld</span><br><span class="line">root      26660  10426  0 07:56 pts/4    00:00:00 grep --color=auto -i mysql</span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<h4 id="6-查看MySQL服务是否自启动"><a href="#6-查看MySQL服务是否自启动" class="headerlink" title="6.查看MySQL服务是否自启动"></a>6.查看MySQL服务是否自启动</h4><p><code>systemctl list-unit-files|grep mysqld.service</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# systemctl list-unit-files|grep mysqld.service</span><br><span class="line">mysqld.service                                enabled </span><br><span class="line">[root@re0 opt]# </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>默认是enabled。</p>
+</li>
+<li><p>如不是enabled可以运行如下命令设置自启动</p>
+</li>
+<li><p><code>systemctl enable mysqld.service</code></p>
+</li>
+<li><p>如果希望不进行自启动，运行如下命令设置</p>
+</li>
+<li><p><code>systemctl disable mysqld.service</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="3-MySQL登录"><a href="#3-MySQL登录" class="headerlink" title="3.MySQL登录"></a>3.MySQL登录</h1><h3 id="3-1-首次登录"><a href="#3-1-首次登录" class="headerlink" title="3.1 首次登录"></a>3.1 首次登录</h3><p>通过 <code>mysql -hlocalhost -P3306 -uroot -p</code> 进行登录，在Enter password：录入初始化密码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# mysql -hlocalhost -P3306 -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 8</span><br><span class="line">Server version: 8.0.25</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2021, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-修改密码"><a href="#3-2-修改密码" class="headerlink" title="3.2 修改密码"></a>3.2 修改密码</h3><ul>
+<li><p>因为初始化密码默认是过期的，所以查看数据库会报错</p>
+</li>
+<li><p>修改密码：<code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;new_password;</code></p>
+</li>
+<li><p>5.7版本之后（不含5.7），mysql加入了全新的密码安全机制。设置新密码太简单会报错。</p>
+</li>
+<li><p>改为更复杂的密码规则之后，设置成功，可以正常使用数据库了</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">ALTER USER <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;new_pwd&#x27;</span>;</span></span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-设置远程登录"><a href="#3-3-设置远程登录" class="headerlink" title="3.3 设置远程登录"></a>3.3 设置远程登录</h3><h3 id="1-当前问题"><a href="#1-当前问题" class="headerlink" title="1.当前问题"></a>1.当前问题</h3><p>在用SQLyog或Navicat中配置远程连接Mysql数据库时遇到如下报错信息，这是由于Mysql配置了不支持远程连接引起的</p>
+<h3 id="2-确认网络"><a href="#2-确认网络" class="headerlink" title="2.确认网络"></a>2.确认网络</h3><p>1.在远程机器上使用ping ip地址 保证网络畅通</p>
+<p>2.在远程机器上使用telnet命令 保证端口号开放 访问</p>
+<p><code>telnet ip地址 端口号</code></p>
+<h3 id="3-关闭防火墙或开放端口"><a href="#3-关闭防火墙或开放端口" class="headerlink" title="3.关闭防火墙或开放端口"></a>3.关闭防火墙或开放端口</h3><ul>
+<li>方式一：关闭防火墙</li>
+</ul>
+<p>CentOS6 ：<code>service iptables stop</code></p>
+<hr>
+<p>CentOS7：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld.service</span><br><span class="line">systemctl status firewalld.service</span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置开机启用防火墙</span></span><br><span class="line">systemctl enable firewalld.service</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">设置开机禁用防火墙</span></span><br><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方式二：开放端口</li>
+</ul>
+<p>查看开放的端口号 <code>firewall-cmd --list-all</code></p>
+<p>设置开放的端口号</p>
+<p><code>firewall-cmd --add-service=http --permanent</code></p>
+<p><code>firewall-cmd --add-port=3306/tcp --permanent</code></p>
+<p>重启防火墙 <code>firewall-cmd --reload</code></p>
+<h3 id="4-Linux下修改配置"><a href="#4-Linux下修改配置" class="headerlink" title="4.Linux下修改配置"></a>4.Linux下修改配置</h3><p>在Linux系统MySQL下测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">select Host,User from user;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">use mysql;</span></span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">select Host,User from user;</span></span><br><span class="line">+-----------+------------------+</span><br><span class="line">| Host      | User             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">| localhost | root             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到root用户的当前主机配置信息为localhost。</p>
+<ul>
+<li>修改Host为通配符%</li>
+</ul>
+<p>Host列指定了允许用户登录所使用的IP，比如user&#x3D;root Host&#x3D;192.168.1.1。这里的意思就是说root用户只</p>
+<p>能通过192.168.1.1的客户端去访问。 user&#x3D;root Host&#x3D;localhost，表示只能通过本机客户端去访问。而 <code>%</code>是个 <code>通配符</code> ，如果Host&#x3D;192.168.1.%，那么就表示只要是IP地址前缀为“192.168.1.”的客户端都可以连接。如果 Host&#x3D;% ，表示所有IP都有连接权限。</p>
+<p>注意：在生产环境下不能为了省事将host设置为%，这样做会存在安全问题，具体的设置可以根据生产环境的IP进行设置。</p>
+<p><code>update user set host = &#39;%&#39; where user =&#39;root&#39;;</code></p>
+<p>Host设置了“%”后便可以允许远程访问。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">update user <span class="built_in">set</span> host = <span class="string">&#x27;%&#x27;</span> <span class="built_in">where</span> user =<span class="string">&#x27;root&#x27;</span>;</span></span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">select Host,User from user;</span></span><br><span class="line">+-----------+------------------+</span><br><span class="line">| Host      | User             |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">| %         | root             |</span><br><span class="line">| localhost | mysql.infoschema |</span><br><span class="line">| localhost | mysql.session    |</span><br><span class="line">| localhost | mysql.sys        |</span><br><span class="line">+-----------+------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<p>Host修改完成后记得执行flush privileges使配置立即生效：</p>
+<p><code>flush privileges;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash">flush privileges;</span></span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">mysql&gt; </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-测试"><a href="#5-测试" class="headerlink" title="5.测试"></a>5.测试</h3><ul>
+<li><p>如果是 MySQL5.7 版本，接下来就可以使用SQLyog或者Navicat成功连接至MySQL了。</p>
+</li>
+<li><p>如果是 MySQL8 版本，连接时还会出现如下问题：</p>
+</li>
+</ul>
+<p>配置新连接报错：错误号码 2058，分析是 mysql 密码加密方法变了。</p>
+<p>解决方法：Linux下 mysql -u root -p 登录你的 mysql 数据库，然后 执行这条SQL：</p>
+<p><code>ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;abc123&#39;;</code></p>
+<p>然后在重新配置SQLyog的连接，则可连接成功了，OK。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="4-MySQL8的密码强度评估（了解）"><a href="#4-MySQL8的密码强度评估（了解）" class="headerlink" title="4.MySQL8的密码强度评估（了解）"></a>4.MySQL8的密码强度评估（了解）</h1><hr>
 <h1 id="5-1-修改MySQL5-7字符集"><a href="#5-1-修改MySQL5-7字符集" class="headerlink" title="5.1 修改MySQL5.7字符集"></a>5.1 修改MySQL5.7字符集</h1><ol>
 <li>修改步骤</li>
 </ol>
@@ -1038,76 +1403,6 @@
 
 
   
-    <article id="post-Docker常用命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
-  <time class="dt-published" datetime="2023-03-25T06:53:55.000Z" itemprop="datePublished">2023-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-2-7-底层原理"><a href="#1-2-7-底层原理" class="headerlink" title="1.2.7.底层原理"></a>1.2.7.底层原理</h1><ul>
-<li>为什么Docker会比VM虚拟机快<br>(1)docker有着比虚拟机更少的抽象层<br>   由于docker不需要Hypervisor(虚拟机)实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<br>(2)docker利用的是宿主机的内核,而不需要加载操作系统OS内核<br>   当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。进而避免引寻、加载操作系统内核返回等比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载OS,返回新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返回过程,因此新建一个docker容器只需要几秒钟。</li>
-</ul>
-<h1 id="1-3-Docker常用命令"><a href="#1-3-Docker常用命令" class="headerlink" title="1.3.Docker常用命令"></a>1.3.Docker常用命令</h1><h3 id="1-3-1-帮助启动类命令"><a href="#1-3-1-帮助启动类命令" class="headerlink" title="1.3.1.帮助启动类命令"></a>1.3.1.帮助启动类命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">·启动docker： systemctl start docker</span><br><span class="line">·停止docker： systemctl stop docker</span><br><span class="line">·重启docker： systemctl restart docker</span><br><span class="line">·查看docker状态： systemctl status docker</span><br><span class="line">·开机启动： systemctl enable docker</span><br><span class="line">·查看docker概要信息： docker info</span><br><span class="line">·查看docker总体帮助文档： docker --help</span><br><span class="line">·查看docker命令帮助文档： docker 具体命令 --help</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="1-3-2-镜像命令"><a href="#1-3-2-镜像命令" class="headerlink" title="1.3.2.镜像命令"></a>1.3.2.镜像命令</h3><ul>
-<li><p>列出本地主机上的镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   3 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   9 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<p>各个选项说明:<br>REPOSITORY：表示镜像的仓库源<br>TAG：镜像的标签版本号<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小<br> 同一仓库源可以有多个 TAG版本，代表这个仓库源的不同个版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。<br>如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像<br> <br> <br>·OPTIONS说明：<br>·-a :列出本地所有的镜像（含历史映像层）<br>·-q :只显示镜像ID。<br>·docker search 某个XXX镜像名字<br>·网站<br>·<a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com</a><br>·命令<br>·docker search [OPTIONS] 镜像名字<br>·案例<br>·OPTIONS说明：<br>·–limit : 只列出N个镜像，默认25个<br>·docker search –limit 5 redis<br>·docker pull 某个XXX镜像名字<br>·下载镜像<br>·docker pull 镜像名字[:TAG]<br>·docker pull 镜像名字<br>·没有TAG就是最新版<br>·等价于<br>·docker pull 镜像名字:latest<br>·docker pull ubuntu</p>
-<hr>
-<ul>
-<li>docker system df 查看镜像&#x2F;容器&#x2F;数据卷所占的空间</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker system df</span><br><span class="line">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE</span><br><span class="line">Images          3         3         928.7MB   0B (0%)</span><br><span class="line">Containers      8         0         10.5kB    10.5kB (100%)</span><br><span class="line">Local Volumes   2         2         413.9MB   0B (0%)</span><br><span class="line">Build Cache     0         0         0B        0B</span><br><span class="line">[root@re0 ~]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>docker rmi 某个XXX镜像名字ID<br>·删除镜像<br>·删除单个<br>·docker rmi  -f 镜像ID<br>·删除多个<br>·docker rmi -f 镜像名1:TAG 镜像名2:TAG<br>·删除全部<br>·docker rmi -f $(docker images -qa)<br>·面试题：谈谈docker虚悬镜像是什么？<br>·是什么<br>·仓库名、标签都是<none>的镜像，俗称虚悬镜像dangling image<br>·长什么样</li>
-</ul>
-<hr>
-<h3 id="1-3-3-容器命令"><a href="#1-3-3-容器命令" class="headerlink" title="1.3.3 容器命令"></a>1.3.3 容器命令</h3><ul>
-<li>有镜像才能创建容器， 这是根本前提(下载一个CentOS或者ubuntu镜像演示)</li>
-</ul>
-<p>·本次演示用ubuntu演示</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull ubuntu</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/ubuntu</span><br><span class="line">2ab09b027e7f: Pull complete </span><br><span class="line">Digest: sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21</span><br><span class="line">Status: Downloaded newer image for ubuntu:latest</span><br><span class="line">docker.io/library/ubuntu:latest</span><br><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   4 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   10 days ago     474MB</span><br><span class="line">ubuntu        latest    08d22c0ceb15   2 weeks ago     77.8MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure>
-
-
-<p>·新建+启动容器<br>·docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>· OPTIONS说明<br> OPTIONS说明（常用）：有些是一个减号，有些是两个减号<br> <br>–name&#x3D;”容器新名字”       为容器指定一个名称；<br>-d: 后台运行容器并返回容器ID，也即启动守护式容器(后台运行)；<br> <br>-i：以交互模式运行容器，通常与 -t 同时使用；<br>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>也即启动交互式容器(前台有伪终端，等待交互)；<br> <br>-P: 随机端口映射，大写P<br>-p: 指定端口映射，小写p</p>
-<p>·启动交互式容器(前台命令行)<br>关系	前后对比 - 开始 启动守护式容器(后台服务器)</p>
-<p>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行&#x2F;bin&#x2F;bash命令。<br>docker run -it centos &#x2F;bin&#x2F;bash<br> <br>参数说明：<br>-i: 交互式操作。<br>-t: 终端。<br>centos : centos 镜像。<br>&#x2F;bin&#x2F;bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 &#x2F;bin&#x2F;bash。<br>要退出终端，直接输入 exit:<br> <br>·列出当前所有正在运行的容器<br>·docker ps [OPTIONS]<br>· OPTIONS说明<br>OPTIONS说明（常用）：<br> <br>-a :列出当前所有正在运行的容器+历史上运行过的<br>-l :显示最近创建的容器。<br>-n：显示最近n个创建的容器。<br>-q :静默模式，只显示容器编号。<br>·退出容器<br>关系	指向 进入正在运行的容器并以命令行交互<br>·两种退出方式<br>·exit<br>·run进去容器，exit退出，容器停止<br>·ctrl+p+q<br>·run进去容器，ctrl+p+q退出，容器不停止<br>·启动已停止运行的容器<br>·docker start 容器ID或者容器名<br>·重启容器<br>·docker restart 容器ID或者容器名<br>·停止容器<br>·docker stop 容器ID或者容器名<br>·强制停止容器<br>·docker kill 容器ID或容器名<br>·删除已停止的容器<br>·docker rm 容器ID<br>·一次性删除多个容器实例<br>·docker rm -f $(docker ps -a -q)<br>·docker ps -a -q | xargs docker rm<br>·重要<br>·有镜像才能创建容器，这是根本前提(下载一个Redis6.0.8镜像演示)<br>·启动守护式容器(后台服务器)<br>关系	前后对比 - 指向 启动交互式容器(前台命令行)<br>·在大部分的场景下，我们希望 docker 的服务是在后台运行的， 我们可以过 -d 指定容器的后台运行模式。<br>·docker run -d 容器名<br> <br>#使用镜像centos:latest以后台模式启动一个容器<br>docker run -d centos<br> <br>问题：然后docker ps -a 进行查看, 会发现容器已经退出<br>很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.<br>容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。<br> <br>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,<br>我们配置启动服务只需要启动响应的service即可。例如service nginx start<br>但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,<br>这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.<br>所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行，<br>常见就是命令行模式，表示我还有交互操作，别中断，O(∩_∩)O哈哈~<br>·redis 前后台启动演示case<br>·前台交互式启动<br>· docker run -it redis:6.0.8<br>·后台守护式启动<br>·docker run -d redis:6.0.8<br>·查看容器日志<br>·docker logs 容器ID<br>·查看容器内运行的进程<br>·docker top 容器ID<br>·查看容器内部细节<br>·docker inspect 容器ID<br>·进入正在运行的容器并以命令行交互<br>关系	开始 退出容器<br>·docker exec -it 容器ID bashShell</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="clfnm8fay0000r8uqc1jgh1g7" data-title="Docker常用命令" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1144,6 +1439,10 @@
       <ul>
         
           <li>
+            <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
+          </li>
+        
+          <li>
             <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
           </li>
         
@@ -1157,10 +1456,6 @@
         
           <li>
             <a href="/2023/04/01/Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/">Lambda表达式介绍</a>
-          </li>
-        
-          <li>
-            <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
           </li>
         
       </ul>
