@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MySQL的数据目录 | red的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.MySQL8的主要目录结构[root@atguigu01 ~]# find &#x2F; -name mysql 安装好MySQL 8之后，我们查看如下的目录结构： 123456789101112131415161718[root@re0 &#x2F;]# find &#x2F; -name mysql&#x2F;etc&#x2F;logrotate.d&#x2F;mysql&#x2F;etc&#x2F;selinux&#x2F;targeted&#x2F;active&#x2F;modules&#x2F;10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的数据目录">
+<meta property="og:url" content="http://example.com/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/index.html">
+<meta property="og:site_name" content="red的博客">
+<meta property="og:description" content="1.MySQL8的主要目录结构[root@atguigu01 ~]# find &#x2F; -name mysql 安装好MySQL 8之后，我们查看如下的目录结构： 123456789101112131415161718[root@re0 &#x2F;]# find &#x2F; -name mysql&#x2F;etc&#x2F;logrotate.d&#x2F;mysql&#x2F;etc&#x2F;selinux&#x2F;targeted&#x2F;active&#x2F;modules&#x2F;10">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-03T15:47:00.000Z">
+<meta property="article:modified_time" content="2023-04-04T05:00:59.337Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">red的博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MySQL的数据目录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/" class="article-date">
+  <time class="dt-published" datetime="2023-04-03T15:47:00.000Z" itemprop="datePublished">2023-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MySQL的数据目录
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-MySQL8的主要目录结构"><a href="#1-MySQL8的主要目录结构" class="headerlink" title="1.MySQL8的主要目录结构"></a>1.MySQL8的主要目录结构</h1><p><code>[root@atguigu01 ~]# find / -name mysql</code></p>
+<p>安装好MySQL 8之后，我们查看如下的目录结构：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# find / -name mysql</span><br><span class="line">/etc/logrotate.d/mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/var/lib/mysql</span><br><span class="line">/var/lib/mysql/mysql</span><br><span class="line">/usr/bin/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-数据库文件的存放路径"><a href="#1-1-数据库文件的存放路径" class="headerlink" title="1.1 数据库文件的存放路径"></a>1.1 数据库文件的存放路径</h3><p> <font color='red'>MySQL数据库文件的存放路径：&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;</font></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;datadir&#x27;</span>;</span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="operator">|</span> Variable_name <span class="operator">|</span> <span class="keyword">Value</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="operator">|</span> datadir <span class="operator">|</span> <span class="operator">/</span>var<span class="operator">/</span>lib<span class="operator">/</span>mysql<span class="operator">/</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.04</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>从结果中可以看出，在我的计算机上MySQL的数据目录就是 <code>/var/lib/mysql/ </code>。</p>
+<h3 id="1-2-相关命令目录"><a href="#1-2-相关命令目录" class="headerlink" title="1.2 相关命令目录"></a>1.2 相关命令目录</h3><ul>
+<li>相关命令目录：&#x2F;usr&#x2F;bin（mysqladmin、mysqlbinlog、mysqldump等命令）和&#x2F;usr&#x2F;sbin。</li>
+</ul>
+<h3 id="1-3-配置文件目录"><a href="#1-3-配置文件目录" class="headerlink" title="1.3 配置文件目录"></a>1.3 配置文件目录</h3><ul>
+<li>配置文件目录：&#x2F;usr&#x2F;share&#x2F;mysql-8.0（命令及配置文件），&#x2F;etc&#x2F;mysql（如my.cnf）</li>
+</ul>
+<hr>
+<h1 id="2-数据库和文件系统的关系"><a href="#2-数据库和文件系统的关系" class="headerlink" title="2.数据库和文件系统的关系"></a>2.数据库和文件系统的关系</h1><h3 id="2-1-查看默认数据库"><a href="#2-1-查看默认数据库" class="headerlink" title="2.1 查看默认数据库"></a>2.1 查看默认数据库</h3><p>查看一下在我的计算机上当前有哪些数据库： <code>mysql&gt; SHOW DATABASES;</code></p>
+<p>可以看到有4个数据库是属于MySQL自带的系统数据库。</p>
+<ul>
+<li>mysql</li>
+</ul>
+<p>MySQL 系统自带的核心数据库，它存储了MySQL的用户账户和权限信息，一些存储过程、事件的定义信息，一些运行过程中产生的日志信息，一些帮助信息以及时区信息等。</p>
+<ul>
+<li>information_schema</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库保存着MySQL服务器 维护的所有其他数据库的信息 ，比如有哪些表、哪些视图、哪些触发器、哪些列、哪些索引。这些信息并不是真实的用户数据，而是一些描述性信息，有时候也称之为 元数据 。在系统数据库 information_schema 中提供了一些以innodb_sys 开头的表，用于表示内部系统表。</p>
+<ul>
+<li>performance_schema</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库里主要保存MySQL服务器运行过程中的一些状态信息，可以用来 监控 MySQL 服务的各类性能指标 。包括统计最近执行了哪些语句，在执行过程的每个阶段都花费了多长时间，内存的使用情况等信息。</p>
+<ul>
+<li>sys</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库主要是通过 视图 的形式把 information_schema 和</p>
+<p>performance_schema 结合起来，帮助系统管理员和开发人员监控 MySQL 的技术性能。</p>
+<h3 id="2-2-数据库在文件系统中的表示"><a href="#2-2-数据库在文件系统中的表示" class="headerlink" title="2.2 数据库在文件系统中的表示"></a>2.2 数据库在文件系统中的表示</h3><p>看一下我的计算机上的数据目录下的内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# cd /var/lib/mysql</span><br><span class="line">[root@re0 mysql]# ll</span><br><span class="line">total 191940</span><br><span class="line">drwxr-x---. 2 mysql mysql        6 Apr  3 08:22 2023@002e4@002e3</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 Apr  3 07:52 auto.cnf</span><br><span class="line">-rw-r-----. 1 mysql mysql     2411 Apr  3 08:22 binlog.000001</span><br><span class="line">-rw-r-----. 1 mysql mysql       16 Apr  3 07:55 binlog.index</span><br><span class="line">-rw-------. 1 mysql mysql     1680 Apr  3 07:52 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 client-key.pem</span><br><span class="line">-rw-r-----. 1 mysql mysql   196608 Apr  3 08:22 #ib_16384_0.dblwr</span><br><span class="line">-rw-r-----. 1 mysql mysql  8585216 Apr  3 07:52 #ib_16384_1.dblwr</span><br><span class="line">-rw-r-----. 1 mysql mysql     6079 Apr  3 07:52 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 Apr  3 08:22 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 Apr  3 08:22 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 Apr  3 07:52 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 Apr  3 07:55 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql      187 Apr  3 07:55 #innodb_temp</span><br><span class="line">drwxr-x---. 2 mysql mysql      143 Apr  3 07:52 mysql</span><br><span class="line">-rw-r-----. 1 mysql mysql 28311552 Apr  3 08:22 mysql.ibd</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 Apr  3 07:55 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        6 Apr  3 07:55 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 Apr  3 07:52 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      452 Apr  3 07:52 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql       28 Apr  3 07:52 sys</span><br><span class="line">-rw-r-----. 1 mysql mysql 16777216 Apr  3 08:22 undo_001</span><br><span class="line">-rw-r-----. 1 mysql mysql 16777216 Apr  3 08:18 undo_002</span><br><span class="line">[root@re0 mysql]# </span><br></pre></td></tr></table></figure>
+
+<p>这个数据目录下的文件和子目录比较多，除了 <code>information_schema</code> 这个系统数据库外，其他的数据库在 <code>数据目录</code> 下都有对应的子目录。</p>
+<p>以我的 temp 数据库为例，在MySQL5.7 中打开：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@atguigu02 mysql]# cd ./temp</span><br><span class="line">[root@atguigu02 temp]# ll</span><br><span class="line">总用量 1144</span><br><span class="line">-rw-r-----. 1 mysql mysql 8658 8月 18 11:32 countries.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 countries.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 61 8月 18 11:32 db.opt</span><br><span class="line">-rw-r-----. 1 mysql mysql 8716 8月 18 11:32 departments.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 8月 18 11:32 departments.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 3017 8月 18 11:32 emp_details_view.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 8982 8月 18 11:32 employees.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 180224 8月 18 11:32 employees.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8660 8月 18 11:32 job_grades.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 98304 8月 18 11:32 job_grades.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8736 8月 18 11:32 job_history.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 8月 18 11:32 job_history.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8688 8月 18 11:32 jobs.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 jobs.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8790 8月 18 11:32 locations.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 8月 18 11:32 locations.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8614 8月 18 11:32 regions.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 regions.ibd</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL8.0中打开：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@atguigu01 mysql]# cd ./temp</span><br><span class="line">[root@atguigu01 temp]# ll</span><br><span class="line">总用量 1080</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 countries.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 163840 7月 29 23:10 departments.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 196608 7月 29 23:10 employees.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 7月 29 23:10 job_grades.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 163840 7月 29 23:10 job_history.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 jobs.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 7月 29 23:10 locations.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 regions.ibd</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-表在文件系统中的表示"><a href="#2-3-表在文件系统中的表示" class="headerlink" title="2.3 表在文件系统中的表示"></a>2.3 表在文件系统中的表示</h3><h5 id="2-3-1-InnoDB存储引擎模式"><a href="#2-3-1-InnoDB存储引擎模式" class="headerlink" title="2.3.1 InnoDB存储引擎模式"></a>2.3.1 InnoDB存储引擎模式</h5><p><font color="red">1.表结构</font></p>
+<p>为了保存表结构， <code>InnoDB</code> 在 <code>数据目录</code> 下对应的数据库子目录下创建了一个专门用于 <code>描述表结构的文件</code> ，文件名是这样：</p>
+<ul>
+<li>表名.frm</li>
+</ul>
+<p>比方说我们在 atguigu 数据库下创建一个名为 test 的表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> USE atguigu;</span><br><span class="line">Database changed</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test (</span><br><span class="line"><span class="operator">-</span><span class="operator">&gt;</span> c1 <span class="type">INT</span></span><br><span class="line"><span class="operator">-</span><span class="operator">&gt;</span> );</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.03</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>那在数据库 atguigu 对应的子目录下就会创建一个名为 test.frm 的用于描述表结构的文件。</p>
+<p>.frm文件的格式在不同的平台上都是相同的。这个后缀名为.frm是以 二进制格式 存储的，我们直接打开是乱码的。</p>
+<p><font color="red">2.表中数据和索引</font></p>
+<ul>
+<li>① 系统表空间（system tablespace）</li>
+</ul>
+<p>默认情况下，InnoDB会在数据目录下创建一个名为 ibdata1 、大小为 12M 的文件，这个文件就是对应的 系统表空间 在文件系统上的表示。怎么才12M？注意这个文件是 自扩展文件 ，当不够用的时候它会自己增加文件大小。</p>
+<p>当然，如果你想让系统表空间对应文件系统上多个实际文件，或者仅仅觉得原来的 ibdata1 这个文件名难听，那可以在MySQL启动时配置对应的文件路径以及它们的大小，比如我们这样修改一下my.cnf 配置文件：</p>
+<p>[server]</p>
+<p>innodb_data_file_path&#x3D;data1:512M;data2:512M:autoextend</p>
+<ul>
+<li>② 独立表空间(file-per-table tablespace)</li>
+</ul>
+<p>在MySQL5.6.6以及之后的版本中，InnoDB并不会默认的把各个表的数据存储到系统表空间中，而是为 每一个表建立一个独立表空间 ，也就是说我们创建了多少个表，就有多少个独立表空间。使用 独立表空间 来存储表数据的话，会在该表所属数据库对应的子目录下创建一个表示该独立表空间的文件，文件名和表名相同，只不过添加了一个 .ibd 的扩展名而已，所以完整的文件名称长这样：</p>
+<p>表名.ibd</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/" data-id="clg108xbm00003guq63cx5uzw" data-title="MySQL的数据目录" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/04/04/MySQL%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          MySQL用户与权限管理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java线程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/04/04/MySQL%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">MySQL用户与权限管理</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/">MySQL的数据目录</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">进程与线程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
