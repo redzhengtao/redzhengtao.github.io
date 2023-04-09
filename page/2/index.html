@@ -71,6 +71,219 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-视图解析-Thymeleaf初体验" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/" class="article-date">
+  <time class="dt-published" datetime="2023-03-31T14:01:11.000Z" itemprop="datePublished">2023-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/">视图解析-Thymeleaf初体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>视图解析：SpringBoot默认不支持 JSP，需要引入第三方模板引擎技术实现页面渲染。</li>
+</ul>
+<p>1、视图解析原理流程<br>1、目标方法处理的过程中，所有数据都会被放在 ModelAndViewContainer 里面。包括数据和视图地址<br>2、方法的参数是一个自定义类型对象（从请求参数中确定的），把他重新放在 ModelAndViewContainer<br>3、任何目标方法执行完成以后都会返回 ModelAndView（数据和视图地址）。<br>4、processDispatchResult  处理派发结果（页面改如何响应）</p>
+<ul>
+<li>1、render(mv, request, response); 进行页面渲染逻辑<ul>
+<li>1、根据方法的String返回值得到 View 对象【定义了页面的渲染逻辑】<ul>
+<li>1、所有的视图解析器尝试是否能根据当前返回值得到View对象</li>
+<li>2、得到了  redirect:&#x2F;main.html –&gt; Thymeleaf new RedirectView()</li>
+<li>3、ContentNegotiationViewResolver 里面包含了下面所有的视图解析器，内部还是利用下面所有视图解析器得到视图对象。</li>
+<li>4、view.render(mv.getModelInternal(), request, response);   视图对象调用自定义的render进行页面渲染工作<ul>
+<li>RedirectView 如何渲染【重定向到一个页面】</li>
+<li>1、获取目标url地址</li>
+<li>2、response.sendRedirect(encodedURL);</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>视图解析：<br>  ○ 返回值以 forward: 开始： new InternalResourceView(forwardUrl); –&gt;  转发request.getRequestDispatcher(path).forward(request, response);<br>  ○ 返回值以 redirect: 开始： new RedirectView() –》 render就是重定向<br>  ○ 返回值是普通字符串： new ThymeleafView（）—&gt; </p>
+<p>自定义视图解析器+自定义视图； 大厂学院。</p>
+<p>基本语法</p>
+<h4 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h4><table>
+<thead>
+<tr>
+<th>表达式名字</th>
+<th>语法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>变量取值</td>
+<td>${…}</td>
+<td>获取请求域、session域、对象等值</td>
+</tr>
+<tr>
+<td>选择变量</td>
+<td>*{…}</td>
+<td>获取上下文对象值</td>
+</tr>
+<tr>
+<td>消息</td>
+<td>#{…}</td>
+<td>获取国际化等值</td>
+</tr>
+<tr>
+<td>链接</td>
+<td>@{…}</td>
+<td>生成链接</td>
+</tr>
+<tr>
+<td>片段表达式</td>
+<td>~{…}</td>
+<td>jsp:include 作用，引入公共页面片段</td>
+</tr>
+</tbody></table>
+<h4 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h4><ul>
+<li>文本值: <strong>‘one text’</strong> <strong>,</strong> <strong>‘Another one!’</strong> <strong>,…</strong></li>
+<li>数字: <strong>0</strong> <strong>,</strong> <strong>34</strong> <strong>,</strong> <strong>3.0</strong> <strong>,</strong> <strong>12.3</strong> <strong>,…</strong></li>
+<li>布尔值: <strong>true</strong> <strong>,</strong> <strong>false</strong></li>
+<li>空值: <strong>null</strong></li>
+<li>变量： one，two，…. 变量不能有空格</li>
+</ul>
+<h4 id="文本操作"><a href="#文本操作" class="headerlink" title="文本操作"></a>文本操作</h4><ul>
+<li>字符串拼接: <strong>+</strong></li>
+<li>变量替换: <strong>|The name is ${name}|</strong></li>
+</ul>
+<h4 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h4><ul>
+<li>运算符: + , - , * , &#x2F; , %</li>
+</ul>
+<h4 id="布尔运算"><a href="#布尔运算" class="headerlink" title="布尔运算"></a>布尔运算</h4><ul>
+<li>运算符: <strong>and</strong> <strong>,</strong> <strong>or</strong></li>
+<li>一元运算: <strong>!</strong> <strong>,</strong> <strong>not</strong></li>
+</ul>
+<h4 id="比较运算"><a href="#比较运算" class="headerlink" title="比较运算"></a>比较运算</h4><ul>
+<li>比较: <strong>&gt;</strong> <strong>,</strong> <strong>&lt;** **,** **&gt;&#x3D;</strong> <strong>,</strong> <strong>&lt;&#x3D;</strong> <strong>(</strong> <strong>gt</strong> <strong>,</strong> <strong>lt</strong> <strong>,</strong> <strong>ge</strong> <strong>,</strong> <strong>le</strong> <strong>)</strong></li>
+<li>等式: <strong>&#x3D;&#x3D;</strong> <strong>,</strong> <strong>!&#x3D;</strong> <strong>(</strong> <strong>eq</strong> <strong>,</strong> <strong>ne</strong> <strong>)</strong></li>
+</ul>
+<h4 id="条件运算"><a href="#条件运算" class="headerlink" title="条件运算"></a>条件运算</h4><ul>
+<li>If-then: <strong>(if) ? (then)</strong></li>
+<li>If-then-else: <strong>(if) ? (then) : (else)</strong></li>
+<li>Default: (value) <strong>?: (defaultvalue)</strong></li>
+</ul>
+<h4 id="特殊操作"><a href="#特殊操作" class="headerlink" title="特殊操作"></a>特殊操作</h4><ul>
+<li>无操作： _</li>
+</ul>
+<h3 id="设置属性值-th-attr"><a href="#设置属性值-th-attr" class="headerlink" title="设置属性值-th:attr"></a>设置属性值-th:attr</h3><ul>
+<li>设置单个值</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;subscribe.html&quot;</span> <span class="attr">th:attr</span>=<span class="string">&quot;action=@&#123;/subscribe&#125;&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">fieldset</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;email&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Subscribe!&quot;</span> <span class="attr">th:attr</span>=<span class="string">&quot;value=#&#123;subscribe.submit&#125;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">fieldset</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置多个值</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;../../images/gtvglogo.png&quot;</span>  </span></span><br><span class="line"><span class="tag">     <span class="attr">th:attr</span>=<span class="string">&quot;src=@&#123;/images/gtvglogo.png&#125;,title=#&#123;logo&#125;,alt=#&#123;logo&#125;&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values">官方文档 - 5 Setting Attribute Values</a></p>
+<h3 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">&quot;prod : $&#123;prods&#125;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.name&#125;&quot;</span>&gt;</span>Onions<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.price&#125;&quot;</span>&gt;</span>2.41<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">&quot;prod,iterStat : $&#123;prods&#125;&quot;</span> <span class="attr">th:class</span>=<span class="string">&quot;$&#123;iterStat.odd&#125;? &#x27;odd&#x27;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.name&#125;&quot;</span>&gt;</span>Onions<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.price&#125;&quot;</span>&gt;</span>2.41<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;&quot;</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="条件运算-1"><a href="#条件运算-1" class="headerlink" title="条件运算"></a>条件运算</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;comments.html&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/product/comments(prodId=$&#123;prod.id&#125;)&#125;&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">th:if</span>=<span class="string">&quot;$&#123;not #lists.isEmpty(prod.comments)&#125;&quot;</span>&gt;</span>view<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:switch</span>=<span class="string">&quot;$&#123;user.role&#125;&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">&quot;&#x27;admin&#x27;&quot;</span>&gt;</span>User is an administrator<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">&quot;#&#123;roles.manager&#125;&quot;</span>&gt;</span>User is a manager<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:case</span>=<span class="string">&quot;*&quot;</span>&gt;</span>User is some other thing<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="属性优先级"><a href="#属性优先级" class="headerlink" title="属性优先级"></a>属性优先级</h3><table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Feature</th>
+<th>Attributes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Fragment inclusion</td>
+<td><code>th:insert</code> <code>th:replace</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Fragment iteration</td>
+<td><code>th:each</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Conditional evaluation</td>
+<td><code>th:if</code> <code>th:unless</code> <code>th:switch</code> <code>th:case</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Local variable definition</td>
+<td><code>th:object</code> <code>th:with</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>General attribute modification</td>
+<td><code>th:attr</code> <code>th:attrprepend</code> <code>th:attrappend</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Specific attribute modification</td>
+<td><code>th:value</code> <code>th:href</code> <code>th:src</code> <code>...</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Text (tag body modification)</td>
+<td><code>th:text</code> <code>th:utext</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Fragment specification</td>
+<td><code>th:fragment</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Fragment removal</td>
+<td><code>th:remove</code></td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#attribute-precedence">官方文档 - 10 Attribute Precedence</a></p>
+<h2 id="44、web实验-后台管理系统基本功能"><a href="#44、web实验-后台管理系统基本功能" class="headerlink" title="44、web实验-后台管理系统基本功能"></a>44、web实验-后台管理系统基本功能</h2><h3 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h3><p>使用IDEA的Spring Initializr。</p>
+<ul>
+<li>thymeleaf、</li>
+<li>web-starter、</li>
+<li>devtools、</li>
+<li>lombok</li>
+</ul>
+<h3 id="登陆页面"><a href="#登陆页面" class="headerlink" title="登陆页面"></a>登陆页面</h3><ul>
+<li><p><code>/static</code> 放置 css，js等静态资源</p>
+</li>
+<li><p><code>/templates/login.html</code> 登录页</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/03/31/%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90-Thymeleaf%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="clfwm53sf0000ckuq27dt39v6" data-title="视图解析-Thymeleaf初体验" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Docker容器数据卷" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/03/27/Docker%E5%AE%B9%E5%99%A8%E6%95%B0%E6%8D%AE%E5%8D%B7/" class="article-date">
@@ -1349,164 +1562,11 @@
 
 
   
-    <article id="post-springboot-了解自动配置原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2023-03-19T15:24:21.000Z" itemprop="datePublished">2023-03-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">springboot-了解自动配置原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SpringBoot特点"><a href="#SpringBoot特点" class="headerlink" title="SpringBoot特点"></a>SpringBoot特点</h1><h3 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h3><ul>
-<li>父项目做依赖管理<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">依赖管理</span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">上面项目的父项目如下：</span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">它几乎声明了所有开发中常用的依赖的版本号，自动版本仲裁机制</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="Starter"><a href="#Starter" class="headerlink" title="Starter"></a>Starter</h1><p>Starter是一系列开箱即用的依赖，你可以在你的应用程序中导入它们。 通过你Starter，可以获得所有你需要的Spring和相关技术的一站式服务，免去了需要到处大量复制粘贴依赖的烦恼。 例如，如果你想开始使用Spring和JPA进行数据库访问，那么可以直接在你的项目中导入 spring-boot-starter-data-jpa 依赖。</p>
-<p>Starter含了很多你需要的依赖，以使项目快速启动和运行，并拥有一套一致的、受支持的可管理的过渡性依赖</p>
-<ul>
-<li>开发导入starter场景启动器</li>
-</ul>
-<ol>
-<li>见到很多 spring-boot-starter-* ： *就某种场景</li>
-<li>只要引入starter，这个场景的所有常规需要的依赖我们都自动引入</li>
-<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-starter">更多SpringBoot所有支持的场景</a></li>
-<li>见到的 *-spring-boot-starter： 第三方为我们提供的简化开发的场景启动器。</li>
-</ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">所有场景启动器最底层的依赖</span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>无需关注版本号，自动版本仲裁</p>
-<ol>
-<li>引入依赖默认都可以不写版本</li>
-<li>引入非版本仲裁的jar，要写版本号。</li>
-</ol>
-</li>
-<li><p>可以修改默认版本号</p>
-<ol>
-<li>查看spring-boot-dependencies里面规定当前依赖的版本 用的 key。</li>
-<li>在当前项目里面重写配置，如下面的代码。</li>
-</ol>
-</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>5.1.43<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>IDEA快捷键：</p>
-<ul>
-<li><code> ctrl + shift + alt + U</code>：以图的方式显示项目中依赖之间的关系。</li>
-<li><code>alt + ins</code>：相当于Eclipse的 Ctrl + N，创建新类，新包等。</li>
-</ul>
-<hr>
-<h1 id="关于Starter的命名"><a href="#关于Starter的命名" class="headerlink" title="关于Starter的命名"></a>关于Starter的命名</h1><p>所有官方的Starter都遵循一个类似的命名模式；spring-boot-starter-*，其中 * 是一个特定类型的应用程序。 这种命名结构是为了在你需要寻找Starter时提供帮助。 许多IDE中集成的Maven可以让你按名称搜索依赖。 例如，如果安装了相应的Eclipse或Spring Tools插件，你可以在POM编辑器中按下 ctrl-space ，然后输入 “spring-boot-starter” 来获取完整的列表。</p>
-<p>正如 “创建你自己的 Starter” 一节所解释的，第三方启动器不应该以 spring-boot 开头，因为它是留给Spring Boot官方组件的。 相反，第三方启动器通常以项目的名称开始。 例如，一个名为 thirdpartyproject 的第三方启动器项目通常被命名为 thirdpartyproject-spring-boot-starter。</p>
-<h1 id="基础入门-SpringBoot-自动配置特性"><a href="#基础入门-SpringBoot-自动配置特性" class="headerlink" title="基础入门-SpringBoot-自动配置特性"></a>基础入门-SpringBoot-自动配置特性</h1><ul>
-<li><p>自动配好Tomcat</p>
-<ul>
-<li>引入Tomcat依赖。</li>
-<li>配置Tomcat<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>自动配好SpringMVC</p>
-<ul>
-<li>引入SpringMVC全套组件</li>
-<li>自动配好SpringMVC常用组件（功能）</li>
-</ul>
-</li>
-<li><p>自动配好Web常见功能，如：字符编码问题</p>
-<ul>
-<li>SpringBoot帮我们配置好了所有web开发的常见场景</li>
-</ul>
-</li>
-<li><p>默认的包结构</p>
-<ul>
-<li>主程序所在包及其下面的所有子包里面的组件都会被默认扫描进来</li>
-<li>无需以前的包扫描配置</li>
-<li>想要改变扫描路径<ul>
-<li>@SpringBootApplication(scanBasePackages&#x3D;”com.lun”)</li>
-<li>@ComponentScan 指定扫描路径</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line">等同于</span><br><span class="line"><span class="meta">@SpringBootConfiguration</span></span><br><span class="line"><span class="meta">@EnableAutoConfiguration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.lun&quot;)</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>各种配置拥有默认值</p>
-<ul>
-<li>默认配置最终都是映射到某个类上，如：<code>MultipartProperties</code></li>
-<li>配置文件的值最终会绑定每个类上，这个类会在容器中创建对象</li>
-</ul>
-</li>
-<li><p>按需加载所有自动配置项</p>
-<ul>
-<li>非常多的starter</li>
-<li>引入了哪些场景这个场景的自动配置才会开启</li>
-<li>SpringBoot所有的自动配置功能都在 spring-boot-autoconfigure 包里面</li>
-</ul>
-</li>
-</ul>
-<h1 id="底层注解-Configuration详解"><a href="#底层注解-Configuration详解" class="headerlink" title="底层注解-@Configuration详解"></a>底层注解-@Configuration详解</h1><p>Spring Boot倾向于通过Java代码来进行配置的定义。 虽然也可以使用XML来配置 <code>SpringApplication</code> ，但还是建议你通过 <code>@Configuration</code> 类来进行配置。 通常，可以把启动类是作为主要的 <code>@Configuration</code> 类。</p>
-<ul>
-<li>基本使用<ul>
-<li>Full模式与Lite模式</li>
-<li>示例</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1、配置类里面使用<span class="doctag">@Bean</span>标注在方法上给容器注册组件，默认也是单实例的</span></span><br><span class="line"><span class="comment"> * 2、配置类本身也是组件</span></span><br><span class="line"><span class="comment"> * 3、proxyBeanMethods：代理bean的方法</span></span><br><span class="line"><span class="comment"> *      Full(proxyBeanMethods = true)（保证每个<span class="doctag">@Bean</span>方法被调用多少次返回的组件都是单实例的）（默认）</span></span><br><span class="line"><span class="comment"> *      Lite(proxyBeanMethods = false)（每个<span class="doctag">@Bean</span>方法被调用多少次返回的组件都是新创建的）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration(proxyBeanMethods = false)</span> <span class="comment">//告诉SpringBoot这是一个配置类 == 配置文件</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Full:外部无论对配置类中的这个组件注册方法调用多少次获取的都是之前注册容器中的单实例对象</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span> <span class="comment">//给容器中添加组件。以方法名作为组件的id。返回类型就是组件类型。返回的值，就是组件在容器中的实例</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">user01</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">User</span> <span class="variable">zhangsan</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;zhangsan&quot;</span>, <span class="number">18</span>);</span><br><span class="line">        <span class="comment">//user组件依赖了Pet组件</span></span><br><span class="line">        zhangsan.setPet(tomcatPet());</span><br><span class="line">        <span class="keyword">return</span> zhangsan;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean(&quot;tom&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Pet <span class="title function_">tomcatPet</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Pet</span>(<span class="string">&quot;tomcat&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>@Configuration测试代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootConfiguration</span></span><br><span class="line"><span class="meta">@EnableAutoConfiguration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;com.atguigu.boot&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">//1、返回我们IOC容器</span></span><br><span class="line">        <span class="type">ConfigurableApplicationContext</span> <span class="variable">run</span> <span class="operator">=</span> SpringApplication.run(MainApplication.class, args);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2、查看容器里面的组件</span></span><br><span class="line">        String[] names = run.getBeanDefinitionNames();</span><br><span class="line">        <span class="keyword">for</span> (String name : names) &#123;</span><br><span class="line">            System.out.println(name);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3、从容器中获取组件</span></span><br><span class="line">        <span class="type">Pet</span> <span class="variable">tom01</span> <span class="operator">=</span> run.getBean(<span class="string">&quot;tom&quot;</span>, Pet.class);</span><br><span class="line">        <span class="type">Pet</span> <span class="variable">tom02</span> <span class="operator">=</span> run.getBean(<span class="string">&quot;tom&quot;</span>, Pet.class);</span><br><span class="line">        System.out.println(<span class="string">&quot;组件：&quot;</span>+(tom01 == tom02));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//4、com.atguigu.boot.config.MyConfig$$EnhancerBySpringCGLIB$$51f1e1ca@1654a892</span></span><br><span class="line">        <span class="type">MyConfig</span> <span class="variable">bean</span> <span class="operator">=</span> run.getBean(MyConfig.class);</span><br><span class="line">        System.out.println(bean);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果@Configuration(proxyBeanMethods = true)代理对象调用方法。SpringBoot总会检查这个组件是否在容器中有。</span></span><br><span class="line">        <span class="comment">//保持组件单实例</span></span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> bean.user01();</span><br><span class="line">        <span class="type">User</span> <span class="variable">user1</span> <span class="operator">=</span> bean.user01();</span><br><span class="line">        System.out.println(user == user1);</span><br><span class="line"></span><br><span class="line">        <span class="type">User</span> <span class="variable">user01</span> <span class="operator">=</span> run.getBean(<span class="string">&quot;user01&quot;</span>, User.class);</span><br><span class="line">        <span class="type">Pet</span> <span class="variable">tom</span> <span class="operator">=</span> run.getBean(<span class="string">&quot;tom&quot;</span>, Pet.class);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;用户的宠物：&quot;</span>+(user01.getPet() == tom));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>最佳实战<ul>
-<li>配置 类组件之间<strong>无依赖关系</strong>用Lite模式加速容器启动过程，减少判断</li>
-<li>配置 类组件之间<strong>有依赖关系</strong>，方法会被调用得到之前单实例组件，用Full模式（默认）</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>lite 英 [laɪt]   美 [laɪt]<br>adj. 低热量的，清淡的(light的一种拼写方法);类似…的劣质品</p>
-</blockquote>
-<hr>
-<p>IDEA快捷键：</p>
-<ul>
-<li><code>Alt + Ins</code>:生成getter，setter、构造器等代码。</li>
-<li><code>Ctrl + Alt + B</code>:查看类的具体实现代码。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/19/springboot-%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/" data-id="clffjtqxk00006suqcwuudlwe" data-title="springboot-了解自动配置原理" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -1538,6 +1598,10 @@
       <ul>
         
           <li>
+            <a href="/2023/04/06/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E5%BF%97/">MySQL数据库日志</a>
+          </li>
+        
+          <li>
             <a href="/2023/04/05/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">Java学习路线</a>
           </li>
         
@@ -1551,10 +1615,6 @@
         
           <li>
             <a href="/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/">MySQL的数据目录</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
           </li>
         
       </ul>
