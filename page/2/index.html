@@ -71,6 +71,218 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MySQL的数据目录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/" class="article-date">
+  <time class="dt-published" datetime="2023-04-03T15:47:00.000Z" itemprop="datePublished">2023-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/">MySQL的数据目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-MySQL8的主要目录结构"><a href="#1-MySQL8的主要目录结构" class="headerlink" title="1.MySQL8的主要目录结构"></a>1.MySQL8的主要目录结构</h1><p><code>[root@atguigu01 ~]# find / -name mysql</code></p>
+<p>安装好MySQL 8之后，我们查看如下的目录结构：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 /]# find / -name mysql</span><br><span class="line">/etc/logrotate.d/mysql</span><br><span class="line">/etc/selinux/targeted/active/modules/100/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/etc/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/bin/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/lib64/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/usr/share/mysql</span><br><span class="line">/var/lib/docker/overlay2/69b1d1be25ff0cc32f43c9c0137aba3e5b5796ffc50ea3ae2306e4fad70ee834/diff/var/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysql</span><br><span class="line">/var/lib/docker/overlay2/3ad2139114080d213446d4f9bfa09f02828247c735527e0cfc2961636c3a3da0/diff/usr/lib/mysqlsh/lib/python3.9/site-packages/oci/mysql</span><br><span class="line">/var/lib/docker/volumes/034b170880682d71a194f3cdabba46f0e8cc44ddda903217444aef338ec96eea/_data/mysql</span><br><span class="line">/var/lib/docker/volumes/1f72981f40ece1efa3498ec13ee4ac7af0fb08335f743829e6a8b8d1b40496ef/_data/mysql</span><br><span class="line">/var/lib/mysql</span><br><span class="line">/var/lib/mysql/mysql</span><br><span class="line">/usr/bin/mysql</span><br><span class="line">/usr/lib64/mysql</span><br><span class="line">/usr/local/mysql</span><br><span class="line">[root@re0 /]# </span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-数据库文件的存放路径"><a href="#1-1-数据库文件的存放路径" class="headerlink" title="1.1 数据库文件的存放路径"></a>1.1 数据库文件的存放路径</h3><p> <font color='red'>MySQL数据库文件的存放路径：&#x2F;var&#x2F;lib&#x2F;mysql&#x2F;</font></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;datadir&#x27;</span>;</span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="operator">|</span> Variable_name <span class="operator">|</span> <span class="keyword">Value</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="operator">|</span> datadir <span class="operator">|</span> <span class="operator">/</span>var<span class="operator">/</span>lib<span class="operator">/</span>mysql<span class="operator">/</span> <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">---------------+-----------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.04</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>从结果中可以看出，在我的计算机上MySQL的数据目录就是 <code>/var/lib/mysql/ </code>。</p>
+<h3 id="1-2-相关命令目录"><a href="#1-2-相关命令目录" class="headerlink" title="1.2 相关命令目录"></a>1.2 相关命令目录</h3><ul>
+<li>相关命令目录：&#x2F;usr&#x2F;bin（mysqladmin、mysqlbinlog、mysqldump等命令）和&#x2F;usr&#x2F;sbin。</li>
+</ul>
+<h3 id="1-3-配置文件目录"><a href="#1-3-配置文件目录" class="headerlink" title="1.3 配置文件目录"></a>1.3 配置文件目录</h3><ul>
+<li>配置文件目录：&#x2F;usr&#x2F;share&#x2F;mysql-8.0（命令及配置文件），&#x2F;etc&#x2F;mysql（如my.cnf）</li>
+</ul>
+<hr>
+<h1 id="2-数据库和文件系统的关系"><a href="#2-数据库和文件系统的关系" class="headerlink" title="2.数据库和文件系统的关系"></a>2.数据库和文件系统的关系</h1><h3 id="2-1-查看默认数据库"><a href="#2-1-查看默认数据库" class="headerlink" title="2.1 查看默认数据库"></a>2.1 查看默认数据库</h3><p>查看一下在我的计算机上当前有哪些数据库： <code>mysql&gt; SHOW DATABASES;</code></p>
+<p>可以看到有4个数据库是属于MySQL自带的系统数据库。</p>
+<ul>
+<li>mysql</li>
+</ul>
+<p>MySQL 系统自带的核心数据库，它存储了MySQL的用户账户和权限信息，一些存储过程、事件的定义信息，一些运行过程中产生的日志信息，一些帮助信息以及时区信息等。</p>
+<ul>
+<li>information_schema</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库保存着MySQL服务器 维护的所有其他数据库的信息 ，比如有哪些表、哪些视图、哪些触发器、哪些列、哪些索引。这些信息并不是真实的用户数据，而是一些描述性信息，有时候也称之为 元数据 。在系统数据库 information_schema 中提供了一些以innodb_sys 开头的表，用于表示内部系统表。</p>
+<ul>
+<li>performance_schema</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库里主要保存MySQL服务器运行过程中的一些状态信息，可以用来 监控 MySQL 服务的各类性能指标 。包括统计最近执行了哪些语句，在执行过程的每个阶段都花费了多长时间，内存的使用情况等信息。</p>
+<ul>
+<li>sys</li>
+</ul>
+<p>MySQL 系统自带的数据库，这个数据库主要是通过 视图 的形式把 information_schema 和</p>
+<p>performance_schema 结合起来，帮助系统管理员和开发人员监控 MySQL 的技术性能。</p>
+<h3 id="2-2-数据库在文件系统中的表示"><a href="#2-2-数据库在文件系统中的表示" class="headerlink" title="2.2 数据库在文件系统中的表示"></a>2.2 数据库在文件系统中的表示</h3><p>看一下我的计算机上的数据目录下的内容：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 opt]# cd /var/lib/mysql</span><br><span class="line">[root@re0 mysql]# ll</span><br><span class="line">total 191940</span><br><span class="line">drwxr-x---. 2 mysql mysql        6 Apr  3 08:22 2023@002e4@002e3</span><br><span class="line">-rw-r-----. 1 mysql mysql       56 Apr  3 07:52 auto.cnf</span><br><span class="line">-rw-r-----. 1 mysql mysql     2411 Apr  3 08:22 binlog.000001</span><br><span class="line">-rw-r-----. 1 mysql mysql       16 Apr  3 07:55 binlog.index</span><br><span class="line">-rw-------. 1 mysql mysql     1680 Apr  3 07:52 ca-key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 ca.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 client-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 client-key.pem</span><br><span class="line">-rw-r-----. 1 mysql mysql   196608 Apr  3 08:22 #ib_16384_0.dblwr</span><br><span class="line">-rw-r-----. 1 mysql mysql  8585216 Apr  3 07:52 #ib_16384_1.dblwr</span><br><span class="line">-rw-r-----. 1 mysql mysql     6079 Apr  3 07:52 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 Apr  3 08:22 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 Apr  3 08:22 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 50331648 Apr  3 07:52 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql 12582912 Apr  3 07:55 ibtmp1</span><br><span class="line">drwxr-x---. 2 mysql mysql      187 Apr  3 07:55 #innodb_temp</span><br><span class="line">drwxr-x---. 2 mysql mysql      143 Apr  3 07:52 mysql</span><br><span class="line">-rw-r-----. 1 mysql mysql 28311552 Apr  3 08:22 mysql.ibd</span><br><span class="line">srwxrwxrwx. 1 mysql mysql        0 Apr  3 07:55 mysql.sock</span><br><span class="line">-rw-------. 1 mysql mysql        6 Apr  3 07:55 mysql.sock.lock</span><br><span class="line">drwxr-x---. 2 mysql mysql     8192 Apr  3 07:52 performance_schema</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 private_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql      452 Apr  3 07:52 public_key.pem</span><br><span class="line">-rw-r--r--. 1 mysql mysql     1112 Apr  3 07:52 server-cert.pem</span><br><span class="line">-rw-------. 1 mysql mysql     1676 Apr  3 07:52 server-key.pem</span><br><span class="line">drwxr-x---. 2 mysql mysql       28 Apr  3 07:52 sys</span><br><span class="line">-rw-r-----. 1 mysql mysql 16777216 Apr  3 08:22 undo_001</span><br><span class="line">-rw-r-----. 1 mysql mysql 16777216 Apr  3 08:18 undo_002</span><br><span class="line">[root@re0 mysql]# </span><br></pre></td></tr></table></figure>
+
+<p>这个数据目录下的文件和子目录比较多，除了 <code>information_schema</code> 这个系统数据库外，其他的数据库在 <code>数据目录</code> 下都有对应的子目录。</p>
+<p>以我的 temp 数据库为例，在MySQL5.7 中打开：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@atguigu02 mysql]# cd ./temp</span><br><span class="line">[root@atguigu02 temp]# ll</span><br><span class="line">总用量 1144</span><br><span class="line">-rw-r-----. 1 mysql mysql 8658 8月 18 11:32 countries.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 countries.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 61 8月 18 11:32 db.opt</span><br><span class="line">-rw-r-----. 1 mysql mysql 8716 8月 18 11:32 departments.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 8月 18 11:32 departments.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 3017 8月 18 11:32 emp_details_view.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 8982 8月 18 11:32 employees.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 180224 8月 18 11:32 employees.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8660 8月 18 11:32 job_grades.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 98304 8月 18 11:32 job_grades.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8736 8月 18 11:32 job_history.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 8月 18 11:32 job_history.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8688 8月 18 11:32 jobs.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 jobs.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8790 8月 18 11:32 locations.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 8月 18 11:32 locations.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 8614 8月 18 11:32 regions.frm</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 8月 18 11:32 regions.ibd</span><br></pre></td></tr></table></figure>
+
+<p>在MySQL8.0中打开：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@atguigu01 mysql]# cd ./temp</span><br><span class="line">[root@atguigu01 temp]# ll</span><br><span class="line">总用量 1080</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 countries.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 163840 7月 29 23:10 departments.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 196608 7月 29 23:10 employees.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 114688 7月 29 23:10 job_grades.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 163840 7月 29 23:10 job_history.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 jobs.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 147456 7月 29 23:10 locations.ibd</span><br><span class="line">-rw-r-----. 1 mysql mysql 131072 7月 29 23:10 regions.ibd</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-表在文件系统中的表示"><a href="#2-3-表在文件系统中的表示" class="headerlink" title="2.3 表在文件系统中的表示"></a>2.3 表在文件系统中的表示</h3><h5 id="2-3-1-InnoDB存储引擎模式"><a href="#2-3-1-InnoDB存储引擎模式" class="headerlink" title="2.3.1 InnoDB存储引擎模式"></a>2.3.1 InnoDB存储引擎模式</h5><p><font color="red">1.表结构</font></p>
+<p>为了保存表结构， <code>InnoDB</code> 在 <code>数据目录</code> 下对应的数据库子目录下创建了一个专门用于 <code>描述表结构的文件</code> ，文件名是这样：</p>
+<ul>
+<li>表名.frm</li>
+</ul>
+<p>比方说我们在 atguigu 数据库下创建一个名为 test 的表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> USE atguigu;</span><br><span class="line">Database changed</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test (</span><br><span class="line"><span class="operator">-</span><span class="operator">&gt;</span> c1 <span class="type">INT</span></span><br><span class="line"><span class="operator">-</span><span class="operator">&gt;</span> );</span><br><span class="line">Query OK, <span class="number">0</span> <span class="keyword">rows</span> affected (<span class="number">0.03</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>那在数据库 atguigu 对应的子目录下就会创建一个名为 test.frm 的用于描述表结构的文件。</p>
+<p>.frm文件的格式在不同的平台上都是相同的。这个后缀名为.frm是以 二进制格式 存储的，我们直接打开是乱码的。</p>
+<p><font color="red">2.表中数据和索引</font></p>
+<ul>
+<li>① 系统表空间（system tablespace）</li>
+</ul>
+<p>默认情况下，InnoDB会在数据目录下创建一个名为 ibdata1 、大小为 12M 的文件，这个文件就是对应的 系统表空间 在文件系统上的表示。怎么才12M？注意这个文件是 自扩展文件 ，当不够用的时候它会自己增加文件大小。</p>
+<p>当然，如果你想让系统表空间对应文件系统上多个实际文件，或者仅仅觉得原来的 ibdata1 这个文件名难听，那可以在MySQL启动时配置对应的文件路径以及它们的大小，比如我们这样修改一下my.cnf 配置文件：</p>
+<p>[server]</p>
+<p>innodb_data_file_path&#x3D;data1:512M;data2:512M:autoextend</p>
+<ul>
+<li>② 独立表空间(file-per-table tablespace)</li>
+</ul>
+<p>在MySQL5.6.6以及之后的版本中，InnoDB并不会默认的把各个表的数据存储到系统表空间中，而是为 每一个表建立一个独立表空间 ，也就是说我们创建了多少个表，就有多少个独立表空间。使用 独立表空间 来存储表数据的话，会在该表所属数据库对应的子目录下创建一个表示该独立表空间的文件，文件名和表名相同，只不过添加了一个 .ibd 的扩展名而已，所以完整的文件名称长这样：</p>
+<p>表名.ibd</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/03/MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95/" data-id="clg108xbm00003guq63cx5uzw" data-title="MySQL的数据目录" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Java线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-04-03T10:29:56.000Z" itemprop="datePublished">2023-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/04/03/Java%E7%BA%BF%E7%A8%8B/">Java线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="3-Java-线程"><a href="#3-Java-线程" class="headerlink" title="3.Java 线程"></a>3.Java 线程</h1><h3 id="本章内容"><a href="#本章内容" class="headerlink" title="本章内容"></a>本章内容</h3><ul>
+<li><p>创建和运行线程</p>
+</li>
+<li><p>查看线程</p>
+</li>
+<li><p>线程 API</p>
+</li>
+<li><p>线程状态</p>
+</li>
+</ul>
+<h2 id="3-1-创建和运行线程"><a href="#3-1-创建和运行线程" class="headerlink" title="3.1 创建和运行线程"></a>3.1 创建和运行线程</h2><ul>
+<li>方法一，直接使用 Thread</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建线程对象</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>() &#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> <span class="comment">// 要执行的任务</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例如：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造方法的参数是给线程指定名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="string">&quot;t1&quot;</span>) &#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="comment">// run 方法内实现了要执行的任务</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line">t1.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:19:00 [t1] c.ThreadStarter - hello</code></p>
+<hr>
+<h4 id="方法二，使用-Runnable-配合-Thread"><a href="#方法二，使用-Runnable-配合-Thread" class="headerlink" title="方法二，使用 Runnable 配合 Thread"></a>方法二，使用 Runnable 配合 Thread</h4><p>把【线程】和【任务】（要执行的代码）分开</p>
+<ul>
+<li><p>Thread 代表线程</p>
+</li>
+<li><p>Runnable 可运行的任务（线程要执行的代码）</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Runnable</span> <span class="variable">runnable</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>&#123;</span><br><span class="line"> <span class="comment">// 要执行的任务</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 创建线程对象</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>( runnable );</span><br><span class="line"><span class="comment">// 启动线程</span></span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例如：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line"><span class="type">Runnable</span> <span class="variable">task2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(task2, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:19:00 [t2] c.ThreadStarter - hello</code></p>
+<ul>
+<li>Java 8 以后可以使用 lambda 精简代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line"><span class="type">Runnable</span> <span class="variable">task2</span> <span class="operator">=</span> () -&gt; log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(task2, <span class="string">&quot;t2&quot;</span>);</span><br><span class="line">t2.start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理之-Thread-与-Runnable-的关系"><a href="#原理之-Thread-与-Runnable-的关系" class="headerlink" title="原理之 Thread 与 Runnable 的关系"></a>原理之 Thread 与 Runnable 的关系</h3><p>分析 Thread 的源码，理清它与 Runnable 的关系</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>方法1 是把线程和任务合并在了一起，方法2 是把线程和任务分开了</p>
+</li>
+<li><p>用 Runnable 更容易与线程池等高级 API 配合</p>
+</li>
+<li><p>用 Runnable 让任务类脱离了 Thread 继承体系，更灵活</p>
+</li>
+</ul>
+<hr>
+<h3 id="方法三，FutureTask-配合-Thread"><a href="#方法三，FutureTask-配合-Thread" class="headerlink" title="方法三，FutureTask 配合 Thread"></a>方法三，FutureTask 配合 Thread</h3><ul>
+<li>FutureTask 能够接收 Callable 类型的参数，用来处理有返回结果的情况</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建任务对象</span></span><br><span class="line">FutureTask&lt;Integer&gt; task3 = <span class="keyword">new</span> <span class="title class_">FutureTask</span>&lt;&gt;(() -&gt; &#123;</span><br><span class="line"> log.debug(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">100</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 参数1 是任务对象; 参数2 是线程名字，推荐</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(task3, <span class="string">&quot;t3&quot;</span>).start();</span><br><span class="line"><span class="comment">// 主线程阻塞，同步等待 task 执行完毕的结果</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">result</span> <span class="operator">=</span> task3.get();</span><br><span class="line">log.debug(<span class="string">&quot;结果是:&#123;&#125;&quot;</span>, result);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>输出</li>
+</ul>
+<p><code>19:22:27 [t3] c.ThreadStarter - hello</code></p>
+<p><code>19:22:27 [main] c.ThreadStarter - 结果是:100</code></p>
+<hr>
+<h2 id="3-2-观察多个线程同时运行"><a href="#3-2-观察多个线程同时运行" class="headerlink" title="3.2 观察多个线程同时运行"></a>3.2 观察多个线程同时运行</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/03/Java%E7%BA%BF%E7%A8%8B/" data-id="clg0oworz0000psuqhkglb11l" data-title="Java线程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-设计模式-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/" class="article-date">
@@ -1225,147 +1437,6 @@
 
 
   
-    <article id="post-Docker常规安装简介" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/" class="article-date">
-  <time class="dt-published" datetime="2023-03-25T07:17:25.000Z" itemprop="datePublished">2023-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/">Docker常规安装简介</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>查看防火墙状态<br>firewall-cmd –state<br>停止firewall<br>systemctl stop firewalld.service</p>
-<h1 id="1-8-1-总体步骤"><a href="#1-8-1-总体步骤" class="headerlink" title="1.8.1.总体步骤"></a>1.8.1.总体步骤</h1><p>·搜索镜像<br>·拉取镜像<br>·查看镜像<br>·启动镜像<br>·服务端口映射<br>·停止容器<br>·移除容器</p>
-<h3 id="1-8-2-安装tomcat"><a href="#1-8-2-安装tomcat" class="headerlink" title="1.8.2.安装tomcat"></a>1.8.2.安装tomcat</h3><ul>
-<li>docker hub上面查找tomcat镜像<br>·docker search tomcat<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker search tomcat</span><br><span class="line">NAME                                  DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">tomcat                                Apache Tomcat is an open source implementati…   3511      [OK]       </span><br><span class="line">tomee                                 Apache TomEE is an all-Apache Java EE certif…   104       [OK]       </span><br><span class="line">bitnami/tomcat                        Bitnami Tomcat Docker Image                     48                   [OK]</span><br><span class="line">secoresearch/tomcat-varnish           Tomcat and Varnish 5.0                          0                    [OK]</span><br><span class="line">bitnamicharts/tomcat                                                                  0                    </span><br><span class="line">wnprcehr/tomcat                                                                       0                    </span><br><span class="line">eclipse/rdf4j-workbench               Dockerfile for Eclipse RDF4J Server and Work…   6                    </span><br><span class="line">semoss/docker-tomcat                  Tomcat, Java, Maven, and Git on top of debian   0                    [OK]</span><br><span class="line">eclipse/hadoop-dev                    Ubuntu 14.04, Maven 3.3.9, JDK8, Tomcat 8       0                    [OK]</span><br><span class="line">dhis2/base-dev                        Images in this repository contains DHIS2 WAR…   0                    </span><br><span class="line">eclipse/alpine_jdk8                   Based on Alpine 3.3. JDK 1.8, Maven 3.3.9, T…   1                    [OK]</span><br><span class="line">misolims/miso-base                    MySQL 5.7 Database and Tomcat 8 Server neede…   0                    </span><br><span class="line">dhis2/base                            Images in this repository contains DHIS2 WAR…   0                    </span><br><span class="line">jelastic/tomcat                       An image of the Tomcat Java application serv…   4                    </span><br><span class="line">cfje/tomcat-resource                  Tomcat Concourse Resource                       2                    </span><br><span class="line">rightctrl/tomcat                      CentOS , Oracle Java, tomcat application ssl…   7                    [OK]</span><br><span class="line">amd64/tomcat                          Apache Tomcat is an open source implementati…   6                    </span><br><span class="line">arm64v8/tomcat                        Apache Tomcat is an open source implementati…   8                    </span><br><span class="line">tomcat0823/auto1                                                                      0                    </span><br><span class="line">tomcatengineering/pg_backup_rotated   Clone of martianrock/pg_backup_rotated but w…   0                    </span><br><span class="line">softwareplant/tomcat                  Tomcat images for jira-cloud testing            0                    [OK]</span><br><span class="line">tomcat2111/papercut-mf                PaperCut MF Application Server                  0                    </span><br><span class="line">oobsri/tomcat8                        Testing CI Jobs with different names.           2                    </span><br><span class="line">appsvc/tomcat                                                                         1                    </span><br><span class="line">s390x/tomcat                          Apache Tomcat is an open source implementati…   0                    </span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<p>·从docker hub上拉取tomcat镜像到本地<br>docker pull tomcat</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull tomcat</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/tomcat</span><br><span class="line">74ac377868f8: Pull complete </span><br><span class="line">a182a611d05b: Pull complete </span><br><span class="line">ad4fe29a3001: Pull complete </span><br><span class="line">9d52462c5181: Pull complete </span><br><span class="line">ac04a5bb8dd2: Pull complete </span><br><span class="line">07629b69d33f: Pull complete </span><br><span class="line">ab42e69de175: Pull complete </span><br><span class="line">Digest: sha256:28d70f3719e124d597e57e7c13ef3aaa76997dd21d66205b1a2229a0c92edfc4</span><br><span class="line">Status: Downloaded newer image for tomcat:latest</span><br><span class="line">docker.io/library/tomcat:latest</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure>
-<hr>
-<p>·docker images查看是否有拉取到的tomcat</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat        latest    51c25da77baf   8 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br></pre></td></tr></table></figure>
-<hr>
-<h1 id="重启docker"><a href="#重启docker" class="headerlink" title="重启docker"></a>重启docker</h1><hr>
-<p>·使用tomcat镜像创建容器实例(也叫运行镜像)<br>·docker run -it -p 8080:8080 tomcat<br>·-p 小写，主机端口:docker容器端口<br>·-P 大写，随机分配端口<br>·i:交互<br>·t:终端<br>·d:后台</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker run -it -p 8080:8080 tomcat</span><br><span class="line">Using CATALINA_BASE:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_HOME:   /usr/local/tomcat</span><br><span class="line">Using CATALINA_TMPDIR: /usr/local/tomcat/temp</span><br><span class="line">Using JRE_HOME:        /opt/java/openjdk</span><br><span class="line">Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin/tomcat-juli.jar</span><br><span class="line">Using CATALINA_OPTS:   </span><br><span class="line">25-Mar-2023 07:29:03.266 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.7</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Feb 27 2023 20:25:27 UTC</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.7.0</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            3.10.0-957.el7.x86_64</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64</span><br><span class="line">25-Mar-2023 07:29:03.270 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /opt/java/openjdk</span><br><span class="line">25-Mar-2023 07:29:03.271 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           17.0.6+10</span><br><span class="line">25-Mar-2023 07:29:03.271 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Eclipse Adoptium</span><br><span class="line">25-Mar-2023 07:29:03.272 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.272 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.284 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.285 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat</span><br><span class="line">25-Mar-2023 07:29:03.286 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp</span><br><span class="line">25-Mar-2023 07:29:03.294 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.3] using APR version [1.7.0].</span><br><span class="line">25-Mar-2023 07:29:03.307 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.2 15 Mar 2022]</span><br><span class="line">25-Mar-2023 07:29:03.569 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler [&quot;http-nio-8080&quot;]</span><br><span class="line">25-Mar-2023 07:29:03.590 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [512] milliseconds</span><br><span class="line">25-Mar-2023 07:29:03.643 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]</span><br><span class="line">25-Mar-2023 07:29:03.643 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.7]</span><br><span class="line">25-Mar-2023 07:29:03.665 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler [&quot;http-nio-8080&quot;]</span><br><span class="line">25-Mar-2023 07:29:03.687 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [96] milliseconds</span><br></pre></td></tr></table></figure>
-<hr>
-<p>·访问猫首页</p>
-<hr>
-<p>·免修改版说明<br>·docker pull billygoo&#x2F;tomcat8-jdk8<br>·docker run -d -p 8080:8080 –name mytomcat8 billygoo&#x2F;tomcat8-jdk8</p>
-<hr>
-<h1 id="1-8-3-安装mysql"><a href="#1-8-3-安装mysql" class="headerlink" title="1.8.3.安装mysql"></a>1.8.3.安装mysql</h1><ul>
-<li>docker hub上面查找mysql镜像<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker search mysql</span><br><span class="line">NAME                            DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">mysql                           MySQL is a widely used, open-source relation…   13968     [OK]       </span><br><span class="line">mariadb                         MariaDB Server is a high performing open sou…   5325      [OK]       </span><br><span class="line">percona                         Percona Server is a fork of the MySQL relati…   602       [OK]       </span><br><span class="line">phpmyadmin                      phpMyAdmin - A web interface for MySQL and M…   765       [OK]       </span><br><span class="line">circleci/mysql                  MySQL is a widely used, open-source relation…   29                   </span><br><span class="line">bitnami/mysql                   Bitnami MySQL Docker Image                      80                   [OK]</span><br><span class="line">bitnami/mysqld-exporter                                                         4                    </span><br><span class="line">ubuntu/mysql                    MySQL open source fast, stable, multi-thread…   43                   </span><br><span class="line">cimg/mysql                                                                      0                    </span><br><span class="line">rapidfort/mysql                 RapidFort optimized, hardened image for MySQL   14                   </span><br><span class="line">google/mysql                    MySQL server for Google Compute Engine          23                   [OK]</span><br><span class="line">ibmcom/mysql-s390x              Docker image for mysql-s390x                    2                    </span><br><span class="line">rapidfort/mysql8-ib             RapidFort optimized, hardened image for MySQ…   0                    </span><br><span class="line">hashicorp/mysql-portworx-demo                                                   0                    </span><br><span class="line">rapidfort/mysql-official        RapidFort optimized, hardened image for MySQ…   0                    </span><br><span class="line">newrelic/mysql-plugin           New Relic Plugin for monitoring MySQL databa…   1                    [OK]</span><br><span class="line">databack/mysql-backup           Back up mysql databases to... anywhere!         82                   </span><br><span class="line">linuxserver/mysql               A Mysql container, brought to you by LinuxSe…   38                   </span><br><span class="line">mirantis/mysql                                                                  0                    </span><br><span class="line">docksal/mysql                   MySQL service images for Docksal - https://d…   0                    </span><br><span class="line">vitess/mysqlctld                vitess/mysqlctld                                1                    [OK]</span><br><span class="line">linuxserver/mysql-workbench                                                     48                   </span><br><span class="line">bitnamicharts/mysql                                                             0                    </span><br><span class="line">eclipse/mysql                   Mysql 5.7, curl, rsync                          0                    [OK]</span><br><span class="line">drud/mysql                                                                      0                    </span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<p>·</p>
-<ul>
-<li>从docker hub上(阿里云加速器)拉取mysql镜像到本地标签为5.7<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull mysql:5.7</span><br><span class="line">5.7: Pulling from library/mysql</span><br><span class="line">2ec521688c56: Pull complete </span><br><span class="line">f911f9b90db6: Pull complete </span><br><span class="line">38eb4fe7ed26: Pull complete </span><br><span class="line">01f772a6b25f: Pull complete </span><br><span class="line">499456357ebf: Pull complete </span><br><span class="line">274f3ad0dcec: Pull complete </span><br><span class="line">3e6a5b12e1de: Pull complete </span><br><span class="line">de0c5c82dbbc: Pull complete </span><br><span class="line">c9bd281f4600: Pull complete </span><br><span class="line">3289c4277a83: Pull complete </span><br><span class="line">8b66f10a11fa: Pull complete </span><br><span class="line">Digest: sha256:1780318bdabc0edd36907bf91b47632eb912e8ea91258eca3590f8aca6f54836</span><br><span class="line">Status: Downloaded newer image for mysql:5.7</span><br><span class="line">docker.io/library/mysql:5.7</span><br><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   3 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   9 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<ul>
-<li>使用mysql5.7镜像创建容器(也叫运行镜像)<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7</span><br><span class="line">1a44e646c8ad29df42049a18b9922ace2eff2df8527e71cb53cf4725abc4c363</span><br><span class="line">[root@re0 ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                                                  NAMES</span><br><span class="line">1a44e646c8ad   mysql:5.7   &quot;docker-entrypoint.s…&quot;   9 seconds ago   Up 8 seconds   0.0.0.0:3306-&gt;3306/tcp, :::3306-&gt;3306/tcp, 33060/tcp   condescending_pasteur</span><br><span class="line">[root@re0 ~]# docker exec -it 1a44e646c8ad   /bin/bash</span><br><span class="line">bash-4.2# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.41 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2023, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker exec -it 1a44e646c8ad   /bin/bash</span><br><span class="line">bash-4.2# mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 6</span><br><span class="line">Server version: 5.7.41 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2023, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| db                 |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; </span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/25/Docker%E5%B8%B8%E8%A7%84%E5%AE%89%E8%A3%85%E7%AE%80%E4%BB%8B/" data-id="clfnn2gzg0000xkuq3hm594ej" data-title="Docker常规安装简介" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Docker常用命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-date">
-  <time class="dt-published" datetime="2023-03-25T06:53:55.000Z" itemprop="datePublished">2023-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-2-7-底层原理"><a href="#1-2-7-底层原理" class="headerlink" title="1.2.7.底层原理"></a>1.2.7.底层原理</h1><ul>
-<li>为什么Docker会比VM虚拟机快<br>(1)docker有着比虚拟机更少的抽象层<br>   由于docker不需要Hypervisor(虚拟机)实现硬件资源虚拟化,运行在docker容器上的程序直接使用的都是实际物理机的硬件资源。因此在CPU、内存利用率上docker将会在效率上有明显优势。<br>(2)docker利用的是宿主机的内核,而不需要加载操作系统OS内核<br>   当新建一个容器时,docker不需要和虚拟机一样重新加载一个操作系统内核。进而避免引寻、加载操作系统内核返回等比较费时费资源的过程,当新建一个虚拟机时,虚拟机软件需要加载OS,返回新建过程是分钟级别的。而docker由于直接利用宿主机的操作系统,则省略了返回过程,因此新建一个docker容器只需要几秒钟。</li>
-</ul>
-<h1 id="1-3-Docker常用命令"><a href="#1-3-Docker常用命令" class="headerlink" title="1.3.Docker常用命令"></a>1.3.Docker常用命令</h1><h3 id="1-3-1-帮助启动类命令"><a href="#1-3-1-帮助启动类命令" class="headerlink" title="1.3.1.帮助启动类命令"></a>1.3.1.帮助启动类命令</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">·启动docker： systemctl start docker</span><br><span class="line">·停止docker： systemctl stop docker</span><br><span class="line">·重启docker： systemctl restart docker</span><br><span class="line">·查看docker状态： systemctl status docker</span><br><span class="line">·开机启动： systemctl enable docker</span><br><span class="line">·查看docker概要信息： docker info</span><br><span class="line">·查看docker总体帮助文档： docker --help</span><br><span class="line">·查看docker命令帮助文档： docker 具体命令 --help</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="1-3-2-镜像命令"><a href="#1-3-2-镜像命令" class="headerlink" title="1.3.2.镜像命令"></a>1.3.2.镜像命令</h3><ul>
-<li><p>列出本地主机上的镜像</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   3 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   9 days ago      474MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure></li>
-</ul>
-<hr>
-<p>各个选项说明:<br>REPOSITORY：表示镜像的仓库源<br>TAG：镜像的标签版本号<br>IMAGE ID：镜像ID<br>CREATED：镜像创建时间<br>SIZE：镜像大小<br> 同一仓库源可以有多个 TAG版本，代表这个仓库源的不同个版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。<br>如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像<br> <br> <br>·OPTIONS说明：<br>·-a :列出本地所有的镜像（含历史映像层）<br>·-q :只显示镜像ID。<br>·docker search 某个XXX镜像名字<br>·网站<br>·<a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com</a><br>·命令<br>·docker search [OPTIONS] 镜像名字<br>·案例<br>·OPTIONS说明：<br>·–limit : 只列出N个镜像，默认25个<br>·docker search –limit 5 redis<br>·docker pull 某个XXX镜像名字<br>·下载镜像<br>·docker pull 镜像名字[:TAG]<br>·docker pull 镜像名字<br>·没有TAG就是最新版<br>·等价于<br>·docker pull 镜像名字:latest<br>·docker pull ubuntu</p>
-<hr>
-<ul>
-<li>docker system df 查看镜像&#x2F;容器&#x2F;数据卷所占的空间</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker system df</span><br><span class="line">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE</span><br><span class="line">Images          3         3         928.7MB   0B (0%)</span><br><span class="line">Containers      8         0         10.5kB    10.5kB (100%)</span><br><span class="line">Local Volumes   2         2         413.9MB   0B (0%)</span><br><span class="line">Build Cache     0         0         0B        0B</span><br><span class="line">[root@re0 ~]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>docker rmi 某个XXX镜像名字ID<br>·删除镜像<br>·删除单个<br>·docker rmi  -f 镜像ID<br>·删除多个<br>·docker rmi -f 镜像名1:TAG 镜像名2:TAG<br>·删除全部<br>·docker rmi -f $(docker images -qa)<br>·面试题：谈谈docker虚悬镜像是什么？<br>·是什么<br>·仓库名、标签都是<none>的镜像，俗称虚悬镜像dangling image<br>·长什么样</li>
-</ul>
-<hr>
-<h3 id="1-3-3-容器命令"><a href="#1-3-3-容器命令" class="headerlink" title="1.3.3 容器命令"></a>1.3.3 容器命令</h3><ul>
-<li>有镜像才能创建容器， 这是根本前提(下载一个CentOS或者ubuntu镜像演示)</li>
-</ul>
-<p>·本次演示用ubuntu演示</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@re0 ~]# docker pull ubuntu</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/ubuntu</span><br><span class="line">2ab09b027e7f: Pull complete </span><br><span class="line">Digest: sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21</span><br><span class="line">Status: Downloaded newer image for ubuntu:latest</span><br><span class="line">docker.io/library/ubuntu:latest</span><br><span class="line">[root@re0 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">mysql         5.7       b6ee2207ee7a   4 days ago      455MB</span><br><span class="line">tomcat        latest    51c25da77baf   10 days ago     474MB</span><br><span class="line">ubuntu        latest    08d22c0ceb15   2 weeks ago     77.8MB</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line">[root@re0 ~]# </span><br></pre></td></tr></table></figure>
-
-
-<p>·新建+启动容器<br>·docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>· OPTIONS说明<br> OPTIONS说明（常用）：有些是一个减号，有些是两个减号<br> <br>–name&#x3D;”容器新名字”       为容器指定一个名称；<br>-d: 后台运行容器并返回容器ID，也即启动守护式容器(后台运行)；<br> <br>-i：以交互模式运行容器，通常与 -t 同时使用；<br>-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>也即启动交互式容器(前台有伪终端，等待交互)；<br> <br>-P: 随机端口映射，大写P<br>-p: 指定端口映射，小写p</p>
-<p>·启动交互式容器(前台命令行)<br>关系	前后对比 - 开始 启动守护式容器(后台服务器)</p>
-<p>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行&#x2F;bin&#x2F;bash命令。<br>docker run -it centos &#x2F;bin&#x2F;bash<br> <br>参数说明：<br>-i: 交互式操作。<br>-t: 终端。<br>centos : centos 镜像。<br>&#x2F;bin&#x2F;bash：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 &#x2F;bin&#x2F;bash。<br>要退出终端，直接输入 exit:<br> <br>·列出当前所有正在运行的容器<br>·docker ps [OPTIONS]<br>· OPTIONS说明<br>OPTIONS说明（常用）：<br> <br>-a :列出当前所有正在运行的容器+历史上运行过的<br>-l :显示最近创建的容器。<br>-n：显示最近n个创建的容器。<br>-q :静默模式，只显示容器编号。<br>·退出容器<br>关系	指向 进入正在运行的容器并以命令行交互<br>·两种退出方式<br>·exit<br>·run进去容器，exit退出，容器停止<br>·ctrl+p+q<br>·run进去容器，ctrl+p+q退出，容器不停止<br>·启动已停止运行的容器<br>·docker start 容器ID或者容器名<br>·重启容器<br>·docker restart 容器ID或者容器名<br>·停止容器<br>·docker stop 容器ID或者容器名<br>·强制停止容器<br>·docker kill 容器ID或容器名<br>·删除已停止的容器<br>·docker rm 容器ID<br>·一次性删除多个容器实例<br>·docker rm -f $(docker ps -a -q)<br>·docker ps -a -q | xargs docker rm<br>·重要<br>·有镜像才能创建容器，这是根本前提(下载一个Redis6.0.8镜像演示)<br>·启动守护式容器(后台服务器)<br>关系	前后对比 - 指向 启动交互式容器(前台命令行)<br>·在大部分的场景下，我们希望 docker 的服务是在后台运行的， 我们可以过 -d 指定容器的后台运行模式。<br>·docker run -d 容器名<br> <br>#使用镜像centos:latest以后台模式启动一个容器<br>docker run -d centos<br> <br>问题：然后docker ps -a 进行查看, 会发现容器已经退出<br>很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.<br>容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。<br> <br>这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,<br>我们配置启动服务只需要启动响应的service即可。例如service nginx start<br>但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,<br>这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.<br>所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行，<br>常见就是命令行模式，表示我还有交互操作，别中断，O(∩_∩)O哈哈~<br>·redis 前后台启动演示case<br>·前台交互式启动<br>· docker run -it redis:6.0.8<br>·后台守护式启动<br>·docker run -d redis:6.0.8<br>·查看容器日志<br>·docker logs 容器ID<br>·查看容器内运行的进程<br>·docker top 容器ID<br>·查看容器内部细节<br>·docker inspect 容器ID<br>·进入正在运行的容器并以命令行交互<br>关系	开始 退出容器<br>·docker exec -it 容器ID bashShell</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/25/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" data-id="clfnm8fay0000r8uqc1jgh1g7" data-title="Docker常用命令" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1389,7 +1460,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">November 2022</a></li></ul>
     </div>
   </div>
 
@@ -1402,6 +1473,14 @@
       <ul>
         
           <li>
+            <a href="/2024/11/06/2024-11-6/">2024-11-6</a>
+          </li>
+        
+          <li>
+            <a href="/2024/11/06/%E5%96%B5%E5%96%B5%E5%96%B5/">喵</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/07/RequestMapping%E6%B3%A8%E8%A7%A3/">RequestMapping注解</a>
           </li>
         
@@ -1411,14 +1490,6 @@
         
           <li>
             <a href="/2023/06/06/SpringMVC%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">SpringMVC入门案例</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/14/day04-MQ/">day04-MQ</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/06/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E5%BF%97/">MySQL数据库日志</a>
           </li>
         
       </ul>
