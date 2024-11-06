@@ -71,6 +71,308 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-设计模式-day01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/" class="article-date">
+  <time class="dt-published" datetime="2023-04-02T15:12:16.000Z" itemprop="datePublished">2023-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/">设计模式-day01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>1，设计模式概述</p>
+<h2 id="1-1-软件设计模式的产生背景"><a href="#1-1-软件设计模式的产生背景" class="headerlink" title="1.1 软件设计模式的产生背景"></a>1.1 软件设计模式的产生背景</h2><p>“设计模式”最初并不是出现在软件设计中，而是被用于建筑领域的设计中。</p>
+<p>1977年美国著名建筑大师、加利福尼亚大学伯克利分校环境结构中心主任<code>克里斯托夫·亚历山大（Christopher Alexander）</code>在他的著作《建筑模式语言：城镇、建筑、构造》中描述了一些常见的建筑设计问题，并提出了 253 种关于对城镇、邻里、住宅、花园和房间等进行设计的基本模式。</p>
+<p>1990年软件工程界开始研讨设计模式的话题，后来召开了多次关于设计模式的研讨会。直到1995 年，艾瑞克·伽马（ErichGamma）、理査德·海尔姆（Richard Helm）、拉尔夫·约翰森（Ralph Johnson）、约翰·威利斯迪斯（John Vlissides）等 4 位作者合作出版了《设计模式：可复用面向对象软件的基础》一书，在此书中收录了 23 个设计模式，这是设计模式领域里程碑的事件，导致了软件设计模式的突破。这 4 位作者在软件开发领域里也以他们的“四人组”（Gang of Four，GoF）著称。</p>
+<h2 id="1-2-软件设计模式的概念"><a href="#1-2-软件设计模式的概念" class="headerlink" title="1.2 软件设计模式的概念"></a>1.2 软件设计模式的概念</h2><p>软件设计模式（Software Design Pattern），又称设计模式，是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。它描述了在软件设计过程中的一些不断重复发生的问题，以及该问题的解决方案。也就是说，它是解决特定问题的一系列套路，是前辈们的代码设计经验的总结，具有一定的普遍性，可以反复使用。</p>
+<h2 id="1-3-学习设计模式的必要性"><a href="#1-3-学习设计模式的必要性" class="headerlink" title="1.3 学习设计模式的必要性"></a>1.3 学习设计模式的必要性</h2><p>设计模式的本质是面向对象设计原则的实际运用，是对类的封装性、继承性和多态性以及类的关联关系和组合关系的充分理解。</p>
+<p>正确使用设计模式具有以下优点。</p>
+<ul>
+<li>可以提高程序员的思维能力、编程能力和设计能力。</li>
+<li>使程序设计更加标准化、代码编制更加工程化，使软件开发效率大大提高，从而缩短软件的开发周期。</li>
+<li>使设计的代码可重用性高、可读性强、可靠性高、灵活性好、可维护性强。</li>
+</ul>
+<h2 id="1-4-设计模式分类"><a href="#1-4-设计模式分类" class="headerlink" title="1.4 设计模式分类"></a>1.4 设计模式分类</h2><ul>
+<li><p><strong>创建型模式</strong></p>
+<p>用于描述“怎样创建对象”，它的主要特点是“将对象的创建与使用分离”。GoF（四人组）书中提供了单例、原型、工厂方法、抽象工厂、建造者等 5 种创建型模式。</p>
+</li>
+<li><p><strong>结构型模式</strong></p>
+<p>用于描述如何将类或对象按某种布局组成更大的结构，GoF（四人组）书中提供了代理、适配器、桥接、装饰、外观、享元、组合等 7 种结构型模式。</p>
+</li>
+<li><p><strong>行为型模式</strong></p>
+<p>用于描述类或对象之间怎样相互协作共同完成单个对象无法单独完成的任务，以及怎样分配职责。GoF（四人组）书中提供了模板方法、策略、命令、职责链、状态、观察者、中介者、迭代器、访问者、备忘录、解释器等 11 种行为型模式。</p>
+</li>
+</ul>
+<h1 id="2，UML图"><a href="#2，UML图" class="headerlink" title="2，UML图"></a>2，UML图</h1><p>统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。</p>
+<p>UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。</p>
+<h2 id="2-1-类图概述"><a href="#2-1-类图概述" class="headerlink" title="2.1 类图概述"></a>2.1 类图概述</h2><p>类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。</p>
+<h2 id="2-2-类图的作用"><a href="#2-2-类图的作用" class="headerlink" title="2.2 类图的作用"></a>2.2 类图的作用</h2><ul>
+<li>在软件工程中，类图是一种静态的结构图，描述了系统的类的集合，类的属性和类之间的关系，可以简化了人们对系统的理解；</li>
+<li>类图是系统分析和设计阶段的重要产物，是系统编码和测试的重要模型。</li>
+</ul>
+<hr>
+<h1 id="4，创建者模式"><a href="#4，创建者模式" class="headerlink" title="4，创建者模式"></a>4，创建者模式</h1><p>创建型模式的主要关注点是“怎样创建对象？”，它的主要特点是“将对象的创建与使用分离”。</p>
+<p>这样可以降低系统的耦合度，使用者不需要关注对象的创建细节。</p>
+<p>创建型模式分为：</p>
+<ul>
+<li>单例模式</li>
+<li>工厂方法模式</li>
+<li>抽象工程模式</li>
+<li>原型模式</li>
+<li>建造者模式</li>
+</ul>
+<h2 id="4-1-单例设计模式"><a href="#4-1-单例设计模式" class="headerlink" title="4.1 单例设计模式"></a>4.1 单例设计模式</h2><p>单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+<p>这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。</p>
+<h3 id="4-1-1-单例模式的结构"><a href="#4-1-1-单例模式的结构" class="headerlink" title="4.1.1 单例模式的结构"></a>4.1.1 单例模式的结构</h3><p>单例模式的主要有以下角色：</p>
+<ul>
+<li>单例类。只能创建一个实例的类</li>
+<li>访问类。使用单例类</li>
+</ul>
+<h3 id="4-1-2-单例模式的实现"><a href="#4-1-2-单例模式的实现" class="headerlink" title="4.1.2 单例模式的实现"></a>4.1.2 单例模式的实现</h3><blockquote>
+<p>单例设计模式分类两种：</p>
+<p>​ 饿汉式：类加载就会导致该单实例对象被创建</p>
+<p>​ 懒汉式：类加载不会导致该单实例对象被创建，而是首次使用该对象时才会创建</p>
+</blockquote>
+<ol>
+<li>饿汉式-方式1（静态变量方式）</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饿汉式</span></span><br><span class="line"><span class="comment"> *      静态变量创建类的对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在成员位置创建该类的对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 该方式在成员位置声明Singleton类型的静态变量，并创建Singleton类的对象instance。instance对象是随着类的加载而创建的。如果该对象足够大的话，而一直没有使用就会造成内存的浪费。</p>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> single.Singleton;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//创建Singletion类的对象</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line"></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance1</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断获取到的两个是否是同一个对象</span></span><br><span class="line">        System.out.println(instance == instance1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line"></span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="2">
+<li>饿汉式-方式2（静态代码块方式）</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 恶汉式</span></span><br><span class="line"><span class="comment"> *      在静态代码块中创建该类对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在成员位置创建该类的对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 该方式在成员位置声明Singleton类型的静态变量，而对象的创建是在静态代码块中，也是对着类的加载而创建。所以和饿汉式的方式1基本上一样，当然该方式也存在内存浪费问题。</p>
+<ol start="3">
+<li>懒汉式-方式1（线程不安全）</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 懒汉式</span></span><br><span class="line"><span class="comment"> *  线程不安全</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在成员位置创建该类的对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 从上面代码我们可以看出该方式在成员位置声明Singleton类型的静态变量，并没有进行对象的赋值操作，那么什么时候赋值的呢？当调用getInstance()方法获取Singleton类的对象的时候才创建Singleton类的对象，这样就实现了懒加载的效果。但是，如果是多线程环境，会出现线程安全问题。</p>
+<ol start="4">
+<li>懒汉式-方式2（线程安全）</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 懒汉式</span></span><br><span class="line"><span class="comment"> *  线程安全</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在成员位置创建该类的对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 该方式也实现了懒加载效果，同时又解决了线程安全问题。但是在getInstance()方法上添加了synchronized关键字，导致该方法的执行效果特别低。从上面代码我们可以看出，其实就是在初始化instance的时候才会出现线程安全问题，一旦初始化完成就不存在了。</p>
+<ol start="5">
+<li>懒汉式-方式3（双重检查锁）</li>
+</ol>
+<p>  再来讨论一下懒汉模式中加锁的问题，对于 <code>getInstance()</code> 方法来说，绝大部分的操作都是读操作，读操作是线程安全的，所以我们没必让每个线程必须持有锁才能调用该方法，我们需要调整加锁的时机。由此也产生了一种新的实现模式：双重检查锁模式</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 双重检查方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//第一次判断，如果instance不为null，不进入抢锁阶段，直接返回实例</span></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="comment">//抢到锁之后再次判断是否为null</span></span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  双重检查锁模式是一种非常好的单例实现模式，解决了单例、性能、线程安全问题，上面的双重检测锁模式看上去完美无缺，其实是存在问题，在多线程的情况下，可能会出现空指针问题，出现问题的原因是JVM在实例化对象的时候会进行优化和指令重排序操作。</p>
+<p>  要解决双重检查锁模式带来空指针异常的问题，只需要使用 <code>volatile</code> 关键字, <code>volatile</code> 关键字可以保证可见性和有序性。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 双重检查方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//第一次判断，如果instance不为null，不进入抢锁阶段，直接返回实际</span></span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="comment">//抢到锁之后再次判断是否为空</span></span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color="red">小结：</font></p>
+<p>  添加 <code>volatile</code> 关键字之后的双重检查锁模式是一种比较好的单例实现模式，能够保证在多线程的情况下线程安全也不会有性能问题。</p>
+<ol start="6">
+<li>懒汉式-方式4（静态内部类方式）</li>
+</ol>
+<p>  静态内部类单例模式中实例由内部类创建，由于 JVM 在加载外部类的过程中, 是不会加载静态内部类的, 只有内部类的属性&#x2F;方法被调用时才会被加载, 并初始化其静态属性。静态属性由于被 <code>static</code> 修饰，保证只被实例化一次，并且严格保证实例化顺序。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 静态内部类方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 第一次加载Singleton类时不会去初始化INSTANCE，只有第一次调用getInstance，虚拟机加载SingletonHolder</p>
+<p>  并初始化INSTANCE，这样不仅能确保线程安全，也能保证 Singleton 类的唯一性。</p>
+<p>  <font color="red">小结：</font></p>
+<p>  ​ 静态内部类单例模式是一种优秀的单例模式，是开源项目中比较常用的一种单例模式。在没有加任何锁的情况下，保证了多线程下的安全，并且没有任何性能影响和空间的浪费。</p>
+<ol start="7">
+<li>枚举方式</li>
+</ol>
+<p>  枚举类实现单例模式是极力推荐的单例实现模式，因为枚举类型是线程安全的，并且只会装载一次，设计者充分的利用了枚举的这个特性来实现单例模式，枚举的写法非常简单，而且枚举类型是所用单例实现中唯一一种不会被破坏的单例实现模式。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 枚举方式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <font color='red'>说明：</font></p>
+<p>  ​ 枚举方式属于恶汉式方式。</p>
+<h3 id="4-1-3-存在的问题"><a href="#4-1-3-存在的问题" class="headerlink" title="4.1.3 存在的问题"></a>4.1.3 存在的问题</h3><h4 id="4-1-3-1-问题演示"><a href="#4-1-3-1-问题演示" class="headerlink" title="4.1.3.1 问题演示"></a>4.1.3.1 问题演示</h4><p>破坏单例模式：</p>
+<p>使上面定义的单例类（Singleton）可以创建多个对象，枚举方式除外。有两种方式，分别是序列化和反射。</p>
+<ul>
+<li><p>序列化反序列化</p>
+<p><strong>Singleton类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Test类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//往文件中写对象</span></span><br><span class="line">        <span class="comment">//writeObject2File();</span></span><br><span class="line">        <span class="comment">//从文件中读取对象</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s1</span> <span class="operator">=</span> readObjectFromFile();</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s2</span> <span class="operator">=</span> readObjectFromFile();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断两个反序列化后的对象是否是同一个对象</span></span><br><span class="line">        System.out.println(s1 == s2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton <span class="title function_">readObjectFromFile</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//创建对象输入流对象</span></span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;C:\\Users\\Think\\Desktop\\a.txt&quot;</span>));</span><br><span class="line">        <span class="comment">//第一个读取Singleton对象</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> (Singleton) ois.readObject();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">writeObject2File</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//获取Singleton类的对象</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> Singleton.getInstance();</span><br><span class="line">        <span class="comment">//创建对象输出流</span></span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;C:\\Users\\Think\\Desktop\\a.txt&quot;</span>));</span><br><span class="line">        <span class="comment">//将instance对象写出到文件中</span></span><br><span class="line">        oos.writeObject(instance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码运行结果是<code>false</code>，表明序列化和反序列化已经破坏了单例设计模式。</p>
+</blockquote>
+</li>
+<li><p>反射</p>
+<p><strong>Singleton类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(instance != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">            <span class="keyword">if</span>(instance != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> instance;</span><br><span class="line">            &#125;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">            <span class="keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Test类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//获取Singleton类的字节码对象</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> Singleton.class;</span><br><span class="line">        <span class="comment">//获取Singleton类的私有无参构造方法对象</span></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> clazz.getDeclaredConstructor();</span><br><span class="line">        <span class="comment">//取消访问检查</span></span><br><span class="line">        constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建Singleton类的对象s1</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s1</span> <span class="operator">=</span> (Singleton) constructor.newInstance();</span><br><span class="line">        <span class="comment">//创建Singleton类的对象s2</span></span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s2</span> <span class="operator">=</span> (Singleton) constructor.newInstance();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断通过反射创建的两个Singleton对象是否是同一个对象</span></span><br><span class="line">        System.out.println(s1 == s2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码运行结果是<code>false</code>，表明序列化和反序列化已经破坏了单例设计模式</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p><font color="red">注意：</font>枚举方式不会出现这两个问题。</p>
+</blockquote>
+<h4 id="4-1-3-2-问题的解决"><a href="#4-1-3-2-问题的解决" class="headerlink" title="4.1.3.2 问题的解决"></a>4.1.3.2 问题的解决</h4><ul>
+<li><p>序列化、反序列方式破坏单例模式的解决方法</p>
+<p>在Singleton类中添加<code>readResolve()</code>方法，在反序列化时被反射调用，如果定义了这个方法，就返回这个方法的值，如果没有定义，则返回新new出来的对象。</p>
+<p><strong>Singleton类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Singleton</span> <span class="variable">INSTANCE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下面是为了解决序列化反序列化破解单例模式</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Object <span class="title function_">readResolve</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>源码解析：</strong></p>
+<p>ObjectInputStream类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> Object <span class="title function_">readObject</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// if nested read, passHandle contains handle of enclosing object</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">outerHandle</span> <span class="operator">=</span> passHandle;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> readObject0(<span class="literal">false</span>);<span class="comment">//重点查看readObject0方法</span></span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">readObject0</span><span class="params">(<span class="type">boolean</span> unshared)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (tc) &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">case</span> TC_OBJECT:</span><br><span class="line">                <span class="keyword">return</span> checkResolve(readOrdinaryObject(unshared));<span class="comment">//重点查看readOrdinaryObject方法</span></span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        depth--;</span><br><span class="line">        bin.setBlockDataMode(oldMode);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Object <span class="title function_">readOrdinaryObject</span><span class="params">(<span class="type">boolean</span> unshared)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//isInstantiable 返回true，执行 desc.newInstance()，通过反射创建新的单例类，</span></span><br><span class="line">    obj = desc.isInstantiable() ? desc.newInstance() : <span class="literal">null</span>; </span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 在Singleton类中添加 readResolve 方法后 desc.hasReadResolveMethod() 方法执行结果为true</span></span><br><span class="line">    <span class="keyword">if</span> (obj != <span class="literal">null</span> &amp;&amp; handles.lookupException(passHandle) == <span class="literal">null</span> &amp;&amp; desc.hasReadResolveMethod()) &#123;</span><br><span class="line">        <span class="comment">// 通过反射调用 Singleton 类中的 readResolve 方法，将返回值赋值给rep变量</span></span><br><span class="line">        <span class="comment">// 这样多次调用ObjectInputStream类中的readObject方法，继而就会调用我们定义的readResolve方法，所以返回的是同一个对象。</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">rep</span> <span class="operator">=</span> desc.invokeReadResolve(obj);</span><br><span class="line">         ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反射方式破解单例的解决方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//私有构造方法</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">           反射破解单例模式需要添加的代码</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">if</span>(instance != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对外提供静态方法获取该对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(instance != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">            <span class="keyword">if</span>(instance != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> instance;</span><br><span class="line">            &#125;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">            <span class="keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><font color="red">说明:</font></p>
+<p>​ 这种方式比较好理解。当通过反射方式调用构造方法进行创建创建时，直接抛异常。不运行此中操作。</p>
+</li>
+</ul>
+<h3 id="4-1-4-JDK源码解析-Runtime类"><a href="#4-1-4-JDK源码解析-Runtime类" class="headerlink" title="4.1.4 JDK源码解析-Runtime类"></a>4.1.4 JDK源码解析-Runtime类</h3><p>Runtime类就是使用的单例设计模式。</p>
+<ol>
+<li>通过源代码查看使用的是哪儿种单例模式</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Runtime</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Runtime</span> <span class="variable">currentRuntime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Runtime</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the runtime object associated with the current Java application.</span></span><br><span class="line"><span class="comment">     * Most of the methods of class &lt;code&gt;Runtime&lt;/code&gt; are instance</span></span><br><span class="line"><span class="comment">     * methods and must be invoked with respect to the current runtime object.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>  the &lt;code&gt;Runtime&lt;/code&gt; object associated with the current</span></span><br><span class="line"><span class="comment">     *          Java application.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Runtime <span class="title function_">getRuntime</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> currentRuntime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Don&#x27;t let anyone else instantiate this class */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Runtime</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  从上面源代码中可以看出Runtime类使用的是恶汉式（静态属性）方式来实现单例模式的。</p>
+<ol start="2">
+<li>使用Runtime类中的方法</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RuntimeDemo</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">//获取Runtime类对象</span></span><br><span class="line">        <span class="type">Runtime</span> <span class="variable">runtime</span> <span class="operator">=</span> Runtime.getRuntime();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//返回 Java 虚拟机中的内存总量。</span></span><br><span class="line">        System.out.println(runtime.totalMemory());</span><br><span class="line">        <span class="comment">//返回 Java 虚拟机试图使用的最大内存量。</span></span><br><span class="line">        System.out.println(runtime.maxMemory());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建一个新的进程执行指定的字符串命令，返回进程对象</span></span><br><span class="line">        <span class="type">Process</span> <span class="variable">process</span> <span class="operator">=</span> runtime.exec(<span class="string">&quot;ipconfig&quot;</span>);</span><br><span class="line">        <span class="comment">//获取命令执行后的结果，通过输入流获取</span></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> process.getInputStream();</span><br><span class="line">        <span class="type">byte</span>[] arr = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span> * <span class="number">1024</span>* <span class="number">100</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> inputStream.read(arr);</span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(arr,<span class="number">0</span>,b,<span class="string">&quot;gbk&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/02/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-day01/" data-id="clfzjkmb60000touq2uw4ecb9" data-title="设计模式-day01" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-进程与线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2023-04-02T08:58:33.000Z" itemprop="datePublished">2023-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">进程与线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="本章内容"><a href="#本章内容" class="headerlink" title="本章内容"></a>本章内容</h1><ul>
+<li><p>进程和线程的概念</p>
+</li>
+<li><p>并行和并发的概念</p>
+</li>
+<li><p>线程基本应用</p>
+</li>
+</ul>
+<hr>
+<h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><ul>
+<li><p>程序由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至 CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理 IO 的</p>
+</li>
+<li><p>当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。</p>
+</li>
+<li><p>进程就可以视为程序的一个实例。大部分程序可以同时运行多个实例进程（例如记事本、画图、浏览器等），也有的程序只能启动一个实例进程（例如网易云音乐、360 安全卫士等）</p>
+</li>
+</ul>
+<h4 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h4><ul>
+<li><p>一个进程之内可以分为一到多个线程。</p>
+</li>
+<li><p>一个线程就是一个指令流，将指令流中的一条条指令以一定的顺序交给 CPU 执行</p>
+</li>
+<li><p>Java 中，线程作为最小调度单位，进程作为资源分配的最小单位。 在 windows 中进程是不活动的，只是作为线程的容器</p>
+</li>
+</ul>
+<h4 id="二者对比"><a href="#二者对比" class="headerlink" title="二者对比"></a>二者对比</h4><ul>
+<li><p>进程基本上相互独立的，而线程存在于进程内，是进程的一个子集</p>
+</li>
+<li><p>进程拥有共享的资源，如内存空间等，供其内部的线程共享</p>
+</li>
+<li><p>进程间通信较为复杂</p>
+<ul>
+<li><p>同一台计算机的进程通信称为 IPC（Inter-process communication）</p>
+</li>
+<li><p>不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，例如 HTTP</p>
+</li>
+</ul>
+</li>
+<li><p>线程通信相对简单，因为它们共享进程内的内存，一个例子是多个线程可以访问同一个共享变量</p>
+</li>
+<li><p>线程更轻量，线程上下文切换成本一般上要比进程上下文切换低</p>
+</li>
+</ul>
+<hr>
+<h1 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h1><p>单核 cpu 下，线程实际还是 <code>串行执行</code> 的。操作系统中有一个组件叫做任务调度器，将 cpu 的时间片（windows下时间片最小约为 15 毫秒）分给不同的程序使用，只是由于 cpu 在线程间（时间片很短）的切换非常快，人类感觉是 <code>同时运行的</code> 。总结为一句话就是： <code>微观串行，宏观并行</code> ，</p>
+<p>一般会将这种 <code>线程轮流使用 CPU</code> 的做法称为并发， <code>concurrent</code></p>
+<hr>
+<h2 id="引用-Rob-Pike-的一段描述："><a href="#引用-Rob-Pike-的一段描述：" class="headerlink" title="引用 Rob Pike 的一段描述："></a>引用 Rob Pike 的一段描述：</h2><ul>
+<li><p>并发（concurrent）是同一时间应对（dealing with）多件事情的能力</p>
+</li>
+<li><p>并行（parallel）是同一时间动手做（doing）多件事情的能力</p>
+</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li><p>家庭主妇做饭、打扫卫生、给孩子喂奶，她一个人轮流交替做这多件事，这时就是并发</p>
+</li>
+<li><p>家庭主妇雇了个保姆，她们一起这些事，这时既有并发，也有并行（这时会产生竞争，例如锅只有一口，一个人用锅时，另一个人就得等待）</p>
+</li>
+<li><p>雇了3个保姆，一个专做饭、一个专打扫卫生、一个专喂奶，互不干扰，这时是并行</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/04/02/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" data-id="clfz67vz90000nkuq4cun26kj" data-title="进程与线程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-JDK8-方法引用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/04/01/JDK8-%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" class="article-date">
@@ -1064,300 +1366,6 @@
 
 
   
-    <article id="post-docker" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/25/docker/" class="article-date">
-  <time class="dt-published" datetime="2023-03-25T06:05:37.000Z" itemprop="datePublished">2023-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/25/docker/">docker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>假定您在开发一个尚硅谷的谷粒商城，您使用的是一台笔记本电脑而且您的开发环境具有特定的配置。其他开发人员身处的环境配置也各有不同。您正在开发的应用依赖于您当前的配置且还要依赖于某些配置文件。此外，您的企业还拥有标准化的测试和生产环境，且具有自身的配置和一系列支持文件。您希望尽可能多在本地模拟这些环境而不产生重新创建服务器环境的开销。请问？<br>您要如何确保应用能够在这些环境中运行和通过质量检测？并且在部署过程中不出现令人头疼的版本、配置问题，也无需重新编写代码和进行故障修复？<br> <br>答案就是使用容器。Docker之所以发展如此迅速，也是因为它对此给出了一个标准化的解决方案—–系统平滑移植，容器虚拟化技术。<br> <br>环境配置相当麻烦，换一台机器，就要重来一次，费力费时。很多人想到，能不能从根本上解决问题，软件可以带环境安装？也就是说，安装的时候，把原始环境一模一样地复制过来。开发人员利用 Docker 可以消除协作编码时“在我的机器上可正常工作”的问题。</p>
-<hr>
-<p>之前在服务器配置一个应用的运行环境，要安装各种软件，就拿尚硅谷电商项目的环境来说，Java&#x2F;RabbitMQ&#x2F;MySQL&#x2F;JDBC驱动包等。安装和配置这些东西有多麻烦就不说了，它还不能跨平台。假如我们是在 Windows 上安装的这些环境，到了 Linux 又得重新装。况且就算不跨操作系统，换另一台同样操作系统的服务器，要移植应用也是非常麻烦的。<br>传统上认为，软件编码开发&#x2F;测试结束后，所产出的成果即是程序或是能够编译执行的二进制字节码等(java为例)。而为了让这些程序可以顺利执行，开发团队也得准备完整的部署文件，让维运团队得以部署应用程式，开发需要清楚的告诉运维部署团队，用的全部配置文件+所有软件环境。不过，即便如此，仍然常常发生部署失败的状况。Docker的出现使得Docker得以打破过去「程序即应用」的观念。透过镜像(images)将作业系统核心除外，运作应用程式所需要的系统环境，由下而上打包，达到应用程式跨平台间的无缝接轨运作。</p>
-<ul>
-<li>docker理念<br>Docker是基于Go语言实现的云开源项目。<br>Docker的主要目标是“Build，Ship and Run Any App,Anywhere”，也就是通过对应用组件的封装、分发、部署、运行等生命周期的管理，使用户的APP（可以是一个WEB应用或数据库应用等等）及其运行环境能够做到“一次镜像，处处运行”。</li>
-</ul>
-<hr>
-<p>Linux容器技术的出现就解决了这样一个问题，而 Docker 就是在它的基础上发展过来的。将应用打成镜像，通过镜像成为运行在Docker容器上面的实例，而 Docker容器在任何操作系统上都是一致的，这就实现了跨平台、跨服务器。只需要一次配置好环境，换到别的机子上就可以一键部署好，大大简化了操作。</p>
-<ul>
-<li>一句话<br> 解决了运行环境和配置问题的软件容器， 方便做持续集成并有助于整体发布的容器虚拟化技术。</li>
-</ul>
-<hr>
-<h1 id="1-初识Docker"><a href="#1-初识Docker" class="headerlink" title="1.初识Docker"></a>1.初识Docker</h1><h2 id="1-1-什么是Docker"><a href="#1-1-什么是Docker" class="headerlink" title="1.1.什么是Docker"></a>1.1.什么是Docker</h2><p>微服务虽然具备各种各样的优势，但服务的拆分通用给部署带来了很大的麻烦。</p>
-<ul>
-<li>分布式系统中，依赖的组件非常多，不同组件之间部署时往往会产生一些冲突。</li>
-<li>在数百上千台服务中重复部署，环境不一定一致，会遇到各种问题</li>
-</ul>
-<h3 id="1-1-1-应用部署的环境问题"><a href="#1-1-1-应用部署的环境问题" class="headerlink" title="1.1.1.应用部署的环境问题"></a>1.1.1.应用部署的环境问题</h3><p>大型项目组件较多，运行环境也较为复杂，部署时会碰到一些问题：</p>
-<ul>
-<li><p>依赖关系复杂，容易出现兼容性问题</p>
-</li>
-<li><p>开发、测试、生产环境有差异</p>
-</li>
-</ul>
-<p>例如一个项目中，部署时需要依赖于node.js、Redis、RabbitMQ、MySQL等，这些服务部署时所需要的函数库、依赖项各不相同，甚至会有冲突。给部署带来了极大的困难。</p>
-<h3 id="1-1-2-Docker解决依赖兼容问题"><a href="#1-1-2-Docker解决依赖兼容问题" class="headerlink" title="1.1.2.Docker解决依赖兼容问题"></a>1.1.2.Docker解决依赖兼容问题</h3><p>而Docker确巧妙的解决了这些问题，Docker是如何实现的呢？</p>
-<p>Docker为了解决依赖的兼容问题的，采用了两个手段：</p>
-<ul>
-<li><p>将应用的Libs（函数库）、Deps（依赖）、配置与应用一起打包</p>
-</li>
-<li><p>将每个应用放到一个隔离<strong>容器</strong>去运行，避免互相干扰</p>
-</li>
-</ul>
-<p>这样打包好的应用包中，既包含应用本身，也保护应用所需要的Libs、Deps，无需再操作系统上安装这些，自然就不存在不同应用之间的兼容问题了。</p>
-<p>虽然解决了不同应用的兼容问题，但是开发、测试等环境会存在差异，操作系统版本也会有差异，怎么解决这些问题呢？</p>
-<h3 id="1-1-3-Docker解决操作系统环境差异"><a href="#1-1-3-Docker解决操作系统环境差异" class="headerlink" title="1.1.3.Docker解决操作系统环境差异"></a>1.1.3.Docker解决操作系统环境差异</h3><p>要解决不同操作系统环境差异问题，必须先了解操作系统结构。以一个Ubuntu操作系统为例，结构如下：</p>
-<p>结构包括：</p>
-<ul>
-<li>计算机硬件：例如CPU、内存、磁盘等</li>
-<li>系统内核：所有Linux发行版的内核都是Linux，例如CentOS、Ubuntu、Fedora等。内核可以与计算机硬件交互，对外提供<strong>内核指令</strong>，用于操作计算机硬件。</li>
-<li>系统应用：操作系统本身提供的应用、函数库。这些函数库是对内核指令的封装，使用更加方便。</li>
-</ul>
-<p>应用于计算机交互的流程如下：</p>
-<p>1）应用调用操作系统应用（函数库），实现各种功能</p>
-<p>2）系统函数库是对内核指令集的封装，会调用内核指令</p>
-<p>3）内核指令操作计算机硬件</p>
-<p>Ubuntu和CentOSpringBoot都是基于Linux内核，无非是系统应用不同，提供的函数库有差异：</p>
-<p>此时，如果将一个Ubuntu版本的MySQL应用安装到CentOS系统，MySQL在调用Ubuntu函数库时，会发现找不到或者不匹配，就会报错了：</p>
-<p>Docker如何解决不同系统环境的问题？</p>
-<ul>
-<li>Docker将用户程序与所需要调用的系统(比如Ubuntu)函数库一起打包</li>
-<li>Docker运行到不同操作系统时，直接基于打包的函数库，借助于操作系统的Linux内核来运行</li>
-</ul>
-<p>如图：</p>
-<h3 id="1-1-4-小结"><a href="#1-1-4-小结" class="headerlink" title="1.1.4.小结"></a>1.1.4.小结</h3><p>Docker如何解决大型项目依赖关系复杂，不同组件依赖的兼容性问题？</p>
-<ul>
-<li>Docker允许开发中将应用、依赖、函数库、配置一起<strong>打包</strong>，形成可移植镜像</li>
-<li>Docker应用运行在容器中，使用沙箱机制，相互<strong>隔离</strong></li>
-</ul>
-<p>Docker如何解决开发、测试、生产环境有差异的问题？</p>
-<ul>
-<li>Docker镜像中包含完整运行环境，包括系统函数库，仅依赖系统的Linux内核，因此可以在任意Linux操作系统上运行</li>
-</ul>
-<p>Docker是一个快速交付应用、运行应用的技术，具备下列优势：</p>
-<ul>
-<li>可以将程序及其依赖、运行环境一起打包为一个镜像，可以迁移到任意Linux操作系统</li>
-<li>运行时利用沙箱机制形成隔离容器，各个应用互不干扰</li>
-<li>启动、移除都可以通过一行命令完成，方便快捷</li>
-</ul>
-<h2 id="1-2-Docker和虚拟机的区别"><a href="#1-2-Docker和虚拟机的区别" class="headerlink" title="1.2.Docker和虚拟机的区别"></a>1.2.Docker和虚拟机的区别</h2><p>Docker可以让一个应用在任何操作系统中非常方便的运行。而以前我们接触的虚拟机，也能在一个操作系统中，运行另外一个操作系统，保护系统中的任何应用。</p>
-<p>两者有什么差异呢？</p>
-<p><strong>虚拟机</strong>（virtual machine）是在操作系统中<strong>模拟</strong>硬件设备，然后运行另一个操作系统，比如在 Windows 系统里面运行 Ubuntu 系统，这样就可以运行任意的Ubuntu应用了。</p>
-<p><strong>Docker</strong>仅仅是封装函数库，并没有模拟完整的操作系统，如图：</p>
-<p>对比来看：</p>
-<p>小结：</p>
-<p>Docker和虚拟机的差异：</p>
-<ul>
-<li><p>docker是一个系统进程；虚拟机是在操作系统中的操作系统</p>
-</li>
-<li><p>docker体积小、启动速度快、性能好；虚拟机体积大、启动速度慢、性能一般</p>
-</li>
-</ul>
-<h2 id="1-3-Docker架构"><a href="#1-3-Docker架构" class="headerlink" title="1.3.Docker架构"></a>1.3.Docker架构</h2><h3 id="1-3-1-镜像和容器"><a href="#1-3-1-镜像和容器" class="headerlink" title="1.3.1.镜像和容器"></a>1.3.1.镜像和容器</h3><p>Docker中有几个重要的概念：</p>
-<p><strong>镜像（Image）</strong>：Docker将应用程序及其所需的依赖、函数库、环境、配置等文件打包在一起，称为镜像。</p>
-<p><strong>容器（Container）</strong>：镜像中的应用程序运行后形成的进程就是<strong>容器</strong>，只是Docker会给容器进程做隔离，对外不可见。</p>
-<p>一切应用最终都是代码组成，都是硬盘中的一个个的字节形成的<strong>文件</strong>。只有运行时，才会加载到内存，形成进程。</p>
-<p>而<strong>镜像</strong>，就是把一个应用在硬盘上的文件、及其运行环境、部分系统函数库文件一起打包形成的文件包。这个文件包是只读的。</p>
-<p><strong>容器</strong>呢，就是将这些文件中编写的程序、函数加载到内存中允许，形成进程，只不过要隔离起来。因此一个镜像可以启动多次，形成多个容器进程。</p>
-<p>例如你下载了一个QQ，如果我们将QQ在磁盘上的运行<strong>文件</strong>及其运行的操作系统依赖打包，形成QQ镜像。然后你可以启动多次，双开、甚至三开QQ，跟多个妹子聊天。</p>
-<h3 id="1-3-2-DockerHub"><a href="#1-3-2-DockerHub" class="headerlink" title="1.3.2.DockerHub"></a>1.3.2.DockerHub</h3><p>开源应用程序非常多，打包这些应用往往是重复的劳动。为了避免这些重复劳动，人们就会将自己打包的应用镜像，例如Redis、MySQL镜像放到网络上，共享使用，就像GitHub的代码共享一样。</p>
-<ul>
-<li><p>DockerHub：DockerHub是一个官方的Docker镜像的托管平台。这样的平台称为Docker Registry。</p>
-</li>
-<li><p>国内也有类似于DockerHub 的公开服务，比如 <a target="_blank" rel="noopener" href="https://c.163yun.com/hub">网易云镜像服务</a>、<a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/">阿里云镜像库</a>等。</p>
-</li>
-</ul>
-<p>我们一方面可以将自己的镜像共享到DockerHub，另一方面也可以从DockerHub拉取镜像：</p>
-<h3 id="1-3-3-Docker架构"><a href="#1-3-3-Docker架构" class="headerlink" title="1.3.3.Docker架构"></a>1.3.3.Docker架构</h3><p>我们要使用Docker来操作镜像、容器，就必须要安装Docker。</p>
-<p>Docker是一个CS架构的程序，由两部分组成：</p>
-<ul>
-<li><p>服务端(server)：Docker守护进程，负责处理Docker指令，管理镜像、容器等</p>
-</li>
-<li><p>客户端(client)：通过命令或RestAPI向Docker服务端发送指令。可以在本地或远程向服务端发送指令。</p>
-</li>
-</ul>
-<p>如图：</p>
-<h3 id="1-3-4-小结"><a href="#1-3-4-小结" class="headerlink" title="1.3.4.小结"></a>1.3.4.小结</h3><p>镜像：</p>
-<ul>
-<li>将应用程序及其依赖、环境、配置打包在一起</li>
-</ul>
-<p>容器：</p>
-<ul>
-<li>镜像运行起来就是容器，一个镜像可以运行多个容器</li>
-</ul>
-<p>Docker结构：</p>
-<ul>
-<li><p>服务端：接收命令或远程请求，操作镜像或容器</p>
-</li>
-<li><p>客户端：发送命令或者请求到Docker服务端</p>
-</li>
-</ul>
-<p>DockerHub：</p>
-<ul>
-<li>一个镜像托管的服务器，类似的还有阿里云镜像服务，统称为DockerRegistry</li>
-</ul>
-<h2 id="1-4-安装Docker"><a href="#1-4-安装Docker" class="headerlink" title="1.4.安装Docker"></a>1.4.安装Docker</h2><p>企业部署一般都是采用Linux操作系统，而其中又数CentOS发行版占比最多，因此我们在CentOS下安装Docker。参考课前资料中的文档：</p>
-<hr>
-<h1 id="2-安装步骤"><a href="#2-安装步骤" class="headerlink" title="2.安装步骤"></a>2.安装步骤</h1><ul>
-<li>yum安装gcc相关<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">·yum -y install gcc</span><br><span class="line">·yum -y install gcc-c++</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="安装-Docker-Engine-Community"><a href="#安装-Docker-Engine-Community" class="headerlink" title="安装 Docker Engine-Community"></a>安装 Docker Engine-Community</h3><p>使用 Docker 仓库进行安装<br>在新主机上首次安装 Docker Engine-Community 之前，需要设置 Docker 仓库。之后，您可以从仓库安装和更新 Docker。</p>
-<p>设置仓库</p>
-<p>安装所需的软件包。yum-utils 提供了 yum-config-manager ，并且 device mapper 存储驱动程序需要 device-mapper-persistent-data 和 lvm2。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install -y yum-utils \</span><br><span class="line">  device-mapper-persistent-data \</span><br><span class="line">  lvm2</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>更新yum软件包索引<br>yum makecache fast</p>
-</li>
-<li><p>使用以下命令来设置稳定的仓库。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">    http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure></li>
-<li><p>安装 Docker Engine-Community<br>$ sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">[root@125 ~]# sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br><span class="line">Loaded plugins: fastestmirror, langpacks</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * base: ftp.sjtu.edu.cn</span><br><span class="line"> * extras: mirrors.bfsu.edu.cn</span><br><span class="line"> * updates: mirrors.bfsu.edu.cn</span><br><span class="line">Resolving Dependencies</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package containerd.io.x86_64 0:1.6.19-3.1.el7 will be installed</span><br><span class="line">--&gt; Processing Dependency: container-selinux &gt;= 2:2.74 for package: containerd.io-1.6.19-3.1.el7.x86_64</span><br><span class="line">---&gt; Package docker-ce.x86_64 3:23.0.1-1.el7 will be installed</span><br><span class="line">--&gt; Processing Dependency: docker-ce-rootless-extras for package: 3:docker-ce-23.0.1-1.el7.x86_64</span><br><span class="line">---&gt; Package docker-ce-cli.x86_64 1:23.0.1-1.el7 will be installed</span><br><span class="line">--&gt; Processing Dependency: docker-buildx-plugin for package: 1:docker-ce-cli-23.0.1-1.el7.x86_64</span><br><span class="line">--&gt; Processing Dependency: docker-scan-plugin(x86-64) for package: 1:docker-ce-cli-23.0.1-1.el7.x86_64</span><br><span class="line">---&gt; Package docker-compose-plugin.x86_64 0:2.16.0-1.el7 will be installed</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package container-selinux.noarch 2:2.119.2-1.911c772.el7_8 will be installed</span><br><span class="line">---&gt; Package docker-buildx-plugin.x86_64 0:0.10.2-1.el7 will be installed</span><br><span class="line">---&gt; Package docker-ce-rootless-extras.x86_64 0:23.0.1-1.el7 will be installed</span><br><span class="line">--&gt; Processing Dependency: fuse-overlayfs &gt;= 0.7 for package: docker-ce-rootless-extras-23.0.1-1.el7.x86_64</span><br><span class="line">--&gt; Processing Dependency: slirp4netns &gt;= 0.4 for package: docker-ce-rootless-extras-23.0.1-1.el7.x86_64</span><br><span class="line">---&gt; Package docker-scan-plugin.x86_64 0:0.23.0-3.el7 will be installed</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package fuse-overlayfs.x86_64 0:0.7.2-6.el7_8 will be installed</span><br><span class="line">--&gt; Processing Dependency: libfuse3.so.3(FUSE_3.2)(64bit) for package: fuse-overlayfs-0.7.2-6.el7_8.x86_64</span><br><span class="line">--&gt; Processing Dependency: libfuse3.so.3(FUSE_3.0)(64bit) for package: fuse-overlayfs-0.7.2-6.el7_8.x86_64</span><br><span class="line">--&gt; Processing Dependency: libfuse3.so.3()(64bit) for package: fuse-overlayfs-0.7.2-6.el7_8.x86_64</span><br><span class="line">---&gt; Package slirp4netns.x86_64 0:0.4.3-4.el7_8 will be installed</span><br><span class="line">--&gt; Running transaction check</span><br><span class="line">---&gt; Package fuse3-libs.x86_64 0:3.6.1-4.el7 will be installed</span><br><span class="line">--&gt; Finished Dependency Resolution</span><br><span class="line"></span><br><span class="line">Dependencies Resolved</span><br><span class="line"></span><br><span class="line">===============================================================================================================================</span><br><span class="line"> Package                              Arch              Version                              Repository                   Size</span><br><span class="line">===============================================================================================================================</span><br><span class="line">Installing:</span><br><span class="line"> containerd.io                        x86_64            1.6.19-3.1.el7                       docker-ce-stable             34 M</span><br><span class="line"> docker-ce                            x86_64            3:23.0.1-1.el7                       docker-ce-stable             23 M</span><br><span class="line"> docker-ce-cli                        x86_64            1:23.0.1-1.el7                       docker-ce-stable             13 M</span><br><span class="line"> docker-compose-plugin                x86_64            2.16.0-1.el7                         docker-ce-stable             11 M</span><br><span class="line">Installing for dependencies:</span><br><span class="line"> container-selinux                    noarch            2:2.119.2-1.911c772.el7_8            extras                       40 k</span><br><span class="line"> docker-buildx-plugin                 x86_64            0.10.2-1.el7                         docker-ce-stable             12 M</span><br><span class="line"> docker-ce-rootless-extras            x86_64            23.0.1-1.el7                         docker-ce-stable            8.8 M</span><br><span class="line"> docker-scan-plugin                   x86_64            0.23.0-3.el7                         docker-ce-stable            3.8 M</span><br><span class="line"> fuse-overlayfs                       x86_64            0.7.2-6.el7_8                        extras                       54 k</span><br><span class="line"> fuse3-libs                           x86_64            3.6.1-4.el7                          extras                       82 k</span><br><span class="line"> slirp4netns                          x86_64            0.4.3-4.el7_8                        extras                       81 k</span><br><span class="line"></span><br><span class="line">Transaction Summary</span><br><span class="line">===============================================================================================================================</span><br><span class="line">Install  4 Packages (+7 Dependent packages)</span><br><span class="line"></span><br><span class="line">Total download size: 106 M</span><br><span class="line">Installed size: 372 M</span><br><span class="line">Is this ok [y/d/N]: y</span><br><span class="line">Downloading packages:</span><br><span class="line">(1/11): container-selinux-2.119.2-1.911c772.el7_8.noarch.rpm                                            |  40 kB  00:00:01     </span><br><span class="line">warning: /var/cache/yum/x86_64/7/docker-ce-stable/packages/docker-buildx-plugin-0.10.2-1.el7.x86_64.rpm: Header V4 RSA/SHA512 Signature, key ID 621e9f35: NOKEY</span><br><span class="line">Public key for docker-buildx-plugin-0.10.2-1.el7.x86_64.rpm is not installed</span><br><span class="line">(2/11): docker-buildx-plugin-0.10.2-1.el7.x86_64.rpm                                                    |  12 MB  00:00:10     </span><br><span class="line">(3/11): containerd.io-1.6.19-3.1.el7.x86_64.rpm                                                         |  34 MB  00:00:28     </span><br><span class="line">(4/11): docker-ce-23.0.1-1.el7.x86_64.rpm                                                               |  23 MB  00:00:18     </span><br><span class="line">(5/11): docker-ce-rootless-extras-23.0.1-1.el7.x86_64.rpm                                               | 8.8 MB  00:00:06     </span><br><span class="line">(6/11): docker-ce-cli-23.0.1-1.el7.x86_64.rpm                                                           |  13 MB  00:00:10     </span><br><span class="line">(7/11): fuse-overlayfs-0.7.2-6.el7_8.x86_64.rpm                                                         |  54 kB  00:00:01     </span><br><span class="line">(8/11): slirp4netns-0.4.3-4.el7_8.x86_64.rpm                                                            |  81 kB  00:00:02     </span><br><span class="line">(9/11): fuse3-libs-3.6.1-4.el7.x86_64.rpm                                                               |  82 kB  00:00:02     </span><br><span class="line">(10/11): docker-scan-plugin-0.23.0-3.el7.x86_64.rpm                                                     | 3.8 MB  00:00:03     </span><br><span class="line">(11/11): docker-compose-plugin-2.16.0-1.el7.x86_64.rpm                                                  |  11 MB  00:00:09     </span><br><span class="line">-------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">Total                                                                                          2.4 MB/s | 106 MB  00:00:44     </span><br><span class="line">Retrieving key from https://mirrors.aliyun.com/docker-ce/linux/centos/gpg</span><br><span class="line">Importing GPG key 0x621E9F35:</span><br><span class="line"> Userid     : &quot;Docker Release (CE rpm) &lt;docker@docker.com&gt;&quot;</span><br><span class="line"> Fingerprint: 060a 61c5 1b55 8a7f 742b 77aa c52f eb6b 621e 9f35</span><br><span class="line"> From       : https://mirrors.aliyun.com/docker-ce/linux/centos/gpg</span><br><span class="line">Is this ok [y/N]: y</span><br><span class="line">Running transaction check</span><br><span class="line">Running transaction test</span><br><span class="line">Transaction test succeeded</span><br><span class="line">Running transaction</span><br><span class="line">  Installing : 2:container-selinux-2.119.2-1.911c772.el7_8.noarch                                                         1/11 </span><br><span class="line">  Installing : containerd.io-1.6.19-3.1.el7.x86_64                                                                        2/11 </span><br><span class="line">  Installing : docker-buildx-plugin-0.10.2-1.el7.x86_64                                                                   3/11 </span><br><span class="line">  Installing : fuse3-libs-3.6.1-4.el7.x86_64                                                                              4/11 </span><br><span class="line">  Installing : fuse-overlayfs-0.7.2-6.el7_8.x86_64                                                                        5/11 </span><br><span class="line">  Installing : slirp4netns-0.4.3-4.el7_8.x86_64                                                                           6/11 </span><br><span class="line">  Installing : docker-scan-plugin-0.23.0-3.el7.x86_64                                                                     7/11 </span><br><span class="line">  Installing : docker-compose-plugin-2.16.0-1.el7.x86_64                                                                  8/11 </span><br><span class="line">  Installing : 1:docker-ce-cli-23.0.1-1.el7.x86_64                                                                        9/11 </span><br><span class="line">  Installing : docker-ce-rootless-extras-23.0.1-1.el7.x86_64                                                             10/11 </span><br><span class="line">  Installing : 3:docker-ce-23.0.1-1.el7.x86_64                                                                           11/11 </span><br><span class="line">  Verifying  : docker-compose-plugin-2.16.0-1.el7.x86_64                                                                  1/11 </span><br><span class="line">  Verifying  : docker-scan-plugin-0.23.0-3.el7.x86_64                                                                     2/11 </span><br><span class="line">  Verifying  : fuse-overlayfs-0.7.2-6.el7_8.x86_64                                                                        3/11 </span><br><span class="line">  Verifying  : slirp4netns-0.4.3-4.el7_8.x86_64                                                                           4/11 </span><br><span class="line">  Verifying  : 2:container-selinux-2.119.2-1.911c772.el7_8.noarch                                                         5/11 </span><br><span class="line">  Verifying  : docker-ce-rootless-extras-23.0.1-1.el7.x86_64                                                              6/11 </span><br><span class="line">  Verifying  : 3:docker-ce-23.0.1-1.el7.x86_64                                                                            7/11 </span><br><span class="line">  Verifying  : containerd.io-1.6.19-3.1.el7.x86_64                                                                        8/11 </span><br><span class="line">  Verifying  : fuse3-libs-3.6.1-4.el7.x86_64                                                                              9/11 </span><br><span class="line">  Verifying  : docker-buildx-plugin-0.10.2-1.el7.x86_64                                                                  10/11 </span><br><span class="line">  Verifying  : 1:docker-ce-cli-23.0.1-1.el7.x86_64                                                                       11/11 </span><br><span class="line"></span><br><span class="line">Installed:</span><br><span class="line">  containerd.io.x86_64 0:1.6.19-3.1.el7           docker-ce.x86_64 3:23.0.1-1.el7     docker-ce-cli.x86_64 1:23.0.1-1.el7    </span><br><span class="line">  docker-compose-plugin.x86_64 0:2.16.0-1.el7    </span><br><span class="line"></span><br><span class="line">Dependency Installed:</span><br><span class="line">  container-selinux.noarch 2:2.119.2-1.911c772.el7_8                 docker-buildx-plugin.x86_64 0:0.10.2-1.el7                </span><br><span class="line">  docker-ce-rootless-extras.x86_64 0:23.0.1-1.el7                    docker-scan-plugin.x86_64 0:0.23.0-3.el7                  </span><br><span class="line">  fuse-overlayfs.x86_64 0:0.7.2-6.el7_8                              fuse3-libs.x86_64 0:3.6.1-4.el7                           </span><br><span class="line">  slirp4netns.x86_64 0:0.4.3-4.el7_8                                </span><br><span class="line"></span><br><span class="line">Complete!</span><br><span class="line">[root@125 ~]# </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>启动 Docker。<br>$ sudo systemctl start docker<br>通过运行 hello-world 镜像来验证是否正确安装了 Docker Engine-Community 。<br>$ sudo docker run hello-world</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@125 ~]# sudo systemctl start docker</span><br><span class="line">[root@125 ~]# sudo docker run hello-world</span><br><span class="line">Unable to find image &#x27;hello-world:latest&#x27; locally</span><br><span class="line"></span><br><span class="line">latest: Pulling from library/hello-world</span><br><span class="line">2db29710123e: Pull complete </span><br><span class="line">Digest: sha256:ffb13da98453e0f04d33a6eee5bb8e46ee50d08ebe17735fc0779d0349e889e9</span><br><span class="line">Status: Downloaded newer image for hello-world:latest</span><br><span class="line"></span><br><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image which runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, which sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"> $ docker run -it ubuntu bash</span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="查看镜像"><a href="#查看镜像" class="headerlink" title="查看镜像"></a>查看镜像</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@125 ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">hello-world   latest    feb5d9fea6a5   18 months ago   13.3kB</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/25/docker/" data-id="clfnki7xi00003wuq05uvfo7a" data-title="docker" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-reggie-day05" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/03/22/reggie-day05/" class="article-date">
-  <time class="dt-published" datetime="2023-03-22T15:14:42.000Z" itemprop="datePublished">2023-03-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/22/reggie-day05/">reggie-day05</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="套餐管理业务开发"><a href="#套餐管理业务开发" class="headerlink" title="套餐管理业务开发"></a>套餐管理业务开发</h2><hr>
-<h3 id="新增套餐"><a href="#新增套餐" class="headerlink" title="新增套餐"></a>新增套餐</h3><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>套餐就是菜品的集合。</p>
-<p>后台系统中可以管理套餐信息，通过新增套餐功能来添加一个新的套餐，在添加套餐时需要选择当前套餐所属的套餐分类和包含的菜品，并且需要上传套餐对应的图片，在移动端会按照套餐分类来展示对应的套餐。</p>
-<h4 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h4><p>新增套餐，其实就是将新增页面录入的套餐信息插入到setmeal表，还需要向setmeal_dish表插入套餐和菜品关联数据。所以在新增套餐时，涉及到两个表:</p>
-<ul>
-<li>setmeal</li>
-<li>setmeal_dish</li>
-</ul>
-<h4 id="代码开发-准备工作"><a href="#代码开发-准备工作" class="headerlink" title="代码开发-准备工作"></a>代码开发-准备工作</h4><p>在开发业务功能前，先将需要用到的类和接口基本结构创建好:</p>
-<ul>
-<li><strong>实体类SetmealDish</strong>(直接从课程资料中导入即可，Setmeal实体前面+ 课程中已经导入过了)</li>
-<li>DTO <strong>SetmealDto</strong>(直接从课程资料中导入即可)</li>
-<li>Mapper接口SetmealDishMapper</li>
-<li>业务层接口SetmealDishService</li>
-<li>业务层实现类SetmealDishServicelmpl</li>
-<li>控制层SetmealController</li>
-</ul>
-<h4 id="代码开发-梳理交互过程"><a href="#代码开发-梳理交互过程" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下新增套餐时前端页面和服务端的交互过程:</p>
-<p>1、页面(backend&#x2F; page&#x2F;comboladd.html)发送ajax请求，请求服务端获取套餐分类数据并展示到下拉框中</p>
-<p>2、页面发送ajax请求，请求服务端获取菜品分类数据并展示到添加菜品窗口中</p>
-<p>3、页面发送ajax请求，请求服务端，根据菜品分类查询对应的菜品数据并展示到添加菜品窗口中</p>
-<p>在DishController添加list方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据条件查询对应菜品数据</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;List&lt;Dish&gt;&gt; <span class="title function_">list</span><span class="params">(Dish dish)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//构造查询条件</span></span><br><span class="line">    LambdaQueryWrapper&lt;Dish&gt; lambdaQueryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//添加条件，查询状态为1的（起售状态）</span></span><br><span class="line">    lambdaQueryWrapper.eq(Dish::getStatus,<span class="number">1</span>);</span><br><span class="line">    lambdaQueryWrapper.eq(dish.getCategoryId()!=<span class="literal">null</span>,Dish::getCategoryId,dish.getCategoryId());</span><br><span class="line">    <span class="comment">//条件排序条件</span></span><br><span class="line">    lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);</span><br><span class="line"></span><br><span class="line">    List&lt;Dish&gt; list=dishService.list(lambdaQueryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>4、页面发送请求进行图片上传，请求服务端将图片保存到服务器</p>
-<p>5、页面发送请求进行图片下载，将上传的图片进行回显</p>
-<p>6、点击保存按钮，发送ajax请求，将套餐相关数据以json形式提交到服务端</p>
-<p>在SetmealServiceImpl实现saveWithDish方法：新增套餐，同时要保持与菜品的关联关系</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SetmealServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;SetmealMapper, Setmeal&gt; <span class="keyword">implements</span> <span class="title class_">SetmealService</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealDishService setmealDishService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//新增套餐，同时要保持与菜品的关联关系</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">saveWithDish</span><span class="params">(SetmealDto setmealDto)</span> &#123;</span><br><span class="line">        <span class="comment">//保存套餐基本信息，操作setmeal，执行insert操作</span></span><br><span class="line">        <span class="built_in">this</span>.save(setmealDto);</span><br><span class="line"></span><br><span class="line">        List&lt;SetmealDish&gt; setmealDishes = setmealDto.getSetmealDishes();</span><br><span class="line"></span><br><span class="line">        setmealDishes.stream().map((item)-&gt;&#123;</span><br><span class="line">            item.setSetmealId(setmealDto.getId());</span><br><span class="line">            <span class="keyword">return</span> item;</span><br><span class="line">        &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//保存套餐和菜品的关联信息，操作setmeal_dish，执行insert操作</span></span><br><span class="line">        setmealDishService.saveBatch(setmealDishes);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在SetmealController添加save方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/setmeal&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SetmealController</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealService setmealService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SetmealDishService setmealDishService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;String&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> SetmealDto setmealDto)</span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;setmeal:&#123;&#125;&quot;</span>,setmealDto);</span><br><span class="line">        setmealService.saveWithDish(setmealDto);</span><br><span class="line">        <span class="keyword">return</span> R.success(<span class="string">&quot;新增套餐成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>开发新增套餐功能，其实就是在服务端编写代码去处理前端页面发送的这6次请求即可。</p>
-<h3 id="套餐分页查询"><a href="#套餐分页查询" class="headerlink" title="套餐分页查询"></a>套餐分页查询</h3><h4 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h4><p>系统中的套餐数据很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。</p>
-<h4 id="代码开发-梳理交互过程-1"><a href="#代码开发-梳理交互过程-1" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下套餐分页查询时前端页面和服务端的交互过程:</p>
-<p>1、页面(backend&#x2F;page&#x2F;combo&#x2F;list.html)发送ajax请求，将分页查询参数(page、pageSize、name)提交到服务端，获取分页数据</p>
-<p>2、页面发送请求，请求服务端进行图片下载，用于页面图片展示</p>
-<p>开发套餐信息分页查询功能，其实就是在服务端编写代码去处理前端页面发送的这2次请求即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/page&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;Page&gt; <span class="title function_">page</span><span class="params">(<span class="type">int</span> page,<span class="type">int</span> pageSize,String name)</span>&#123;</span><br><span class="line">    <span class="comment">//构造分页构造器</span></span><br><span class="line">    Page&lt;Setmeal&gt; pageInfo=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(page,pageSize);</span><br><span class="line"></span><br><span class="line">    Page&lt;SetmealDto&gt; pageDtoInfo=<span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//构造条件构造器</span></span><br><span class="line">    LambdaQueryWrapper&lt;Setmeal&gt; queryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//根据name进行模糊查询</span></span><br><span class="line">    queryWrapper.like(!StringUtils.isEmpty(name),Setmeal::getName,name);</span><br><span class="line">    <span class="comment">//添加排序条件，根据sort进行排序</span></span><br><span class="line">    queryWrapper.orderByDesc(Setmeal::getUpdateTime);</span><br><span class="line">    <span class="comment">//进行分页查询</span></span><br><span class="line">    setmealService.page(pageInfo,queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//对象拷贝</span></span><br><span class="line">    BeanUtils.copyProperties(pageInfo,pageDtoInfo,<span class="string">&quot;records&quot;</span>);</span><br><span class="line"></span><br><span class="line">    List&lt;Setmeal&gt; records=pageInfo.getRecords();</span><br><span class="line"></span><br><span class="line">    List&lt;SetmealDto&gt; list= records.stream().map((item)-&gt;&#123;</span><br><span class="line">        SetmealDto setmealDto=<span class="keyword">new</span> <span class="title class_">SetmealDto</span>();</span><br><span class="line"></span><br><span class="line">        BeanUtils.copyProperties(item,setmealDto);</span><br><span class="line">        <span class="type">Long</span> <span class="variable">categoryId</span> <span class="operator">=</span> item.getCategoryId();</span><br><span class="line">        <span class="comment">//根据id查分类对象</span></span><br><span class="line">        <span class="type">Category</span> <span class="variable">category</span> <span class="operator">=</span> categoryService.getById(categoryId);</span><br><span class="line">        <span class="keyword">if</span>(category!=<span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">categoryName</span> <span class="operator">=</span> category.getName();</span><br><span class="line">            setmealDto.setCategoryName(categoryName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> setmealDto;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    pageDtoInfo.setRecords(list);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(pageDtoInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除、起售、停售套餐"><a href="#删除、起售、停售套餐" class="headerlink" title="删除、起售、停售套餐"></a>删除、起售、停售套餐</h3><h4 id="需求分析-2"><a href="#需求分析-2" class="headerlink" title="需求分析"></a>需求分析</h4><p>在套餐管理列表页面点击删除按钮，可以删除对应的套餐信息。也可以通过复选框选择多个套餐，点击批量删除按钮一次删除多个套餐。注意，对于状态为售卖中的套餐不能删除，需要先停售，然后才能删除。</p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>开发删除套餐功能，其实就是在服务端编写代码去处理前端页面发送的这2次请求即可。<br>观察删除单个套餐和批量删除套餐的请求信息可以发现，两种请求的地址和请求方式都是相同的，不同的则是传递的id个数，所以在服务端可以提供一个方法来统一处理。</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping</span></span><br><span class="line"><span class="keyword">public</span> R&lt;<span class="title class_">String</span>&gt; <span class="title function_">delete</span>(<span class="params"><span class="built_in">String</span>[] ids</span>)&#123;</span><br><span class="line">    int index=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="title class_">String</span> <span class="attr">id</span>:ids) &#123;</span><br><span class="line">        <span class="title class_">Setmeal</span> setmeal = setmealService.<span class="title function_">getById</span>(id);</span><br><span class="line">        <span class="keyword">if</span>(setmeal.<span class="title function_">getStatus</span>()!=<span class="number">1</span>)&#123;</span><br><span class="line">            setmealService.<span class="title function_">removeById</span>(id);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            index++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (index&gt;<span class="number">0</span>&amp;&amp;index==ids.<span class="property">length</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> R.<span class="title function_">error</span>(<span class="string">&quot;选中的套餐均为启售状态，不能删除&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> R.<span class="title function_">success</span>(<span class="string">&quot;删除成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">&quot;/status/&#123;status&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> R&lt;<span class="title class_">String</span>&gt; <span class="title function_">sale</span>(<span class="params"><span class="meta">@PathVariable</span> int status,<span class="built_in">String</span>[] ids</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="title class_">String</span> <span class="attr">id</span>:ids)&#123;</span><br><span class="line">        <span class="title class_">Setmeal</span> setmeal = setmealService.<span class="title function_">getById</span>(id);</span><br><span class="line">        setmeal.<span class="title function_">setStatus</span>(status);</span><br><span class="line">        setmealService.<span class="title function_">updateById</span>(setmeal);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.<span class="title function_">success</span>(<span class="string">&quot;修改成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="修改套餐"><a href="#修改套餐" class="headerlink" title="修改套餐"></a>修改套餐</h3><h4 id="需求分析-3"><a href="#需求分析-3" class="headerlink" title="需求分析"></a>需求分析</h4><p>在套餐管理列表页面点击修改按钮，跳转到修改套餐页面，在修改页面回显套餐相关信息并进行修改，最后点击确定按钮完成修改操作</p>
-<h4 id="代码开发-梳理交互过程-2"><a href="#代码开发-梳理交互过程-2" class="headerlink" title="代码开发-梳理交互过程"></a>代码开发-梳理交互过程</h4><p>在开发代码之前，需要梳理一下修改套餐时前端页面（ add.html)和服务端的交互过程:</p>
-<p>1、页面发送ajax请求，请求服务端获取分类数据，用于套餐分类下拉框中数据展示</p>
-<p>2、页面发送ajax请求，请求服务端，根据id查询当前套餐信息，用于套餐信息回显</p>
-<ul>
-<li>SetmealController处理Get请求</li>
-</ul>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//根据Id查询套餐信息</span></span><br><span class="line"><span class="meta">@GetMapping(<span class="string">&quot;/&#123;id&#125;&quot;</span>)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;SetmealDto&gt; getById(<span class="meta">@PathVariable</span> <span class="built_in">Long</span> id)&#123;</span><br><span class="line">    SetmealDto setmealDto=setmealService.getByIdWithDish(id);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> R.success(setmealDto);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>SetmealServiceImpl添加getByIdWithDish方法</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> SetmealDto <span class="title function_">getByIdWithDish</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">//查询套餐基本信息</span></span><br><span class="line">    <span class="type">Setmeal</span> <span class="variable">setmeal</span> <span class="operator">=</span> <span class="built_in">this</span>.getById(id);</span><br><span class="line">    <span class="type">SetmealDto</span> <span class="variable">setmealDto</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SetmealDto</span>();</span><br><span class="line">    BeanUtils.copyProperties(setmeal, setmealDto);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询套餐菜品信息</span></span><br><span class="line">    LambdaQueryWrapper&lt;SetmealDish&gt; queryWrapper=<span class="keyword">new</span> <span class="title class_">LambdaQueryWrapper</span>&lt;&gt;();</span><br><span class="line">    queryWrapper.eq(SetmealDish::getSetmealId,setmeal.getId());</span><br><span class="line">    List&lt;SetmealDish&gt; list = setmealDishService.list(queryWrapper);</span><br><span class="line"></span><br><span class="line">    setmealDto.setSetmealDishes(list);</span><br><span class="line">    <span class="keyword">return</span> setmealDto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>3、页面发送请求，请求服务端进行图片下载，用于页图片回显</p>
-<p>4、点击保存按钮，页面发送ajax请求，将修改后的菜品相关数据以json形式提交到服务端</p>
-<ul>
-<li>在SetmealServiceImpl添加updateWithDish方法</li>
-</ul>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void updateWithDish(SetmealDto setmealDto) &#123;</span><br><span class="line">    <span class="regexp">//</span>更新setmeal表基本信息</span><br><span class="line">    this.updateById(setmealDto);</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span>更新setmeal_dish表信息<span class="keyword">delete</span>操作</span><br><span class="line">    LambdaQueryWrapper&lt;SetmealDish&gt; queryWrapper = new LambdaQueryWrapper&lt;&gt;();</span><br><span class="line">    queryWrapper.e<span class="string">q(SetmealDish::getSetmealId, setmealDto.getId()</span>);</span><br><span class="line">    setmealDishService.remove(queryWrapper);</span><br><span class="line"></span><br><span class="line">    <span class="regexp">//</span>更新setmeal_dish表信息insert操作</span><br><span class="line">    List&lt;SetmealDish&gt; SetmealDishes = setmealDto.getSetmealDishes();</span><br><span class="line"></span><br><span class="line">    SetmealDishes = SetmealDishes.stream().map((item) -&gt; &#123;</span><br><span class="line">        item.setSetmealId(setmealDto.getId());</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    setmealDishService.saveBatch(SetmealDishes);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在SetmealController处理put请求</li>
-</ul>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修改套餐</span></span><br><span class="line"><span class="variable">@PutMapping</span></span><br><span class="line">public R&lt;String&gt; <span class="built_in">update</span>(<span class="variable">@RequestBody</span> SetmealDto setmealDto)&#123;</span><br><span class="line">    <span class="selector-tag">setmealService</span><span class="selector-class">.updateWithDish</span>(setmealDto);</span><br><span class="line">    <span class="selector-tag">return</span> <span class="selector-tag">R</span><span class="selector-class">.success</span>(<span class="string">&quot;修改成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong>开发修改套餐功能，其实就是在服务端编写代码去处理前端页面发送的这4次请求即可。</p>
-<h2 id="手机验证码登录"><a href="#手机验证码登录" class="headerlink" title="手机验证码登录"></a>手机验证码登录</h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/03/22/reggie-day05/" data-id="clfjtso4e0000e4uqesoy1l8w" data-title="reggie-day05" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1394,6 +1402,14 @@
       <ul>
         
           <li>
+            <a href="/2023/06/07/RequestMapping%E6%B3%A8%E8%A7%A3/">RequestMapping注解</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/07/%E5%96%B5/">RequestMapping注解</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/06/SpringMVC%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B/">SpringMVC入门案例</a>
           </li>
         
@@ -1403,14 +1419,6 @@
         
           <li>
             <a href="/2023/04/06/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E5%BF%97/">MySQL数据库日志</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/05/Java%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">Java学习路线</a>
-          </li>
-        
-          <li>
-            <a href="/2023/04/05/MySQL%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">MySQL索引的创建与设计原则</a>
           </li>
         
       </ul>
@@ -1426,7 +1434,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2023 John Doe<br>
+      &copy; 2024 John Doe<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

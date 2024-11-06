@@ -4,21 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>我的第一篇博客文章 | red的博客</title>
+  <title>RequestMapping注解 | red的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。">
+  <meta name="description" content="3、@RequestMapping注解3.1、@RequestMapping注解的功能从注解名称上我们可以看到，@RequestMapping注解的作用就是将请求和处理请求的控制器方法关联起来，建立映射关系。 SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。 3.2、@RequestMapping注解的位置@RequestMapping标识一个类：设置映">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我的第一篇博客文章">
-<meta property="og:url" content="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/index.html">
+<meta property="og:title" content="RequestMapping注解">
+<meta property="og:url" content="http://example.com/2023/06/07/RequestMapping%E6%B3%A8%E8%A7%A3/index.html">
 <meta property="og:site_name" content="red的博客">
-<meta property="og:description" content="啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。啊，这是什么？失忆喷雾？喷一下。">
+<meta property="og:description" content="3、@RequestMapping注解3.1、@RequestMapping注解的功能从注解名称上我们可以看到，@RequestMapping注解的作用就是将请求和处理请求的控制器方法关联起来，建立映射关系。 SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。 3.2、@RequestMapping注解的位置@RequestMapping标识一个类：设置映">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg">
-<meta property="article:published_time" content="2022-11-16T13:51:51.000Z">
-<meta property="article:modified_time" content="2022-11-19T07:26:15.584Z">
+<meta property="article:published_time" content="2023-06-07T09:35:47.000Z">
+<meta property="article:modified_time" content="2023-06-07T09:40:11.140Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg">
   
     <link rel="alternate" href="/atom.xml" title="red的博客" type="application/atom+xml">
   
@@ -75,10 +73,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-我的第一篇博客文章" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-RequestMapping注解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="article-date">
-  <time class="dt-published" datetime="2022-11-16T13:51:51.000Z" itemprop="datePublished">2022-11-16</time>
+    <a href="/2023/06/07/RequestMapping%E6%B3%A8%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2023-06-07T09:35:47.000Z" itemprop="datePublished">2023-06-07</time>
 </a>
     
   </div>
@@ -89,7 +87,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      我的第一篇博客文章
+      RequestMapping注解
     </h1>
   
 
@@ -97,12 +95,16 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br>啊，这是什么？失忆喷雾？喷一下。<br><img src="https://user-images.githubusercontent.com/118366174/202360960-9babf15c-86b2-42d3-a567-d096fce1da89.jpg" alt="avater"></p>
+        <h1 id="3、-RequestMapping注解"><a href="#3、-RequestMapping注解" class="headerlink" title="3、@RequestMapping注解"></a>3、@RequestMapping注解</h1><h1 id="3-1、-RequestMapping注解的功能"><a href="#3-1、-RequestMapping注解的功能" class="headerlink" title="3.1、@RequestMapping注解的功能"></a>3.1、@RequestMapping注解的功能</h1><p>从注解名称上我们可以看到，@RequestMapping注解的作用就是将请求和处理请求的控制器方法关联起来，建立映射关系。</p>
+<p>SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。</p>
+<h1 id="3-2、-RequestMapping注解的位置"><a href="#3-2、-RequestMapping注解的位置" class="headerlink" title="3.2、@RequestMapping注解的位置"></a>3.2、@RequestMapping注解的位置</h1><p>@RequestMapping标识一个类：设置映射请求的请求路径的初始信息</p>
+<p>@RequestMapping标识一个方法：设置映射请求请求路径的具体信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/test&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RequestMappingController</span> &#123;</span><br><span class="line"><span class="comment">//此时请求映射所映射的请求的请求路径为：/test/testRequestMapping</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/testRequestMapping&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">testRequestMapping</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/16/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" data-id="clewx2nou000eakuqapcv2xpv" data-title="我的第一篇博客文章" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/06/07/RequestMapping%E6%B3%A8%E8%A7%A3/" data-id="cm35ro9gu0000c8uq8s2q6mhx" data-title="RequestMapping注解" class="article-share-link">Share</a>
       
       
       
@@ -112,19 +114,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2022/11/19/css-%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          css 基本选择器
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/11/16/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/06/07/%E5%96%B5/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">RequestMapping注解</div>
     </a>
   
 </nav>
